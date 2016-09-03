@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ggi-MT-jfp">
-                                <rect key="frame" x="20" y="0.0" width="560" height="600"/>
+                                <rect key="frame" x="20" y="20" width="560" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -27,16 +27,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="5rc-Hb-VAV"/>
-                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="799-Fx-OpT"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Ggi-MT-jfp" secondAttribute="trailing" id="JLl-kF-INI"/>
-                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="Nbm-dV-rV3"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Ggi-MT-jfp" secondAttribute="bottom" id="lcY-wq-vao"/>
-                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="oHP-2z-GhN"/>
-                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="oWi-qE-WFy"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Ggi-MT-jfp" secondAttribute="bottom" id="rot-xg-f2C"/>
+                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="7FG-vb-btR"/>
+                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="9XH-lN-yaW"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Ggi-MT-jfp" secondAttribute="bottom" id="sN3-Wn-VQG"/>
+                            <constraint firstItem="Ggi-MT-jfp" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="zuW-wX-I7t"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="txtv" destination="Ggi-MT-jfp" id="5Bf-08-myr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
