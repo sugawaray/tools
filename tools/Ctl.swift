@@ -3,7 +3,7 @@
 //  tools
 //
 //  Created by Yutaka Sugawara on 2016/08/31.
-//  Copyright © 2016年 Yutaka Sugawara. All rights reserved.
+//  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
 import Foundation
@@ -11,6 +11,7 @@ import Foundation
 enum Cmdid : Int {
     case Nop    = 1,
     NopFail,
+    Shcmd,
     Savefile,
     Invalid
 }
@@ -55,6 +56,9 @@ class Ctl {
             case Cmdid.Savefile.rawValue:
                 cst = savefile(cmd!.astr!)
                 break
+            case Cmdid.Shcmd.rawValue:
+                cst = sh.proc(cmd!.astr!)
+                break;
             default:
                 cst = Ctlv.StInvalid.rawValue
             }
@@ -71,9 +75,24 @@ class Ctl {
     }
     
     func savefile(path: String) -> Int {
+        print("savefile called ", path)
+        let m = NSFileManager.defaultManager()
+        var dst = m.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory,
+                                     inDomains:NSSearchPathDomainMask.UserDomainMask).first
+        
+        dst = dst!.URLByAppendingPathComponent("tmp.bin")
+        print("dst ", dst)
+        let src = NSURL(string: path)!
+        do {
+            try m.copyItemAtURL(src, toURL: dst!)
+        } catch let e as NSError {
+            print(e.description)
+            return -1
+        }
         return 0
     }
     
     var cmd: Cmd?
     var cst: Int
+    var sh: Sh = Sh()
 }

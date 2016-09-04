@@ -3,7 +3,7 @@
 //  tools
 //
 //  Created by Yutaka Sugawara on 2016/07/04.
-//  Copyright © 2016年 Yutaka Sugawara. All rights reserved.
+//  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
 import UIKit
@@ -17,11 +17,24 @@ class ViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         txtv.delegate = self
+        txtv.text.appendContentsOf("$ ")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func prout() {
+        var b: Array<CChar> = Array<CChar>(count: 512, repeatedValue: 0);
+        while mgets(&b, 512) != nil {
+            var s = String.fromCString(b);
+            s = s?.stringByTrimmingCharactersInSet(
+                NSCharacterSet.newlineCharacterSet());
+            s = String(format: "%@\n", s!)
+            txtv.text.appendContentsOf(s!)
+        }
+        txtv.text.appendContentsOf("$ ")
     }
 
     // MARK: UITextViewDelegate
@@ -43,11 +56,29 @@ class ViewController: UIViewController, UITextViewDelegate {
                     break;
                 }
             }
+            var subs = ""
             if t >= 0 {
-                let subs = String(vl.suffix(t).dropLast())
+                subs = String(vl.suffix(t).dropLast())
                 print(subs)
             } else {
-                print(String(vl.dropLast()))
+                subs = String(vl.dropLast())
+            }
+            var cmd = Cmd()
+            cmd.id = Cmdid.Shcmd.rawValue
+            cmd.astr = subs
+            getInst().ctl.procc(cmd)
+            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+                getInst().ctl.proc()
+                dispatch_async(dispatch_get_main_queue()) {
+                    let s = getInst().ctl.status()
+                    if (s.0 == 0) {
+                        print("command done")
+                        self.prout()
+                    } else {
+                        print("command failed")
+                    }
+                }
             }
         }
     }

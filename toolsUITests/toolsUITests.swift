@@ -3,7 +3,7 @@
 //  toolsUITests
 //
 //  Created by Yutaka Sugawara on 2016/07/04.
-//  Copyright © 2016年 Yutaka Sugawara. All rights reserved.
+//  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
 import XCTest

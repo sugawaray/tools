@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		763CB7DF1D7BA84D00F5444B /* ls.c in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7DE1D7BA84D00F5444B /* ls.c */; };
+		763CB7E11D7BB8E700F5444B /* fwrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7E01D7BB8E700F5444B /* fwrap.m */; };
 		765431751D2A8A840029856C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431741D2A8A840029856C /* AppDelegate.swift */; };
 		765431771D2A8A840029856C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431761D2A8A840029856C /* ViewController.swift */; };
 		7654317A1D2A8A840029856C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 765431781D2A8A840029856C /* Main.storyboard */; };
@@ -14,6 +16,7 @@
 		7654317F1D2A8A840029856C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7654317D1D2A8A840029856C /* LaunchScreen.storyboard */; };
 		7654318A1D2A8A840029856C /* toolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431891D2A8A840029856C /* toolsTests.swift */; };
 		765431951D2A8A850029856C /* toolsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431941D2A8A850029856C /* toolsUITests.swift */; };
+		7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7687ECDC1D7AF7310077EEC2 /* Sh.swift */; };
 		76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B51D7647FC00D945E4 /* CtlTest.swift */; };
 		76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
 		76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
@@ -37,6 +40,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		763CB7D21D7B9D1E00F5444B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		763CB7DA1D7BA16800F5444B /* cmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmd.h; path = include/cmd.h; sourceTree = "<group>"; };
+		763CB7DB1D7BA6A900F5444B /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = include/bridge.h; sourceTree = "<group>"; };
+		763CB7DE1D7BA84D00F5444B /* ls.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ls.c; sourceTree = "<group>"; };
+		763CB7E01D7BB8E700F5444B /* fwrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fwrap.m; sourceTree = "<group>"; };
 		765431711D2A8A830029856C /* tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		765431741D2A8A840029856C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		765431761D2A8A840029856C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -50,6 +58,7 @@
 		765431901D2A8A850029856C /* toolsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = toolsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		765431941D2A8A850029856C /* toolsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toolsUITests.swift; sourceTree = "<group>"; };
 		765431961D2A8A850029856C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7687ECDC1D7AF7310077EEC2 /* Sh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sh.swift; sourceTree = "<group>"; };
 		76CE69B51D7647FC00D945E4 /* CtlTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CtlTest.swift; sourceTree = "<group>"; };
 		76CE69B91D76496300D945E4 /* Ctl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Ctl.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
@@ -82,6 +91,9 @@
 		765431681D2A8A830029856C = {
 			isa = PBXGroup;
 			children = (
+				763CB7DB1D7BA6A900F5444B /* bridge.h */,
+				763CB7DA1D7BA16800F5444B /* cmd.h */,
+				763CB7D21D7B9D1E00F5444B /* CoreFoundation.framework */,
 				765431731D2A8A840029856C /* tools */,
 				765431881D2A8A840029856C /* toolsTests */,
 				765431931D2A8A850029856C /* toolsUITests */,
@@ -102,6 +114,7 @@
 		765431731D2A8A840029856C /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				763CB7DE1D7BA84D00F5444B /* ls.c */,
 				765431741D2A8A840029856C /* AppDelegate.swift */,
 				765431761D2A8A840029856C /* ViewController.swift */,
 				765431781D2A8A840029856C /* Main.storyboard */,
@@ -109,6 +122,8 @@
 				7654317D1D2A8A840029856C /* LaunchScreen.storyboard */,
 				765431801D2A8A840029856C /* Info.plist */,
 				76CE69B91D76496300D945E4 /* Ctl.swift */,
+				7687ECDC1D7AF7310077EEC2 /* Sh.swift */,
+				763CB7E01D7BB8E700F5444B /* fwrap.m */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -264,8 +279,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				763CB7E11D7BB8E700F5444B /* fwrap.m in Sources */,
+				763CB7DF1D7BA84D00F5444B /* ls.c in Sources */,
 				765431771D2A8A840029856C /* ViewController.swift in Sources */,
 				76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */,
+				7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */,
 				765431751D2A8A840029856C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,6 +382,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -403,6 +422,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -412,6 +432,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
@@ -420,6 +441,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/include";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -427,6 +452,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
@@ -435,6 +461,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/include";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
 			};
 			name = Release;
 		};

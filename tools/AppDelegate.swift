@@ -3,7 +3,7 @@
 //  tools
 //
 //  Created by Yutaka Sugawara on 2016/07/04.
-//  Copyright © 2016年 Yutaka Sugawara. All rights reserved.
+//  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
 import UIKit
@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var ctl: Ctl = Ctl()
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -27,8 +28,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(app: UIApplication, openURL url: NSURL, options: [String: AnyObject]) -> Bool {
         print("enter 2");
-        print(url);
-        return false;
+        var c = Cmd()
+        c.id = Cmdid.Savefile.rawValue
+        c.astr = url.absoluteString
+        if (ctl.procc(c) != 0) {
+            print("ctl.procc failed")
+            return false;
+        }
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            self.ctl.proc()
+            dispatch_async(dispatch_get_main_queue()) {
+                let s = self.ctl.status()
+                if s.0 == 0 && s.1 == 0 {
+                    print("copy done")
+                } else {
+                    print("something wrong with copying")
+                }
+            }
+        }
+        return true
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -56,3 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+func getInst() -> AppDelegate {
+    return UIApplication.sharedApplication().delegate as! AppDelegate
+}
