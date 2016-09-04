@@ -1,0 +1,13 @@
+ABOUT THIS REPOSITORY
+
+This repository contains an attempt to create an iOS-app which contains
+basic text manipulation tools which are always available on PCs.
+
+I want to implement following functionalities.
+	* ed
+	* ls
+	* grep
+	* find
+	* something equivalent to pipe
+And I want to achieve them by importing existing implementation as much as
+possible, rather than reimplementing.
