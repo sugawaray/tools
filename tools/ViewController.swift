@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        regnoti()
         txtv.delegate = self
         txtv.text.appendContentsOf("$ ")
     }
@@ -35,6 +36,16 @@ class ViewController: UIViewController, UITextViewDelegate {
             txtv.text.appendContentsOf(s!)
         }
         txtv.text.appendContentsOf("$ ")
+    }
+    
+    func onKbShow(a:NSNotification) {
+        print("onKbShow")
+    }
+    
+    func regnoti() {
+        let n = NSNotificationCenter.defaultCenter()
+        n.addObserver(self, selector: #selector(ViewController.onKbShow(_:)),
+                      name: UIKeyboardDidShowNotification, object: nil)
     }
 
     // MARK: UITextViewDelegate
