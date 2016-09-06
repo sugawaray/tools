@@ -39,7 +39,12 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func onKbShow(a:NSNotification) {
-        print("onKbShow")
+        if let f = a.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue() {
+            let v = UIEdgeInsetsMake(0, 0, f.height, 0)
+            txtv.contentInset = v
+            txtv.scrollIndicatorInsets = v
+            txtv.scrollRangeToVisible(txtv.selectedRange)
+        }
     }
     
     func regnoti() {
