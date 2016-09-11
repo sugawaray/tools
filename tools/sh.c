@@ -87,5 +87,6 @@ getsfromin(char *b, int bsz)
 void
 procin()
 {
+    clearerr(stdin);
     yyparse();
 }

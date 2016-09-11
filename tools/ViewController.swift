@@ -55,33 +55,11 @@ class ViewController: UIViewController, UITextViewDelegate {
 
     // MARK: UITextViewDelegate
     func textViewDidChange(textView: UITextView) {
-        let t = txtv.text
-        let vl = t.unicodeScalars
-        if (vl.last == nil) {
-            return;
-        }
-        let nl = "\n".unicodeScalars.last!
-        if vl.last == nl {
-            let seq = vl.reverse().enumerate()
-            var t = -1
-            for (i, v) in seq {
-                if i == 0 {
-                    continue
-                } else if v == nl {
-                    t = i
-                    break;
-                }
-            }
-            var subs = ""
-            if t >= 0 {
-                subs = String(vl.suffix(t).dropLast())
-                print(subs)
-            } else {
-                subs = String(vl.dropLast())
-            }
+        let r = getlastline(txtv.text)
+        if (r != nil) {
             var cmd = Cmd()
             cmd.id = Cmdid.Shcmd.rawValue
-            cmd.astr = subs
+            cmd.astr = r
             getInst().ctl.procc(cmd)
             
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
