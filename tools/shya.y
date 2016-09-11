@@ -17,7 +17,6 @@
 %%
 
 word : WORD {
-                printf("yacc WORD called(%s)\n", $<s>1);
                 if (shwltail == 0) {
                     shwltail = malloc(sizeof *shwltail);
                     shwltail->p = strdup($<s>1);
