@@ -54,7 +54,7 @@
     fprintf(f, "ls .\n");
     fflush(f);
     fseek(f, 0, SEEK_SET);
-    yylex();
+    yyparse();
 }
 
 
