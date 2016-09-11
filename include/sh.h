@@ -19,6 +19,7 @@ struct Wl {
 extern struct Wl *shwltail;
 
 int initsh();
+void cleanupsh();
 int putsonin(const char *s);
 int getsfromin(char *b, int bsz);
 void procin();

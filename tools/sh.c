@@ -80,6 +80,20 @@ initsh()
     }
 }
 
+void
+cleanupsh()
+{
+    if (finout) {
+        fclose(finout);
+        finout = 0;
+    }
+    if (origfin) {
+        if (stdin)
+            fclose(stdin);
+        stdin = origfin;
+    }
+}
+
 int
 putsonin(const char *s)
 {
