@@ -6,7 +6,6 @@
 //  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
-#include "cmd.h"
 #include "sh.h"
 #import <XCTest/XCTest.h>
 

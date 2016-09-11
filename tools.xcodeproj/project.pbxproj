@@ -19,6 +19,7 @@
 		763CB7EF1D84317500F5444B /* shya.y in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7ED1D84317500F5444B /* shya.y */; };
 		763CB7F21D84420800F5444B /* sh.c in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7F11D84420800F5444B /* sh.c */; };
 		763CB7F31D84420800F5444B /* sh.c in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7F11D84420800F5444B /* sh.c */; };
+		76520B341D855ABC0099FFE4 /* fs.c in Sources */ = {isa = PBXBuildFile; fileRef = 76520B331D855ABC0099FFE4 /* fs.c */; };
 		765431751D2A8A840029856C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431741D2A8A840029856C /* AppDelegate.swift */; };
 		765431771D2A8A840029856C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431761D2A8A840029856C /* ViewController.swift */; };
 		7654317A1D2A8A840029856C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 765431781D2A8A840029856C /* Main.storyboard */; };
@@ -88,6 +89,8 @@
 		763CB7EA1D84261500F5444B /* shla.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = shla.l; sourceTree = "<group>"; };
 		763CB7ED1D84317500F5444B /* shya.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = shya.y; sourceTree = "<group>"; };
 		763CB7F11D84420800F5444B /* sh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sh.c; sourceTree = "<group>"; };
+		76520B321D855A1C0099FFE4 /* impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = impl.h; sourceTree = "<group>"; };
+		76520B331D855ABC0099FFE4 /* fs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fs.c; sourceTree = "<group>"; };
 		765431711D2A8A830029856C /* tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		765431741D2A8A840029856C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		765431761D2A8A840029856C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -173,6 +176,8 @@
 				763CB7EA1D84261500F5444B /* shla.l */,
 				763CB7ED1D84317500F5444B /* shya.y */,
 				763CB7F11D84420800F5444B /* sh.c */,
+				76520B321D855A1C0099FFE4 /* impl.h */,
+				76520B331D855ABC0099FFE4 /* fs.c */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -339,6 +344,7 @@
 				763CB7DF1D7BA84D00F5444B /* ls.c in Sources */,
 				763CB7EE1D84317500F5444B /* shya.y in Sources */,
 				763CB7F21D84420800F5444B /* sh.c in Sources */,
+				76520B341D855ABC0099FFE4 /* fs.c in Sources */,
 				765431771D2A8A840029856C /* ViewController.swift in Sources */,
 				76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */,
 				7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #include "sh.h"
+#include "impl.h"
 #include <CoreFoundation/CoreFoundation.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -17,57 +18,27 @@ struct Wl *shwltail;
 
 static FILE *origfin;
 static FILE *finout;
-static char pbuf[1024];
-
-static
-int
-genpath(char *buf, int bsz, const char *suffix)
-{
-    extern CFURLRef getlibdir();
-    size_t l, l2;
-    CFURLRef u = getlibdir();
-    if (!CFURLGetFileSystemRepresentation(u, false,
-                                          (UInt8 *)buf,
-                                          bsz))
-        return -1;
-    l = strlen(buf);
-    if (l >= bsz - 1)
-        return -1;
-    l2 = strlen(suffix);
-    if (bsz - l <= l2)
-        return -1;
-    strcat(buf, suffix);
-    return 0;
-}
-
-static
-void
-prepsupdir()
-{
-    int r;
-    r = genpath(pbuf, sizeof pbuf, "");
-    if (r != 0) {
-        fputs("genpath failed\n", stderr);
-        return;
-    }
-    mkdir(pbuf, 0700);
-}
+static char buf[512];
 
 int
 initsh()
 {
     FILE *tf, *uf;
 
-    prepsupdir();
-    if (genpath(pbuf, sizeof pbuf, "/fin") != 0)
+    if (prepsupdir() != 0) {
+        fputs("failed to prepare the Application Support Directory.\n",
+              stderr);
+        return -1;
+    }
+    if (genpath(buf, sizeof buf, "/fin") != 0)
         return -1;
     errno = 0;
-    tf = fopen(pbuf, "w+b");
+    tf = fopen(buf, "w+b");
     if (tf == NULL) {
         perror("initsh");
         return -1;
     }
-    uf = fopen(pbuf, "r+b");
+    uf = fopen(buf, "r+b");
     if (uf == NULL) {
         perror("initsh");
         fclose(tf);
