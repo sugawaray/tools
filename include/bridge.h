@@ -10,5 +10,6 @@
 #define bridge_h
 
 #include <cmd.h>
+#include <sh.h>
 
 #endif /* bridge_h */

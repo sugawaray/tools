@@ -20,6 +20,6 @@ NSURL
 *getlibdir()
 {
     NSFileManager *m = [NSFileManager defaultManager];
-    return [[m URLsForDirectory:NSLibraryDirectory
+    return [[m URLsForDirectory:NSApplicationSupportDirectory
                       inDomains:NSUserDomainMask]firstObject];
 }

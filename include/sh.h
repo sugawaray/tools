@@ -18,4 +18,10 @@ struct Wl {
 
 extern struct Wl *shwltail;
 
+int initsh();
+int putsonin(const char *s);
+int getsfromin(char *b, int bsz);
+void procin();
+int yyparse();
+
 #endif /* sh_h */

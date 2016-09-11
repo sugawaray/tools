@@ -30,6 +30,7 @@
 		76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B51D7647FC00D945E4 /* CtlTest.swift */; };
 		76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
 		76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
+		76EE479B1D85119100180540 /* ShioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479A1D85119100180540 /* ShioTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -42,8 +43,7 @@
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).tab.h",
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).tab.c",
 			);
-			script = "
-";
+			script = "#! /bin/sh -\nyacc -o $DERIVED_FILE_DIR/$INPUT_FILE_BASE.tab.c -d -b $INPUT_FILE_BASE $INPUT_FILE_PATH\n";
 		};
 		763CB7FA1D84CFB400F5444B /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -87,7 +87,6 @@
 		763CB7E81D8226A500F5444B /* fixt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fixt.c; sourceTree = "<group>"; };
 		763CB7EA1D84261500F5444B /* shla.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = shla.l; sourceTree = "<group>"; };
 		763CB7ED1D84317500F5444B /* shya.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = shya.y; sourceTree = "<group>"; };
-		763CB7F01D8435BE00F5444B /* sh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sh.h; sourceTree = "<group>"; };
 		763CB7F11D84420800F5444B /* sh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sh.c; sourceTree = "<group>"; };
 		765431711D2A8A830029856C /* tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		765431741D2A8A840029856C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -105,6 +104,8 @@
 		7687ECDC1D7AF7310077EEC2 /* Sh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sh.swift; sourceTree = "<group>"; };
 		76CE69B51D7647FC00D945E4 /* CtlTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CtlTest.swift; sourceTree = "<group>"; };
 		76CE69B91D76496300D945E4 /* Ctl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Ctl.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		76EE479A1D85119100180540 /* ShioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShioTests.m; sourceTree = "<group>"; };
+		76EE479C1D85135600180540 /* sh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sh.h; path = include/sh.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +136,7 @@
 		765431681D2A8A830029856C = {
 			isa = PBXGroup;
 			children = (
+				76EE479C1D85135600180540 /* sh.h */,
 				763CB7DB1D7BA6A900F5444B /* bridge.h */,
 				763CB7DA1D7BA16800F5444B /* cmd.h */,
 				763CB7D21D7B9D1E00F5444B /* CoreFoundation.framework */,
@@ -170,7 +172,6 @@
 				763CB7E01D7BB8E700F5444B /* fwrap.m */,
 				763CB7EA1D84261500F5444B /* shla.l */,
 				763CB7ED1D84317500F5444B /* shya.y */,
-				763CB7F01D8435BE00F5444B /* sh.h */,
 				763CB7F11D84420800F5444B /* sh.c */,
 			);
 			path = tools;
@@ -186,6 +187,7 @@
 				763CB7E51D82260800F5444B /* LexTests.m */,
 				763CB7E71D82267800F5444B /* decl.h */,
 				763CB7E81D8226A500F5444B /* fixt.c */,
+				76EE479A1D85119100180540 /* ShioTests.m */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -355,6 +357,7 @@
 				763CB7E61D82260800F5444B /* LexTests.m in Sources */,
 				763CB7F31D84420800F5444B /* sh.c in Sources */,
 				76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */,
+				76EE479B1D85119100180540 /* ShioTests.m in Sources */,
 				763CB7EF1D84317500F5444B /* shya.y in Sources */,
 				76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */,
 				763CB7E41D81A82400F5444B /* Sh.swift in Sources */,

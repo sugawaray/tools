@@ -1,6 +1,7 @@
 #include "cmd.h"
 #include <CoreFoundation/CoreFoundation.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include <dirent.h>
 
 extern CFURLRef getdocdir();
@@ -59,11 +60,46 @@ ls_main(int argc, char **argv)
     return 0;
 }
 
+static
+int
+genpath(char *buf, int bsz, const char *suffix)
+{
+    extern CFURLRef getlibdir();
+    size_t l, l2;
+    CFURLRef u = getlibdir();
+    if (!CFURLGetFileSystemRepresentation(u, false,
+                                          (UInt8 *)buf,
+                                          bsz))
+        return -1;
+    l = strlen(buf);
+    if (l >= bsz - 1)
+        return -1;
+    l2 = strlen(suffix);
+    if (bsz - l <= l2)
+        return -1;
+    strcat(buf, suffix);
+    return 0;
+}
+
+static
+void
+prepsupdir()
+{
+    int r;
+    r = genpath(pathbuf, sizeof pathbuf, "");
+    if (r != 0) {
+        fputs("genpath failed\n", stderr);
+        return;
+    }
+    mkdir(pathbuf, 0700);
+}
+
 int
 cmdinit()
 {
     size_t l;
     size_t l2;
+    prepsupdir();
     CFURLRef u = getlibdir();
     if (!CFURLGetFileSystemRepresentation(u, false,
                                           (UInt8 *)pathbuf,
@@ -76,7 +112,7 @@ cmdinit()
     if (sizeof pathbuf - l <= l2)
         return -1;
     strcat(pathbuf, "/fout");
-    fout = fopen(pathbuf, "r+");
+    fout = fopen(pathbuf, "w+");
     if (fout == NULL)
         return -1;
     else
