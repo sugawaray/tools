@@ -20,6 +20,9 @@
 		763CB7F21D84420800F5444B /* sh.c in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7F11D84420800F5444B /* sh.c */; };
 		763CB7F31D84420800F5444B /* sh.c in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7F11D84420800F5444B /* sh.c */; };
 		76520B341D855ABC0099FFE4 /* fs.c in Sources */ = {isa = PBXBuildFile; fileRef = 76520B331D855ABC0099FFE4 /* fs.c */; };
+		76520B381D8564350099FFE4 /* TermLastLineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76520B371D8564350099FFE4 /* TermLastLineTests.swift */; };
+		76520B3A1D8564DA0099FFE4 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76520B391D8564DA0099FFE4 /* Term.swift */; };
+		76520B3B1D8564DA0099FFE4 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76520B391D8564DA0099FFE4 /* Term.swift */; };
 		765431751D2A8A840029856C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431741D2A8A840029856C /* AppDelegate.swift */; };
 		765431771D2A8A840029856C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431761D2A8A840029856C /* ViewController.swift */; };
 		7654317A1D2A8A840029856C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 765431781D2A8A840029856C /* Main.storyboard */; };
@@ -91,6 +94,8 @@
 		763CB7F11D84420800F5444B /* sh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sh.c; sourceTree = "<group>"; };
 		76520B321D855A1C0099FFE4 /* impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = impl.h; sourceTree = "<group>"; };
 		76520B331D855ABC0099FFE4 /* fs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fs.c; sourceTree = "<group>"; };
+		76520B371D8564350099FFE4 /* TermLastLineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermLastLineTests.swift; sourceTree = "<group>"; };
+		76520B391D8564DA0099FFE4 /* Term.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
 		765431711D2A8A830029856C /* tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		765431741D2A8A840029856C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		765431761D2A8A840029856C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -178,6 +183,7 @@
 				763CB7F11D84420800F5444B /* sh.c */,
 				76520B321D855A1C0099FFE4 /* impl.h */,
 				76520B331D855ABC0099FFE4 /* fs.c */,
+				76520B391D8564DA0099FFE4 /* Term.swift */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -193,6 +199,7 @@
 				763CB7E81D8226A500F5444B /* fixt.c */,
 				76EE479A1D85119100180540 /* ShioTests.m */,
 				76EE479D1D85403F00180540 /* DeviceTests.m */,
+				76520B371D8564350099FFE4 /* TermLastLineTests.swift */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -345,6 +352,7 @@
 				763CB7EE1D84317500F5444B /* shya.y in Sources */,
 				763CB7F21D84420800F5444B /* sh.c in Sources */,
 				76520B341D855ABC0099FFE4 /* fs.c in Sources */,
+				76520B3A1D8564DA0099FFE4 /* Term.swift in Sources */,
 				765431771D2A8A840029856C /* ViewController.swift in Sources */,
 				76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */,
 				7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */,
@@ -360,12 +368,14 @@
 				76EE479E1D85403F00180540 /* DeviceTests.m in Sources */,
 				763CB7EC1D84261500F5444B /* shla.l in Sources */,
 				763CB7E91D8226A500F5444B /* fixt.c in Sources */,
+				76520B3B1D8564DA0099FFE4 /* Term.swift in Sources */,
 				763CB7E61D82260800F5444B /* ParserTests.m in Sources */,
 				763CB7F31D84420800F5444B /* sh.c in Sources */,
 				76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */,
 				76EE479B1D85119100180540 /* ShioTests.m in Sources */,
 				763CB7EF1D84317500F5444B /* shya.y in Sources */,
 				76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */,
+				76520B381D8564350099FFE4 /* TermLastLineTests.swift in Sources */,
 				763CB7E41D81A82400F5444B /* Sh.swift in Sources */,
 				763CB7E31D81A5A200F5444B /* FileioTests.m in Sources */,
 			);
