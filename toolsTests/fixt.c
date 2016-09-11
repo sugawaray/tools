@@ -15,6 +15,7 @@ int
 mktestdir(const char *name, char *pathbuf, size_t bufsz)
 {
     int st;
+    size_t l;
     char *tp;
     st = 0;
 
@@ -25,6 +26,9 @@ mktestdir(const char *name, char *pathbuf, size_t bufsz)
         return -1;
     if (strlen(tp) + 32 < bufsz) {
         strcpy(pathbuf, tp);
+        l = strlen(pathbuf);
+        if (pathbuf[l - 1] != '/')
+            strcat(pathbuf, "/");
         strcat(pathbuf, name);
         strcat(pathbuf, "XXXXX");
         tp = mkdtemp(pathbuf);
@@ -34,20 +38,4 @@ mktestdir(const char *name, char *pathbuf, size_t bufsz)
             return -1;
     } else
         return -1;
-}
-
-int
-replacein(const char *path, FILE **f)
-{
-    int r;
-    *f = fopen(path, "w+b");
-    if (!*f) {
-        return -1;
-    }
-    r = fclose(stdin);
-    if (r != 0) {
-        fclose(*f);
-    }
-    stdin = *f;
-    return 0;
 }

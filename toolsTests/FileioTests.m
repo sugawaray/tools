@@ -36,18 +36,14 @@
     [super tearDown];
 }
 
-- (void)testReplaceStdin {
-    int r;
+- (void)testMktestdir {
     FILE *f;
-    char b[256];
-    
-    XCTAssertTrue(initok);
-    XCTAssertTrue(strlen(tdir) + 32 < 256);
-    strcpy(b, tdir);
-    strcat(b, "/in");
-    r = replacein(b, &f);
-    XCTAssertEqual(0, r);
-    XCTAssertEqual(stdin, f);
+    XCTAssertEqual(1, initok);
+    XCTAssertTrue(strlen(tdir) < sizeof tdir - 32);
+    strcat(tdir, "/somefile");
+    f = fopen(tdir, "w+b");
+    XCTAssertTrue(f != 0);
+    fclose(f);
 }
 
 @end

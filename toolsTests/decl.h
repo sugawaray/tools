@@ -12,6 +12,5 @@
 #include <stdio.h>
 
 int mktestdir(const char *name, char *pathbuf, size_t bufsz);
-int replacein(const char *path, FILE **f);
 
 #endif /* decl_h */
