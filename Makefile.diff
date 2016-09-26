@@ -1,0 +1,103 @@
+--- busybox/Makefile	2016-09-26 23:22:35.000000000 +0900
++++ Makefile	2016-09-26 23:42:26.000000000 +0900
+@@ -318,7 +318,7 @@
+ # Needed to be compatible with the O= option
+ CFLAGS		:= $(CFLAGS)
+ # Added only to final link stage of busybox binary
+-CFLAGS_busybox	:= $(CFLAGS_busybox)
++CFLAGS_busybox	:= $(CFLAGS_busybox) -elf2flt
+ CPPFLAGS	:= $(CPPFLAGS)
+ AFLAGS		:= $(AFLAGS)
+ LDFLAGS		:= $(LDFLAGS)
+@@ -368,9 +368,15 @@
+ # we depend on scripts_basic, since scripts/basic/fixdep
+ # must be built before any other host prog
+ PHONY += applets_dir
++ifeq ("YBUILD", "YBUILD")
++applets_dir: scripts_basic gen_build_files
++
++else
+ applets_dir: scripts_basic gen_build_files
+ 	$(Q)$(MAKE) $(build)=applets
+ 
++endif
++
+ applets/%: applets_dir ;
+ 
+ PHONY += outputmakefile
+@@ -461,36 +467,9 @@
+ 
+ # Objects we will link into busybox / subdirs we need to visit
+ core-y		:= \
+-		applets/ \
+ 
+ libs-y		:= \
+-		archival/ \
+-		archival/libarchive/ \
+-		console-tools/ \
+ 		coreutils/ \
+-		coreutils/libcoreutils/ \
+-		debianutils/ \
+-		e2fsprogs/ \
+-		editors/ \
+-		findutils/ \
+-		init/ \
+-		libbb/ \
+-		libpwdgrp/ \
+-		loginutils/ \
+-		mailutils/ \
+-		miscutils/ \
+-		modutils/ \
+-		networking/ \
+-		networking/libiproute/ \
+-		networking/udhcp/ \
+-		printutils/ \
+-		procps/ \
+-		runit/ \
+-		selinux/ \
+-		shell/ \
+-		sysklogd/ \
+-		util-linux/ \
+-		util-linux/volume_id/ \
+ 
+ endif # KBUILD_EXTMOD
+ 
+@@ -713,10 +692,20 @@
+ endif # ifdef CONFIG_KALLSYMS
+ 
+ # busybox image - including updated kernel symbols
++ifeq ("YBUILD", "YBUILD")
++busybox_unstripped: $(busybox-all) FORCE
++
++else
+ busybox_unstripped: $(busybox-all) FORCE
+ 	$(call if_changed_rule,busybox__)
+ 	$(Q)rm -f .old_version
+ 
++endif
++
++ifeq ("YBUILD", "YBUILD")
++busybox: busybox_unstripped
++
++else
+ busybox: busybox_unstripped
+ ifeq ($(SKIP_STRIP),y)
+ 	$(Q)cp $< $@
+@@ -727,6 +716,8 @@
+ 	$(Q)chmod a+x $@
+ endif
+ 
++endif
++
+ # The actual objects are generated when descending,
+ # make sure no implicit rule kicks in
+ $(sort $(busybox-all)): $(busybox-dirs) ;
+@@ -820,7 +811,7 @@
+ 	$(Q)rm -f $(MODVERDIR)/*
+ endif
+ 
+-archprepare: prepare1 scripts_basic applets_dir
++archprepare: prepare1 scripts_basic
+ 
+ prepare0: archprepare FORCE
+ 	$(Q)$(MAKE) $(build)=.
