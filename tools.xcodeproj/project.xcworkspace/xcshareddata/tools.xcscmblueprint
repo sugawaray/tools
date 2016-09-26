@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "873B13CBF0239ACD46B323E0AB11EE240721656B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "873B13CBF0239ACD46B323E0AB11EE240721656B" : 0,
+    "8B90F0D044B734A4992C70E599286DB8C18168C0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F3CB0E93-7D29-41AF-8EC5-F291F38B7343",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "873B13CBF0239ACD46B323E0AB11EE240721656B" : "tools\/",
+    "8B90F0D044B734A4992C70E599286DB8C18168C0" : "tools\/busybox\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "tools",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "tools.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sugawaray\/tools.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "873B13CBF0239ACD46B323E0AB11EE240721656B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sugawaray\/busybox.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8B90F0D044B734A4992C70E599286DB8C18168C0"
+    }
+  ]
+}

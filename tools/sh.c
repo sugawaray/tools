@@ -87,6 +87,10 @@ getsfromin(char *b, int bsz)
 void
 procin()
 {
+    extern int true_main(int, char**);
     clearerr(stdin);
     yyparse();
+    
+    /* just to link */
+    true_main(0, 0);
 }
