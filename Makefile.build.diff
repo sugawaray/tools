@@ -1,0 +1,21 @@
+--- ./busybox/scripts/Makefile.build	2016-09-26 23:22:36.000000000 +0900
++++ Makefile.build	2016-09-27 00:08:03.000000000 +0900
+@@ -256,10 +256,18 @@
+ quiet_cmd_link_o_target = LD      $@
+ # If the list of objects to link is empty, just create an empty built-in.o
+ # -nostdlib is added to make "make LD=gcc ..." work (some people use that)
++ifeq ("YBUILD", "YBUILD")
++cmd_link_o_target = $(if $(strip $(obj-y)),\
++		$(LD) -nostdlib $(ld_flags) -r -o $@ $(filter $(obj-y), $^),\
++		rm -f $@; touch -f $@)
++
++else
+ cmd_link_o_target = $(if $(strip $(obj-y)),\
+ 		$(LD) -nostdlib $(ld_flags) -r -o $@ $(filter $(obj-y), $^),\
+ 		rm -f $@; $(AR) rcs $@)
+ 
++endif
++
+ $(builtin-target): $(obj-y) FORCE
+ 	$(call if_changed,link_o_target)
+ 

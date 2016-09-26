@@ -1,4 +1,4 @@
---- busybox/Makefile	2016-09-26 23:22:35.000000000 +0900
+--- ./busybox/Makefile	2016-09-26 23:22:35.000000000 +0900
 +++ Makefile	2016-09-26 23:42:26.000000000 +0900
 @@ -318,7 +318,7 @@
  # Needed to be compatible with the O= option

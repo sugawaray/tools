@@ -1,2 +1,5 @@
 #! /bin/sh -
-patch -d ./busybox <./Makefile.diff
+(cd ./busybox && git checkout -- .)
+for d in Makefile Makefile.custom Makefile.build; do
+	patch -p1 <"${d}".diff
+done

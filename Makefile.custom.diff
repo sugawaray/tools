@@ -1,0 +1,31 @@
+--- ./busybox/Makefile.custom	2016-09-26 23:22:35.000000000 +0900
++++ Makefile.custom	2016-09-27 00:10:25.000000000 +0900
+@@ -134,6 +134,19 @@
+ 
+ # sed adds newlines after "Options:" etc,
+ # this is needed in order to get good BusyBox.{1,txt,html}
++ifeq ("YBUILD", "YBUILD")
++docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
++		include/usage.h \
++		$(srctree)/docs/busybox_footer.pod
++	$(disp_doc)
++	$(Q)-mkdir -p docs
++	$(Q)-( \
++	    cat $(srctree)/docs/busybox_header.pod; \
++	    echo; \
++	    cat $(srctree)/docs/busybox_footer.pod; \
++	    ) > docs/busybox.pod
++
++else
+ docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
+ 		include/usage.h \
+ 		$(srctree)/docs/busybox_footer.pod \
+@@ -147,6 +160,8 @@
+ 	    cat $(srctree)/docs/busybox_footer.pod; \
+ 	    ) > docs/busybox.pod
+ 
++endif
++
+ docs/BusyBox.txt: docs/busybox.pod
+ 	$(disp_doc)
+ 	$(Q)-mkdir -p docs
