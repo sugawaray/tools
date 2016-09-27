@@ -88,9 +88,11 @@ void
 procin()
 {
     extern int true_main(int, char**);
+    extern int seq_main(int, char **);
     clearerr(stdin);
     yyparse();
     
     /* just to link */
     true_main(0, 0);
+    seq_main(0, 0);
 }

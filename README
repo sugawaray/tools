@@ -1,4 +1,5 @@
 ABOUT THIS REPOSITORY
+=====================
 
 This repository contains an attempt to create an iOS-app which contains
 basic text manipulation tools which are always available on PCs.
@@ -10,4 +11,23 @@ I want to implement following functionalities.
 	* find
 	* something equivalent to pipe
 And I want to achieve them by importing existing implementation as much as
-possible, rather than reimplementing.
+possible.
+
+SHELL COMMAND IMPLEMENTATION
+============================
+
+I use busybox as shell commands implementation.
+
+BUILD PROCEDURE
+===============
+
+Currently I use following procedure to build.
+(This is very dirty. But I'll make it better after I understand busybox build
+system.)
+
+On the host shell
+	make oldconfig
+	make applets_dir
+
+Then on the xcode
+	build
