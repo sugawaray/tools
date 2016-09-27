@@ -18,7 +18,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         regnoti()
         txtv.delegate = self
-        txtv.text.appendContentsOf("$ ")
+        txtv.text.append("$ ")
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,19 +27,19 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func prout() {
-        var b: Array<CChar> = Array<CChar>(count: 512, repeatedValue: 0);
+        var b: Array<CChar> = Array<CChar>(repeating: 0, count: 512);
         while mgets(&b, 512) != nil {
-            var s = String.fromCString(b);
-            s = s?.stringByTrimmingCharactersInSet(
-                NSCharacterSet.newlineCharacterSet());
-            s = String(format: "%@\n", s!)
-            txtv.text.appendContentsOf(s!)
+            var s = String(cString: b);
+            s = s.trimmingCharacters(
+                in: CharacterSet.newlines);
+            s = String(format: "%@\n", s)
+            txtv.text.append(s)
         }
-        txtv.text.appendContentsOf("$ ")
+        txtv.text.append("$ ")
     }
     
-    func onKbShow(a:NSNotification) {
-        if let f = a.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue() {
+    func onKbShow(_ a:Notification) {
+        if let f = ((a as NSNotification).userInfo![UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
             let v = UIEdgeInsetsMake(0, 0, f.height, 0)
             txtv.contentInset = v
             txtv.scrollIndicatorInsets = v
@@ -48,23 +48,23 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func regnoti() {
-        let n = NSNotificationCenter.defaultCenter()
+        let n = NotificationCenter.default
         n.addObserver(self, selector: #selector(ViewController.onKbShow(_:)),
-                      name: UIKeyboardDidShowNotification, object: nil)
+                      name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
 
     // MARK: UITextViewDelegate
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         let r = getlastline(txtv.text)
         if (r != nil) {
             var cmd = Cmd()
-            cmd.id = Cmdid.Shcmd.rawValue
+            cmd.id = Cmdid.shcmd.rawValue
             cmd.astr = r
             getInst().ctl.procc(cmd)
             
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
                 getInst().ctl.proc()
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     let s = getInst().ctl.status()
                     if (s.0 == 0) {
                         print("command done")

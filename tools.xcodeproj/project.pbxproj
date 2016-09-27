@@ -367,13 +367,16 @@
 					765431701D2A8A830029856C = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = KG6KGJXDJU;
+						LastSwiftMigration = 0810;
 					};
 					765431841D2A8A840029856C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = 765431701D2A8A830029856C;
 					};
 					7654318F1D2A8A850029856C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = 765431701D2A8A830029856C;
 					};
 					767FA6561D96A7EC0081DD64 = {
@@ -609,6 +612,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				INFOPLIST_FILE = tools/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
@@ -618,6 +622,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = arm64;
 			};
 			name = Debug;
@@ -631,6 +636,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				INFOPLIST_FILE = tools/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
@@ -639,6 +645,7 @@
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/include";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = arm64;
 			};
 			name = Release;
@@ -655,6 +662,7 @@
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/include";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/include/bridge.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tools.app/tools";
 			};
 			name = Debug;
@@ -670,6 +678,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/include";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/include/bridge.h";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tools.app/tools";
 			};
 			name = Release;
@@ -681,6 +690,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.toolsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = tools;
 			};
 			name = Debug;
@@ -692,6 +702,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.toolsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = tools;
 			};
 			name = Release;
@@ -771,6 +782,7 @@
 				767FA6591D96A7EC0081DD64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -24,7 +24,7 @@ class CtlTest: XCTestCase {
     
     func testProcc() {
         var a = Cmd()
-        a.id = Cmdid.Nop.rawValue
+        a.id = Cmdid.nop.rawValue
         if let o = inst {
             o.procc(a)
             o.proc()
@@ -43,7 +43,7 @@ class CtlTest: XCTestCase {
     
     func testStatusBeforeProc() {
         var a = Cmd()
-        a.id = Cmdid.Nop.rawValue
+        a.id = Cmdid.nop.rawValue
         if let o = inst {
             o.procc(a)
             let s = o.status()
@@ -53,7 +53,7 @@ class CtlTest: XCTestCase {
     
     func testStatusAftNextProcc() {
         var a = Cmd()
-        a.id = Cmdid.Nop.rawValue
+        a.id = Cmdid.nop.rawValue
         if let o = inst {
             o.procc(a)
             o.proc()
@@ -65,7 +65,7 @@ class CtlTest: XCTestCase {
     
     func testProccHasAlreadyHad() {
         var a = Cmd()
-        a.id = Cmdid.Nop.rawValue
+        a.id = Cmdid.nop.rawValue
         if let o = inst {
             o.procc(a)
             let r = o.procc(a)
@@ -75,7 +75,7 @@ class CtlTest: XCTestCase {
     
     func testProcAnotherCmd() {
         var a = Cmd()
-        a.id = Cmdid.NopFail.rawValue
+        a.id = Cmdid.nopFail.rawValue
         if let o = inst {
             o.procc(a)
             o.proc()
@@ -87,7 +87,7 @@ class CtlTest: XCTestCase {
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock {
+        self.measure {
             // Put the code you want to measure the time of here.
         }
     }

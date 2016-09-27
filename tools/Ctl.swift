@@ -9,19 +9,19 @@
 import Foundation
 
 enum Cmdid : Int {
-    case Nop    = 1,
-    NopFail,
-    Shcmd,
-    Savefile,
-    Invalid
+    case nop    = 1,
+    nopFail,
+    shcmd,
+    savefile,
+    invalid
 }
 
 enum Ctlv : Int {
-    case StInvalid  = -0x10000
+    case stInvalid  = -0x10000
 }
 
 struct Cmd {
-    var id: Int = Cmdid.Invalid.rawValue
+    var id: Int = Cmdid.invalid.rawValue
     var astr: String?
 }
 
@@ -29,15 +29,15 @@ class Ctl {
     
     init() {
         cmd = nil
-        cst = Ctlv.StInvalid.rawValue
+        cst = Ctlv.stInvalid.rawValue
     }
 
-    func procc(carg: Cmd) -> Int {
+    func procc(_ carg: Cmd) -> Int {
         if cmd != nil {
             return -1
         } else {
             cmd = carg
-            cst = Ctlv.StInvalid.rawValue
+            cst = Ctlv.stInvalid.rawValue
             return 0
         }
     }
@@ -45,46 +45,46 @@ class Ctl {
     func proc() {
         if cmd == nil {
             return;
-        } else if cmd!.id != Cmdid.Invalid.rawValue {
+        } else if cmd!.id != Cmdid.invalid.rawValue {
             switch cmd!.id {
-            case Cmdid.Nop.rawValue:
+            case Cmdid.nop.rawValue:
                 cst = 0
                 break
-            case Cmdid.NopFail.rawValue:
+            case Cmdid.nopFail.rawValue:
                 cst = -1
                 break
-            case Cmdid.Savefile.rawValue:
+            case Cmdid.savefile.rawValue:
                 cst = savefile(cmd!.astr!)
                 break
-            case Cmdid.Shcmd.rawValue:
+            case Cmdid.shcmd.rawValue:
                 cst = sh.proc(cmd!.astr!)
                 break;
             default:
-                cst = Ctlv.StInvalid.rawValue
+                cst = Ctlv.stInvalid.rawValue
             }
             cmd = nil
         }
     }
     
     func status() -> (Int, Int) {
-        if cst != Ctlv.StInvalid.rawValue {
+        if cst != Ctlv.stInvalid.rawValue {
             return (0, cst)
         } else {
             return (-1, 0)
         }
     }
     
-    func savefile(path: String) -> Int {
+    func savefile(_ path: String) -> Int {
         print("savefile called ", path)
-        let m = NSFileManager.defaultManager()
-        var dst = m.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory,
-                                     inDomains:NSSearchPathDomainMask.UserDomainMask).first
+        let m = FileManager.default
+        var dst = m.urls(for: FileManager.SearchPathDirectory.documentDirectory,
+                                     in:FileManager.SearchPathDomainMask.userDomainMask).first
         
-        dst = dst!.URLByAppendingPathComponent("tmp.bin")
+        dst = dst!.appendingPathComponent("tmp.bin")
         print("dst ", dst)
-        let src = NSURL(string: path)!
+        let src = URL(string: path)!
         do {
-            try m.copyItemAtURL(src, toURL: dst!)
+            try m.copyItem(at: src, to: dst!)
         } catch let e as NSError {
             print(e.description)
             return -1

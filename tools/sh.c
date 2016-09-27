@@ -89,10 +89,21 @@ procin()
 {
     extern int true_main(int, char**);
     extern int seq_main(int, char **);
+    char **argv;
+    int i;
+    
     clearerr(stdin);
     yyparse();
     
     /* just to link */
-    true_main(0, 0);
-    seq_main(0, 0);
+    /*true_main(0, 0);*/
+    argv = malloc(sizeof(*argv) * 4);
+    argv[0] = strdup("seq");
+    argv[1] = strdup("1");
+    argv[2] = strdup("10");
+    argv[3] = 0;
+    seq_main(3, argv);
+    for (i = 0; i < 3; ++i)
+        free(argv[i]);
+    free(argv);
 }

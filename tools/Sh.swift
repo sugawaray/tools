@@ -17,8 +17,8 @@ class Sh {
             print("initsh failed");
         }
     }
-    func proc(s: String) -> Int {
-        let s2 = s.stringByAppendingString("\n");
+    func proc(_ s: String) -> Int {
+        let s2 = s + "\n";
         let r = putsonin(s2);
         if r != 0 {
             print("putsonin failed");

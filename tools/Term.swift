@@ -8,26 +8,28 @@
 
 import Foundation
 
-func getlastline(txt:String) -> String? {
+func getlastline(_ txt:String) -> String? {
     if txt.hasSuffix("\n") {
-        let rs = txt.characters.reverse()
+        let rs = txt.characters.reversed();
         var s = ""
         var fnd = false
         var i = rs.startIndex
         while true {
             let bi = i.base
-            let be = bi.advancedBy(2, limit: txt.characters.endIndex)
-            s = txt.substringWithRange(bi..<be)
-            if s == "$ " {
-                fnd = true
-                s = txt.substringWithRange(
-                    bi.advancedBy(2)..<txt.characters.endIndex.advancedBy(-1))
-                break;
+            let be = txt.characters.index(bi, offsetBy: 2, limitedBy: txt.characters.endIndex)
+            if be != nil {
+                s = txt.substring(with: bi..<be!)
+                if s == "$ " {
+                    fnd = true
+                    s = txt.substring(
+                        with: txt.characters.index(bi, offsetBy: 2)..<txt.characters.index(txt.characters.endIndex, offsetBy: -1))
+                    break;
+                }
             }
             if i == rs.endIndex {
                 break;
             }
-            i = i.advancedBy(1)
+            i = rs.index(i, offsetBy: 1)
         }
         if fnd {
             return s
