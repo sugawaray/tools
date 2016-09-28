@@ -284,7 +284,7 @@
 /* Begin PBXLegacyTarget section */
 		767FA6561D96A7EC0081DD64 /* busybox */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "-k V=1 CFLAGS=\"-arch arm64 -D__arm64__\" LDFLAGS=\"-arch arm64\" $(ACTION)";
+			buildArgumentsString = "-k V=1 $(ACTION)";
 			buildConfigurationList = 767FA6571D96A7EC0081DD64 /* Build configuration list for PBXLegacyTarget "busybox" */;
 			buildPhases = (
 			);
@@ -710,10 +710,12 @@
 		767FA6581D96A7EC0081DD64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CFLAGS = "-arch arm64 -DIOS -D__arm64__";
 				DEBUGGING_SYMBOLS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				LDFLAGS = "-arch arm64";
 				OTHER_CFLAGS = (
 					"-arch",
 					arm64,
@@ -726,7 +728,9 @@
 		767FA6591D96A7EC0081DD64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CFLAGS = "-arch arm64 -DIOS -D__arm64__";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				LDFLAGS = "-arch arm64";
 				OTHER_CFLAGS = (
 					"-arch",
 					arm64,

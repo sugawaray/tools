@@ -138,16 +138,16 @@ index 891c9ce..9179fcb 100644
  	$(disp_doc)
  	$(Q)-mkdir -p docs
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..833d46b 100644
+index c987d41..449e88d 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -501,6 +501,10 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
-+/*+tmp*/
++#if defined(IOS)
 +# undef HAVE_MEMPCPY
-+/*-tmp*/
++#endif
 +
  /*
   * Now, define prototypes for all the functions defined in platform.c
