@@ -1,16 +1,13 @@
 diff --git a/Makefile b/Makefile
-index 5cfc763..3d3d89c 100644
+index 5cfc763..4b50fd8 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -316,9 +316,9 @@ AFLAGS_KERNEL	=
- 
- # Use LINUXINCLUDE when you must reference the include/ directory.
+@@ -318,7 +318,7 @@ AFLAGS_KERNEL	=
  # Needed to be compatible with the O= option
--CFLAGS		:= $(CFLAGS)
-+CFLAGS		:= $(CFLAGS) -DIOS=1
+ CFLAGS		:= $(CFLAGS)
  # Added only to final link stage of busybox binary
 -CFLAGS_busybox	:= $(CFLAGS_busybox)
-+CFLAGS_busybox	:= $(CFLAGS_busybox) -elf2flt -DIOS
++CFLAGS_busybox	:= $(CFLAGS_busybox) -elf2flt
  CPPFLAGS	:= $(CPPFLAGS)
  AFLAGS		:= $(AFLAGS)
  LDFLAGS		:= $(LDFLAGS)
