@@ -711,15 +711,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CFLAGS = "-arch arm64 -DIOS -D__arm64__";
+				CFLAGS_busybox = "-elf2flt";
 				DEBUGGING_SYMBOLS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				LDFLAGS = "-arch arm64";
-				OTHER_CFLAGS = (
-					"-arch",
-					arm64,
-				);
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -729,12 +727,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CFLAGS = "-arch arm64 -DIOS -D__arm64__";
+				CFLAGS_busybox = "-elf2flt";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				LDFLAGS = "-arch arm64";
-				OTHER_CFLAGS = (
-					"-arch",
-					arm64,
-				);
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
