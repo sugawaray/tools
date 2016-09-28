@@ -1,16 +1,7 @@
 diff --git a/Makefile b/Makefile
-index 5cfc763..4b50fd8 100644
+index 5cfc763..deeff0c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -318,7 +318,7 @@ AFLAGS_KERNEL	=
- # Needed to be compatible with the O= option
- CFLAGS		:= $(CFLAGS)
- # Added only to final link stage of busybox binary
--CFLAGS_busybox	:= $(CFLAGS_busybox)
-+CFLAGS_busybox	:= $(CFLAGS_busybox) -elf2flt
- CPPFLAGS	:= $(CPPFLAGS)
- AFLAGS		:= $(AFLAGS)
- LDFLAGS		:= $(LDFLAGS)
 @@ -368,9 +368,16 @@ gen_build_files: $(wildcard $(srctree)/*/*.c) $(wildcard $(srctree)/*/*/*.c)
  # we depend on scripts_basic, since scripts/basic/fixdep
  # must be built before any other host prog
