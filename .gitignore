@@ -1,2 +1,4 @@
 **/xcuserdata/
 /shya.tab.[hc]
+/.DS_Store
+/libbusybox_*.a

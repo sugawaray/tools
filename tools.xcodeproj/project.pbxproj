@@ -29,22 +29,6 @@
 		7654317C1D2A8A840029856C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7654317B1D2A8A840029856C /* Assets.xcassets */; };
 		7654317F1D2A8A840029856C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7654317D1D2A8A840029856C /* LaunchScreen.storyboard */; };
 		765431951D2A8A850029856C /* toolsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431941D2A8A850029856C /* toolsUITests.swift */; };
-		767FA6731D97E2F40081DD64 /* true.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6721D97E2F40081DD64 /* true.o */; };
-		767FA6741D99D8C00081DD64 /* seq.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6701D97C8CC0081DD64 /* seq.o */; };
-		767FA6761D9A9A360081DD64 /* getopt32.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6751D9A9A360081DD64 /* getopt32.o */; };
-		767FA6781D9A9AC70081DD64 /* xfuncs_printf.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6771D9A9AC70081DD64 /* xfuncs_printf.o */; };
-		767FA67A1D9A9B030081DD64 /* platform.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6791D9A9B020081DD64 /* platform.o */; };
-		767FA67C1D9AA5F40081DD64 /* appletlib.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA67B1D9AA5F30081DD64 /* appletlib.o */; };
-		767FA67E1D9AA64D0081DD64 /* safe_strncpy.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA67D1D9AA64D0081DD64 /* safe_strncpy.o */; };
-		767FA6801D9AA6700081DD64 /* llist.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA67F1D9AA6700081DD64 /* llist.o */; };
-		767FA6821D9AA6AF0081DD64 /* messages.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6811D9AA6AF0081DD64 /* messages.o */; };
-		767FA6841D9AA6D40081DD64 /* xatonum.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6831D9AA6D30081DD64 /* xatonum.o */; };
-		767FA6871D9AA71C0081DD64 /* verror_msg.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6851D9AA71C0081DD64 /* verror_msg.o */; };
-		767FA6881D9AA71C0081DD64 /* xfunc_die.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6861D9AA71C0081DD64 /* xfunc_die.o */; };
-		767FA68B1D9AA75C0081DD64 /* executable.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA6891D9AA75B0081DD64 /* executable.o */; };
-		767FA68C1D9AA75C0081DD64 /* full_write.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA68A1D9AA75C0081DD64 /* full_write.o */; };
-		767FA68E1D9AA7AB0081DD64 /* safe_write.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA68D1D9AA7AB0081DD64 /* safe_write.o */; };
-		767FA6901D9AA7D80081DD64 /* default_error_retval.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 767FA68F1D9AA7D80081DD64 /* default_error_retval.o */; };
 		7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7687ECDC1D7AF7310077EEC2 /* Sh.swift */; };
 		76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B51D7647FC00D945E4 /* CtlTest.swift */; };
 		76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
@@ -97,6 +81,8 @@
 
 /* Begin PBXFileReference section */
 		7602D8A61D9D3FB600193754 /* buildbb.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = buildbb.sh; sourceTree = "<group>"; };
+		7602D8A81D9FB36400193754 /* lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib.a; path = busybox/coreutils/lib.a; sourceTree = "<group>"; };
+		7602D8AA1D9FB37600193754 /* lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib.a; path = busybox/libbb/lib.a; sourceTree = "<group>"; };
 		763CB7D21D7B9D1E00F5444B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		763CB7DA1D7BA16800F5444B /* cmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmd.h; path = include/cmd.h; sourceTree = "<group>"; };
 		763CB7DB1D7BA6A900F5444B /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = include/bridge.h; sourceTree = "<group>"; };
@@ -155,22 +141,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				767FA6901D9AA7D80081DD64 /* default_error_retval.o in Frameworks */,
-				767FA68E1D9AA7AB0081DD64 /* safe_write.o in Frameworks */,
-				767FA67C1D9AA5F40081DD64 /* appletlib.o in Frameworks */,
-				767FA68B1D9AA75C0081DD64 /* executable.o in Frameworks */,
-				767FA68C1D9AA75C0081DD64 /* full_write.o in Frameworks */,
-				767FA6871D9AA71C0081DD64 /* verror_msg.o in Frameworks */,
-				767FA6881D9AA71C0081DD64 /* xfunc_die.o in Frameworks */,
-				767FA6841D9AA6D40081DD64 /* xatonum.o in Frameworks */,
-				767FA6821D9AA6AF0081DD64 /* messages.o in Frameworks */,
-				767FA6801D9AA6700081DD64 /* llist.o in Frameworks */,
-				767FA67E1D9AA64D0081DD64 /* safe_strncpy.o in Frameworks */,
-				767FA67A1D9A9B030081DD64 /* platform.o in Frameworks */,
-				767FA6781D9A9AC70081DD64 /* xfuncs_printf.o in Frameworks */,
-				767FA6761D9A9A360081DD64 /* getopt32.o in Frameworks */,
-				767FA6741D99D8C00081DD64 /* seq.o in Frameworks */,
-				767FA6731D97E2F40081DD64 /* true.o in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +161,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7602D8A71D9FB36400193754 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7602D8AA1D9FB37600193754 /* lib.a */,
+				7602D8A81D9FB36400193754 /* lib.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		765431681D2A8A830029856C = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +199,7 @@
 				765431931D2A8A850029856C /* toolsUITests */,
 				765431721D2A8A830029856C /* Products */,
 				767FA65C1D96AEB30081DD64 /* busybox */,
+				7602D8A71D9FB36400193754 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -616,7 +596,15 @@
 				INFOPLIST_FILE = tools/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/busybox/coreutils",
+					"$(PROJECT_DIR)/busybox/libbb",
+				);
+				OTHER_LDFLAGS = (
+					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -625,7 +613,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -640,7 +627,15 @@
 				INFOPLIST_FILE = tools/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/busybox/coreutils",
+					"$(PROJECT_DIR)/busybox/libbb",
+				);
+				OTHER_LDFLAGS = (
+					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -648,7 +643,6 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
 				SWIFT_VERSION = 3.0;
-				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
@@ -719,6 +713,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				LDFLAGS = "";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";

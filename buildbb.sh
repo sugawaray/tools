@@ -5,12 +5,30 @@
 #
 #  Created by Yutaka Sugawara on 2016/09/29.
 #  Copyright © 2016 Yutaka Sugawara. All rights reserved.
-export ARCH="${arch}"
-archmacro=""
-case "${arch}" in
-armv7*) archmacro="__arm__";;
-arm64*) archmacro="__arm64__";;
-esac
-export CFLAGS="${CFLAGS} -arch ${arch} -D${archmacro}"
-export LDFLAGS="-arch ${arch}"
-/usr/bin/make -k V=1 "${@}"
+
+cplibs() {
+    for d in coreutils libbb; do
+	cp "${objdest}/${d}/lib.a" "${SRCROOT}/libbusybox_${d}_${arch}.a"
+    done
+}
+
+cflags="${CFLAGS}"
+
+for a in ${ARCHS}; do
+	arch=$a
+	export arch;
+	export ARCH="${arch}"
+	archmacro=""
+
+	case "${arch}" in
+	armv7*) archmacro="__arm__";;
+	arm64*) archmacro="__arm64__";;
+	esac
+
+	export CFLAGS="${cflags} -arch ${arch} -D${archmacro}"
+	export LDFLAGS="-arch ${arch}"
+	export objdest="${OBJECT_FILE_DIR}/${arch}"
+
+	/usr/bin/make -k V=1 "${@}" && cplibs
+done
+

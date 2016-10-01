@@ -1,24 +1,33 @@
 diff --git a/Makefile b/Makefile
-index 5cfc763..deeff0c 100644
+index 5cfc763..9890571 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -368,9 +368,16 @@ gen_build_files: $(wildcard $(srctree)/*/*.c) $(wildcard $(srctree)/*/*/*.c)
+@@ -354,7 +354,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn --exc
+ # Basic helpers built in scripts/
+ PHONY += scripts_basic
+ scripts_basic:
+-	$(Q)$(MAKE) $(build)=scripts/basic
++	$(Q)$(MAKE) $(build)=scripts/basic objdest=""
+ 
+ # To avoid any implicit rule to kick in, define an empty command.
+ scripts/basic/%: scripts_basic ;
+@@ -368,8 +368,15 @@ gen_build_files: $(wildcard $(srctree)/*/*.c) $(wildcard $(srctree)/*/*/*.c)
  # we depend on scripts_basic, since scripts/basic/fixdep
  # must be built before any other host prog
  PHONY += applets_dir
 +ifeq ("YBUILD", "YBUILD")
  applets_dir: scripts_basic gen_build_files
- 	$(Q)$(MAKE) $(build)=applets
- 
+-	$(Q)$(MAKE) $(build)=applets
++	$(Q)$(MAKE) $(build)=applets objdest=""
++
 +else
 +applets_dir: scripts_basic gen_build_files
-+	$(Q)$(MAKE) $(build)=applets
++	$(Q)$(MAKE) $(build)=applets objdest=""
 +
 +endif
-+
+ 
  applets/%: applets_dir ;
  
- PHONY += outputmakefile
 @@ -464,33 +471,8 @@ core-y		:= \
  		applets/ \
  
@@ -125,6 +134,21 @@ index 891c9ce..9179fcb 100644
  docs/BusyBox.txt: docs/busybox.pod
  	$(disp_doc)
  	$(Q)-mkdir -p docs
+diff --git a/applets/Kbuild.src b/applets/Kbuild.src
+index 3aedbbf..8e4f47b 100644
+--- a/applets/Kbuild.src
++++ b/applets/Kbuild.src
+@@ -8,7 +8,9 @@ obj-y :=
+ obj-y += applets.o
+ 
+ hostprogs-y:=
+-hostprogs-y += usage usage_pod applet_tables
++ifeq ($(objdest),)
++	hostprogs-y += usage usage_pod applet_tables
++endif
+ 
+ always:= $(hostprogs-y)
+ 
 diff --git a/include/platform.h b/include/platform.h
 index c987d41..449e88d 100644
 --- a/include/platform.h
@@ -189,10 +213,43 @@ index 52a90e9..5ff8395 100644
  lib-y += xfuncs_printf.o
  lib-y += xfunc_die.o
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 5eac45f..35f0dcc 100644
+index 5eac45f..b479173 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -256,10 +256,18 @@ ifdef builtin-target
+@@ -4,6 +4,13 @@
+ 
+ src := $(obj)
+ 
++objdest := $(objdest)
++ifeq ($(objdest),)
++	objdestprefix :=
++else
++	objdestprefix := $(objdest)/
++endif
++
+ PHONY := __build
+ __build:
+ 
+@@ -76,7 +83,7 @@ endif
+ # ===========================================================================
+ 
+ ifneq ($(strip $(lib-y) $(lib-m) $(lib-n) $(lib-)),)
+-lib-target := $(obj)/lib.a
++lib-target := $(objdestprefix)$(obj)/lib.a
+ endif
+ 
+ ifneq ($(strip $(obj-y) $(obj-m) $(obj-n) $(obj-) $(lib-target)),)
+@@ -193,7 +200,8 @@ endef
+ 
+ # Built-in and composite module parts
+ 
+-%.o: %.c FORCE
++$(objdestprefix)%.o: %.c FORCE
++	-mkdir -p $(dir $@)
+ 	$(call cmd,force_checksrc)
+ 	$(call if_changed_rule,cc_o_c)
+ 
+@@ -256,10 +264,18 @@ ifdef builtin-target
  quiet_cmd_link_o_target = LD      $@
  # If the list of objects to link is empty, just create an empty built-in.o
  # -nostdlib is added to make "make LD=gcc ..." work (some people use that)
@@ -211,3 +268,46 @@ index 5eac45f..35f0dcc 100644
  $(builtin-target): $(obj-y) FORCE
  	$(call if_changed,link_o_target)
  
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 3e54ea7..36242dc 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -57,22 +57,22 @@ real-objs-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)
+ 
+ # Add subdir path
+ 
+-extra-y		:= $(addprefix $(obj)/,$(extra-y))
+-always		:= $(addprefix $(obj)/,$(always))
+-targets		:= $(addprefix $(obj)/,$(targets))
+-obj-y		:= $(addprefix $(obj)/,$(obj-y))
+-obj-m		:= $(addprefix $(obj)/,$(obj-m))
+-lib-y		:= $(addprefix $(obj)/,$(lib-y))
+-subdir-obj-y	:= $(addprefix $(obj)/,$(subdir-obj-y))
+-real-objs-y	:= $(addprefix $(obj)/,$(real-objs-y))
+-real-objs-m	:= $(addprefix $(obj)/,$(real-objs-m))
+-single-used-m	:= $(addprefix $(obj)/,$(single-used-m))
+-multi-used-y	:= $(addprefix $(obj)/,$(multi-used-y))
+-multi-used-m	:= $(addprefix $(obj)/,$(multi-used-m))
+-multi-objs-y	:= $(addprefix $(obj)/,$(multi-objs-y))
+-multi-objs-m	:= $(addprefix $(obj)/,$(multi-objs-m))
+-subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+-obj-dirs	:= $(addprefix $(obj)/,$(obj-dirs))
++extra-y		:= $(addprefix $(objdestprefix)$(obj)/,$(extra-y))
++always		:= $(addprefix $(objdestprefix)$(obj)/,$(always))
++targets		:= $(addprefix $(objdestprefix)$(obj)/,$(targets))
++obj-y		:= $(addprefix $(objdestprefix)$(obj)/,$(obj-y))
++obj-m		:= $(addprefix $(objdestprefix)$(obj)/,$(obj-m))
++lib-y		:= $(addprefix $(objdestprefix)$(obj)/,$(lib-y))
++subdir-obj-y	:= $(addprefix $(objdestprefix)$(obj)/,$(subdir-obj-y))
++real-objs-y	:= $(addprefix $(objdestprefix)$(obj)/,$(real-objs-y))
++real-objs-m	:= $(addprefix $(objdestprefix)$(obj)/,$(real-objs-m))
++single-used-m	:= $(addprefix $(objdestprefix)$(obj)/,$(single-used-m))
++multi-used-y	:= $(addprefix $(objdestprefix)$(obj)/,$(multi-used-y))
++multi-used-m	:= $(addprefix $(objdestprefix)$(obj)/,$(multi-used-m))
++multi-objs-y	:= $(addprefix $(objdestprefix)$(obj)/,$(multi-objs-y))
++multi-objs-m	:= $(addprefix $(objdestprefix)$(obj)/,$(multi-objs-m))
++subdir-ym	:= $(addprefix $(objdestprefix)$(obj)/,$(subdir-ym))
++obj-dirs	:= $(addprefix $(objdestprefix)$(obj)/,$(obj-dirs))
+ 
+ # These flags are needed for modversions and compiling, so we define them here
+ # already
