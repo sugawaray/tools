@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 5cfc763..9890571 100644
+index 5cfc763..8532c49 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -354,7 +354,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn --exc
@@ -11,24 +11,16 @@ index 5cfc763..9890571 100644
  
  # To avoid any implicit rule to kick in, define an empty command.
  scripts/basic/%: scripts_basic ;
-@@ -368,8 +368,15 @@ gen_build_files: $(wildcard $(srctree)/*/*.c) $(wildcard $(srctree)/*/*/*.c)
- # we depend on scripts_basic, since scripts/basic/fixdep
+@@ -369,7 +369,7 @@ gen_build_files: $(wildcard $(srctree)/*/*.c) $(wildcard $(srctree)/*/*/*.c)
  # must be built before any other host prog
  PHONY += applets_dir
-+ifeq ("YBUILD", "YBUILD")
  applets_dir: scripts_basic gen_build_files
 -	$(Q)$(MAKE) $(build)=applets
 +	$(Q)$(MAKE) $(build)=applets objdest=""
-+
-+else
-+applets_dir: scripts_basic gen_build_files
-+	$(Q)$(MAKE) $(build)=applets objdest=""
-+
-+endif
  
  applets/%: applets_dir ;
  
-@@ -464,33 +471,8 @@ core-y		:= \
+@@ -464,33 +464,8 @@ core-y		:= \
  		applets/ \
  
  libs-y		:= \
@@ -62,7 +54,7 @@ index 5cfc763..9890571 100644
  
  endif # KBUILD_EXTMOD
  
-@@ -713,10 +695,20 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
+@@ -713,10 +688,20 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
  endif # ifdef CONFIG_KALLSYMS
  
  # busybox image - including updated kernel symbols
@@ -83,7 +75,7 @@ index 5cfc763..9890571 100644
  busybox: busybox_unstripped
  ifeq ($(SKIP_STRIP),y)
  	$(Q)cp $< $@
-@@ -727,6 +719,8 @@ else
+@@ -727,6 +712,8 @@ else
  	$(Q)chmod a+x $@
  endif
  
@@ -92,7 +84,7 @@ index 5cfc763..9890571 100644
  # The actual objects are generated when descending,
  # make sure no implicit rule kicks in
  $(sort $(busybox-all)): $(busybox-dirs) ;
-@@ -820,7 +814,7 @@ ifneq ($(KBUILD_MODULES),)
+@@ -820,7 +807,7 @@ ifneq ($(KBUILD_MODULES),)
  	$(Q)rm -f $(MODVERDIR)/*
  endif
  
@@ -101,39 +93,6 @@ index 5cfc763..9890571 100644
  
  prepare0: archprepare FORCE
  	$(Q)$(MAKE) $(build)=.
-diff --git a/Makefile.custom b/Makefile.custom
-index 891c9ce..9179fcb 100644
---- a/Makefile.custom
-+++ b/Makefile.custom
-@@ -134,6 +134,19 @@ disp_doc       = $($(quiet)cmd_doc)
- 
- # sed adds newlines after "Options:" etc,
- # this is needed in order to get good BusyBox.{1,txt,html}
-+ifeq ("YBUILD", "YBUILD")
-+docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
-+		include/usage.h \
-+		$(srctree)/docs/busybox_footer.pod
-+	$(disp_doc)
-+	$(Q)-mkdir -p docs
-+	$(Q)-( \
-+	    cat $(srctree)/docs/busybox_header.pod; \
-+	    echo; \
-+	    cat $(srctree)/docs/busybox_footer.pod; \
-+	    ) > docs/busybox.pod
-+
-+else
- docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
- 		include/usage.h \
- 		$(srctree)/docs/busybox_footer.pod \
-@@ -147,6 +160,8 @@ docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
- 	    cat $(srctree)/docs/busybox_footer.pod; \
- 	    ) > docs/busybox.pod
- 
-+endif
-+
- docs/BusyBox.txt: docs/busybox.pod
- 	$(disp_doc)
- 	$(Q)-mkdir -p docs
 diff --git a/applets/Kbuild.src b/applets/Kbuild.src
 index 3aedbbf..8e4f47b 100644
 --- a/applets/Kbuild.src
