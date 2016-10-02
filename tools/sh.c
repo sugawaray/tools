@@ -18,11 +18,14 @@ struct Wl *shwltail;
 
 static FILE *origfin;
 static FILE *finout;
+static FILE *origfout;
+static FILE *foutin;
 static char buf[512];
 
 int
 initsh()
 {
+    int e;
     FILE *tf, *uf;
 
     if (prepsupdir() != 0) {
@@ -30,25 +33,42 @@ initsh()
               stderr);
         return -1;
     }
-    if (genpath(buf, sizeof buf, "/fin") != 0)
-        return -1;
+    e = 1;
     errno = 0;
-    tf = fopen(buf, "w+b");
-    if (tf == NULL) {
-        perror("initsh");
-        return -1;
-    }
-    uf = fopen(buf, "r+b");
-    if (uf == NULL) {
-        perror("initsh");
+    if (genpath(buf, sizeof buf, "/fin") != 0)
+        ;
+    else if ((tf = fopen(buf, "w+b")) == NULL)
+        perror("initsh:input file(out)");
+    else if ((uf = fopen(buf, "r+b")) == NULL) {
+        perror("initsh:input file(in)");
         fclose(tf);
-        return -1;
     } else {
         origfin = stdin;
         stdin = tf;
         finout = uf;
-        return 0;
+        e = 0;
     }
+    if (e)
+        return -1;
+    e = 1;
+    if (genpath(buf, sizeof buf, "/fout") != 0)
+        ;
+    else if ((tf = fopen(buf, "w+b")) == NULL)
+        perror("initsh:output file(out)");
+    else if ((uf = fopen(buf, "r+b")) == NULL) {
+        perror("initsh:output file(in)");
+        fclose(tf);
+    } else {
+        origfout = stdout;
+        stdout = tf;
+        foutin = uf;
+        e = 0;
+    }
+    if (e) {
+        cleanupsh();
+        return -1;
+    } else
+        return 0;
 }
 
 void
@@ -62,6 +82,15 @@ cleanupsh()
         if (stdin)
             fclose(stdin);
         stdin = origfin;
+    }
+    if (foutin) {
+        fclose(foutin);
+        foutin = 0;
+    }
+    if (origfout) {
+        if (stdout)
+            fclose(stdout);
+        stdout = origfout;
     }
 }
 
@@ -79,6 +108,25 @@ int
 getsfromin(char *b, int bsz)
 {
     if (fgets(b, bsz, stdin))
+        return 0;
+    else
+        return -1;
+}
+
+int
+putsonout(const char *s)
+{
+    if (fputs(s, stdout)) {
+        fflush(stdout);
+        return 0;
+    } else
+        return -1;
+}
+
+int
+getsfromout(char *b, int bsz)
+{
+    if (fgets(b, bsz, foutin))
         return 0;
     else
         return -1;

@@ -22,6 +22,8 @@ int initsh();
 void cleanupsh();
 int putsonin(const char *s);
 int getsfromin(char *b, int bsz);
+int putsonout(const char *s);
+int getsfromout(char *b, int bsz);
 void procin();
 int yyparse();
 

@@ -27,10 +27,24 @@
     int r1, r2, r3;
     char b[80];
     r1 = initsh();
-    XCTAssertEqual(0, r1);
     r2 = putsonin("message\n");
-    XCTAssertEqual(0, r2);
     r3 = getsfromin(b, sizeof b);
+    cleanupsh();
+    XCTAssertEqual(0, r1);
+    XCTAssertEqual(0, r2);
+    XCTAssertEqual(0, r3);
+    XCTAssertEqual(0, strcmp("message\n", b));
+}
+    
+- (void)testIoOut {
+    int r1, r2, r3;
+    char b[80];
+    r1 = initsh();
+    r2 = putsonout("message\n");
+    r3 = getsfromout(b, sizeof b);
+    cleanupsh();
+    XCTAssertEqual(0, r1);
+    XCTAssertEqual(0, r2);
     XCTAssertEqual(0, r3);
     XCTAssertEqual(0, strcmp("message\n", b));
 }
