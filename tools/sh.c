@@ -14,7 +14,15 @@
 #include <stdio.h>
 #include <string.h>
 
+extern int true_main(int, char**);
+extern int seq_main(int, char **);
+
 struct Wl *shwltail;
+struct Shcmd shcmdtab[] = {
+    { "true", true_main },
+    { "seq", seq_main },
+    { 0, 0 }
+};
 
 static FILE *origfin;
 static FILE *finout;
@@ -126,34 +134,58 @@ putsonout(const char *s)
 int
 getsfromout(char *b, int bsz)
 {
+    clearerr(foutin);
     if (fgets(b, bsz, foutin))
         return 0;
     else
         return -1;
 }
 
+static void
+freeshwl()
+{
+    struct Wl *p, *q;
+    p = shwltail->next;
+    shwltail->next = 0;
+    while (p) {
+        q = p;
+        p = p->next;
+        if (q) {
+            free(q->p);
+            free(q);
+        }
+    }
+    shwltail = 0;
+}
+
 void
 procin()
 {
-    extern int true_main(int, char**);
-    extern int seq_main(int, char **);
+    int argc;
     char **argv;
-    int i;
+    const struct Shcmd *cmd;
+    int i, r;
     
     clearerr(stdin);
     yyparse();
-    
-    /* just to link */
-    /*true_main(0, 0);*/
-    argv = malloc(sizeof(*argv) * 4);
-    argv[0] = strdup("seq");
-    argv[1] = strdup("1");
-    argv[2] = strdup("10");
-    argv[3] = 0;
-    seq_main(3, argv);
-    for (i = 0; i < 3; ++i)
-        free(argv[i]);
-    free(argv);
+
+    if (!shwltail)
+        return;
+    r = genargv(shwltail->next, shwltail->next, &argv, &argc);
+    if (r == 0 && argc > 0) {
+        cmd = findcmd(argv[0]);
+        if (cmd) {
+            clearerr(stdout);
+            cmd->f(argc, argv);
+            fflush(stdout);
+        }
+    }
+    if (r == 0 && argv) {
+        for (i = 0; i < argc; ++i)
+            free(argv[i]);
+        free(argv);
+    }
+    freeshwl();
 }
 
 int
@@ -177,4 +209,13 @@ genargv(struct Wl *p1, struct Wl *p2, char ***av, int *cp)
         (*av)[i] = 0;
     }
     return 0;
+}
+
+const struct Shcmd *
+findcmd(const char *name)
+{
+    struct Shcmd *p = shcmdtab;
+    while (p->name && strcmp(name, p->name) != 0)
+        ++p;
+    return p;
 }

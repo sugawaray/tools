@@ -9,7 +9,7 @@
 #include "sh.h"
 #import <XCTest/XCTest.h>
 
-@interface ShTests : XCTestCase {
+@interface ShGenargvTests : XCTestCase {
 
     struct Wl *wl;
     char **argv;
@@ -18,7 +18,7 @@
     
 @end
 
-@implementation ShTests
+@implementation ShGenargvTests
 
 - (void)setUp {
     [super setUp];

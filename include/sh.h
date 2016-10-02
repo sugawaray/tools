@@ -27,6 +27,12 @@ int getsfromout(char *b, int bsz);
 void procin();
 int yyparse();
 
+struct Shcmd {
+    const char *name;
+    int (*f)(int, char **);
+};
+extern struct Shcmd shcmdtab[];
+const struct Shcmd *findcmd(const char *name);
 int genargv(struct Wl *first, struct Wl *end, char ***vp, int *cp);
 
 #endif /* sh_h */

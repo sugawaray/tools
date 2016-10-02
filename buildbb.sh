@@ -23,6 +23,8 @@ for a in ${ARCHS}; do
 	case "${arch}" in
 	armv7*) archmacro="__arm__";;
 	arm64*) archmacro="__arm64__";;
+	i386*) archmacro="__i386__";;
+	x86_64*) archmacro="__x86_64__";;
 	esac
 
 	export CFLAGS="${cflags} -arch ${arch} -D${archmacro}"

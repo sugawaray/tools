@@ -49,6 +49,7 @@ list    : simple {
                     ++i;
                     p = p->next;
                 } while (p != shwltail->next);
+                /*
                 p = shwltail->next;
                 shwltail->next = 0;
                 while (p) {
@@ -60,6 +61,7 @@ list    : simple {
                     }
                 }
                 shwltail = 0;
+                */
                 return 0;
             }
         | list simple

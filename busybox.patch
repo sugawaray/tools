@@ -109,9 +109,18 @@ index 3aedbbf..8e4f47b 100644
  always:= $(hostprogs-y)
  
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..449e88d 100644
+index c987d41..8e9e63f 100644
 --- a/include/platform.h
 +++ b/include/platform.h
+@@ -109,7 +109,7 @@
+  * on non-static, busybox internal functions. Recent versions of gcc
+  * optimize statics automatically. FAST_FUNC on static is required
+  * only if you need to match a function pointer's type */
+-#if __GNUC_PREREQ(3,0) && defined(i386) /* || defined(__x86_64__)? */
++#if __GNUC_PREREQ(3,0) && defined(i386) /* || defined(__x86_64__)? */ && !defined(IOS)
+ /* stdcall makes callee to pop arguments from stack, not caller */
+ # define FAST_FUNC __attribute__((regparm(3),stdcall))
+ /* #elif ... - add your favorite arch today! */
 @@ -501,6 +501,10 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif

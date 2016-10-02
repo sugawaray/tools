@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7602D8AD1DA0CE7E00193754 /* ShTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7602D8AC1DA0CE7E00193754 /* ShTests.m */; };
+		7602D8AD1DA0CE7E00193754 /* ShGenargvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7602D8AC1DA0CE7E00193754 /* ShGenargvTests.m */; };
+		7602D8AF1DA0F25900193754 /* ShFindcmdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7602D8AE1DA0F25900193754 /* ShFindcmdTests.m */; };
 		763CB7DF1D7BA84D00F5444B /* ls.c in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7DE1D7BA84D00F5444B /* ls.c */; };
 		763CB7E11D7BB8E700F5444B /* fwrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7E01D7BB8E700F5444B /* fwrap.m */; };
 		763CB7E31D81A5A200F5444B /* FileioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 763CB7E21D81A5A200F5444B /* FileioTests.m */; };
@@ -84,7 +85,8 @@
 		7602D8A61D9D3FB600193754 /* buildbb.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = buildbb.sh; sourceTree = "<group>"; };
 		7602D8A81D9FB36400193754 /* lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib.a; path = busybox/coreutils/lib.a; sourceTree = "<group>"; };
 		7602D8AA1D9FB37600193754 /* lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib.a; path = busybox/libbb/lib.a; sourceTree = "<group>"; };
-		7602D8AC1DA0CE7E00193754 /* ShTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShTests.m; sourceTree = "<group>"; };
+		7602D8AC1DA0CE7E00193754 /* ShGenargvTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShGenargvTests.m; sourceTree = "<group>"; };
+		7602D8AE1DA0F25900193754 /* ShFindcmdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShFindcmdTests.m; sourceTree = "<group>"; };
 		763CB7D21D7B9D1E00F5444B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		763CB7DA1D7BA16800F5444B /* cmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmd.h; path = include/cmd.h; sourceTree = "<group>"; };
 		763CB7DB1D7BA6A900F5444B /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = include/bridge.h; sourceTree = "<group>"; };
@@ -218,7 +220,8 @@
 				76EE479A1D85119100180540 /* ShioTests.m */,
 				76EE479D1D85403F00180540 /* DeviceTests.m */,
 				76520B371D8564350099FFE4 /* TermLastLineTests.swift */,
-				7602D8AC1DA0CE7E00193754 /* ShTests.m */,
+				7602D8AC1DA0CE7E00193754 /* ShGenargvTests.m */,
+				7602D8AE1DA0F25900193754 /* ShFindcmdTests.m */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76EE479E1D85403F00180540 /* DeviceTests.m in Sources */,
+				7602D8AF1DA0F25900193754 /* ShFindcmdTests.m in Sources */,
 				763CB7EC1D84261500F5444B /* shla.l in Sources */,
 				763CB7E91D8226A500F5444B /* fixt.c in Sources */,
 				76520B3B1D8564DA0099FFE4 /* Term.swift in Sources */,
@@ -418,7 +422,7 @@
 				76EE479B1D85119100180540 /* ShioTests.m in Sources */,
 				763CB7EF1D84317500F5444B /* shya.y in Sources */,
 				76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */,
-				7602D8AD1DA0CE7E00193754 /* ShTests.m in Sources */,
+				7602D8AD1DA0CE7E00193754 /* ShGenargvTests.m in Sources */,
 				76520B381D8564350099FFE4 /* TermLastLineTests.swift in Sources */,
 				763CB7E41D81A82400F5444B /* Sh.swift in Sources */,
 				763CB7E31D81A5A200F5444B /* FileioTests.m in Sources */,
