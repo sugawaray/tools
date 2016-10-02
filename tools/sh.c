@@ -155,3 +155,26 @@ procin()
         free(argv[i]);
     free(argv);
 }
+
+int
+genargv(struct Wl *p1, struct Wl *p2, char ***av, int *cp)
+{
+    int i, c;
+    struct Wl *p;
+    i = 0;
+    p = p1;
+    do {
+        ++i;
+        p = p->next;
+    } while (p != p2);
+    c = i;
+    if (cp)
+        *cp = c;
+    if (av) {
+        *av = malloc(sizeof(char*) * (c + 1));
+        for (i = 0, p = p1; i < c; p = p->next, ++i)
+            (*av)[i] = strdup(p->p);
+        (*av)[i] = 0;
+    }
+    return 0;
+}

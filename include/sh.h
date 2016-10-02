@@ -27,4 +27,6 @@ int getsfromout(char *b, int bsz);
 void procin();
 int yyparse();
 
+int genargv(struct Wl *first, struct Wl *end, char ***vp, int *cp);
+
 #endif /* sh_h */
