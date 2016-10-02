@@ -28,7 +28,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     func prout() {
         var b: Array<CChar> = Array<CChar>(repeating: 0, count: 512);
-        while mgets(&b, 512) != nil {
+        while getsfromout(&b, 512) == 0 {
             var s = String(cString: b);
             s = s.trimmingCharacters(
                 in: CharacterSet.newlines);

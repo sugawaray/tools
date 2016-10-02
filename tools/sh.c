@@ -44,8 +44,8 @@ initsh()
         fclose(tf);
     } else {
         origfin = stdin;
-        stdin = tf;
-        finout = uf;
+        stdin = uf;
+        finout = tf;
         e = 0;
     }
     if (e)
