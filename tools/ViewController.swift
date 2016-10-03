@@ -38,9 +38,10 @@ class ViewController: UIViewController, UITextViewDelegate {
         txtv.text.append("$ ")
     }
     
-    func onKbShow(_ a:Notification) {
-        if let f = ((a as NSNotification).userInfo![UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
-            let v = UIEdgeInsetsMake(0, 0, f.height, 0)
+    func onKbShow(_ a:NSNotification) {
+        let f = ((a as NSNotification).userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        if f != nil {
+            let v = UIEdgeInsetsMake(0, 0, f!.height, 0)
             txtv.contentInset = v
             txtv.scrollIndicatorInsets = v
             txtv.scrollRangeToVisible(txtv.selectedRange)
@@ -67,10 +68,10 @@ class ViewController: UIViewController, UITextViewDelegate {
                 DispatchQueue.main.async {
                     let s = getInst().ctl.status()
                     if (s.0 == 0) {
-                        print("command done")
+                        //print("command done")
                         self.prout()
                     } else {
-                        print("command failed")
+                        //print("command failed")
                     }
                 }
             }
