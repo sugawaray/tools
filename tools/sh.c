@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 
+extern int ls_main(int, char**);
 extern int true_main(int, char**);
 extern int seq_main(int, char **);
 
@@ -21,6 +22,7 @@ struct Wl *shwltail;
 struct Shcmd shcmdtab[] = {
     { "true", true_main },
     { "seq", seq_main },
+    { "ls", ls_main },
     { 0, 0 }
 };
 
@@ -223,8 +225,20 @@ findcmd(const char *name)
 void
 dbgput(const char *fmt, va_list ap)
 {
-    if (!origfout)
-        return;
-    vfprintf(origfout, fmt, ap);
-    fflush(origfout);
+    if (origfout) {
+        vfprintf(origfout, fmt, ap);
+        fflush(origfout);
+    } else {
+        vfprintf(stdout, fmt, ap);
+        fflush(stdout);
+    }
+}
+
+void
+dbgput2(const char *fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    dbgput(fmt, ap);
+    va_end(ap);
 }

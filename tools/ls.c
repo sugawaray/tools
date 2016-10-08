@@ -36,7 +36,7 @@ mclosedir(DIR *d)
 }
 
 int
-ls_main(int argc, char **argv)
+deprecated_ls_main(int argc, char **argv)
 {
     int r;
     DIR *d;

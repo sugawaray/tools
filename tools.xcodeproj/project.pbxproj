@@ -38,6 +38,9 @@
 		76DA167F1DA8BE2400DFA0FB /* Io.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DA167E1DA8BE2400DFA0FB /* Io.swift */; };
 		76DA16841DA8D2FC00DFA0FB /* time1.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16831DA8D2FC00DFA0FB /* time1.c */; };
 		76DA16851DA8D2FC00DFA0FB /* time1.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16831DA8D2FC00DFA0FB /* time1.c */; };
+		76DA16881DA8EFA500DFA0FB /* ibbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16871DA8EFA500DFA0FB /* ibbox.c */; };
+		76DA16891DA8EFA500DFA0FB /* ibbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16871DA8EFA500DFA0FB /* ibbox.c */; };
+		76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168A1DA8F21700DFA0FB /* PathconvTests.m */; };
 		76EE479B1D85119100180540 /* ShioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479A1D85119100180540 /* ShioTests.m */; };
 		76EE479E1D85403F00180540 /* DeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479D1D85403F00180540 /* DeviceTests.m */; };
 /* End PBXBuildFile section */
@@ -125,6 +128,10 @@
 		76DA167E1DA8BE2400DFA0FB /* Io.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Io.swift; sourceTree = "<group>"; };
 		76DA16821DA8CF3F00DFA0FB /* time1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = time1.h; path = include/time1.h; sourceTree = "<group>"; };
 		76DA16831DA8D2FC00DFA0FB /* time1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = time1.c; sourceTree = "<group>"; };
+		76DA16861DA8EF7400DFA0FB /* ibbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ibbox.h; path = include/ibbox.h; sourceTree = "<group>"; };
+		76DA16871DA8EFA500DFA0FB /* ibbox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ibbox.c; sourceTree = "<group>"; };
+		76DA168A1DA8F21700DFA0FB /* PathconvTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathconvTests.m; sourceTree = "<group>"; };
+		76DA168C1DA8F44900DFA0FB /* path.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = path.h; path = include/path.h; sourceTree = "<group>"; };
 		76EE479A1D85119100180540 /* ShioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShioTests.m; sourceTree = "<group>"; };
 		76EE479C1D85135600180540 /* sh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sh.h; path = include/sh.h; sourceTree = "<group>"; };
 		76EE479D1D85403F00180540 /* DeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTests.m; sourceTree = "<group>"; };
@@ -167,6 +174,8 @@
 		765431681D2A8A830029856C = {
 			isa = PBXGroup;
 			children = (
+				76DA168C1DA8F44900DFA0FB /* path.h */,
+				76DA16861DA8EF7400DFA0FB /* ibbox.h */,
 				76DA16821DA8CF3F00DFA0FB /* time1.h */,
 				7602D8A61D9D3FB600193754 /* buildbb.sh */,
 				76EE479C1D85135600180540 /* sh.h */,
@@ -213,6 +222,7 @@
 				76520B391D8564DA0099FFE4 /* Term.swift */,
 				76DA167E1DA8BE2400DFA0FB /* Io.swift */,
 				76DA16831DA8D2FC00DFA0FB /* time1.c */,
+				76DA16871DA8EFA500DFA0FB /* ibbox.c */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -231,6 +241,7 @@
 				76520B371D8564350099FFE4 /* TermLastLineTests.swift */,
 				7602D8AC1DA0CE7E00193754 /* ShGenargvTests.m */,
 				7602D8AE1DA0F25900193754 /* ShFindcmdTests.m */,
+				76DA168A1DA8F21700DFA0FB /* PathconvTests.m */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -410,6 +421,7 @@
 				76520B341D855ABC0099FFE4 /* fs.c in Sources */,
 				76520B3A1D8564DA0099FFE4 /* Term.swift in Sources */,
 				765431771D2A8A840029856C /* ViewController.swift in Sources */,
+				76DA16881DA8EFA500DFA0FB /* ibbox.c in Sources */,
 				76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */,
 				7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */,
 				765431751D2A8A840029856C /* AppDelegate.swift in Sources */,
@@ -425,6 +437,7 @@
 				76EE479E1D85403F00180540 /* DeviceTests.m in Sources */,
 				7602D8AF1DA0F25900193754 /* ShFindcmdTests.m in Sources */,
 				763CB7EC1D84261500F5444B /* shla.l in Sources */,
+				76DA16891DA8EFA500DFA0FB /* ibbox.c in Sources */,
 				763CB7E91D8226A500F5444B /* fixt.c in Sources */,
 				76520B3B1D8564DA0099FFE4 /* Term.swift in Sources */,
 				763CB7E61D82260800F5444B /* ParserTests.m in Sources */,
@@ -433,6 +446,7 @@
 				76DA16851DA8D2FC00DFA0FB /* time1.c in Sources */,
 				76EE479B1D85119100180540 /* ShioTests.m in Sources */,
 				763CB7EF1D84317500F5444B /* shya.y in Sources */,
+				76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */,
 				76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */,
 				7602D8AD1DA0CE7E00193754 /* ShGenargvTests.m in Sources */,
 				76520B381D8564350099FFE4 /* TermLastLineTests.swift in Sources */,
@@ -581,6 +595,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
 				INFOPLIST_FILE = tools/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -601,6 +616,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -612,6 +628,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
 				INFOPLIST_FILE = tools/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -631,6 +648,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/include/bridge.h";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
@@ -639,6 +657,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
 				INFOPLIST_FILE = toolsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -652,6 +671,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tools.app/tools";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
 			};
 			name = Debug;
 		};
@@ -660,6 +680,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
 				INFOPLIST_FILE = toolsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -672,6 +693,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/include/bridge.h";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tools.app/tools";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
 			};
 			name = Release;
 		};

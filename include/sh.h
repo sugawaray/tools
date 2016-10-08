@@ -37,5 +37,6 @@ extern struct Shcmd shcmdtab[];
 const struct Shcmd *findcmd(const char *name);
 int genargv(struct Wl *first, struct Wl *end, char ***vp, int *cp);
 void dbgput(const char *fmt, va_list);
+void dbgput2(const char *fmt, ...);
 
 #endif /* sh_h */

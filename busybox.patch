@@ -108,8 +108,21 @@ index 3aedbbf..8e4f47b 100644
  
  always:= $(hostprogs-y)
  
+diff --git a/include/libbb.h b/include/libbb.h
+index 3752df9..90c6399 100644
+--- a/include/libbb.h
++++ b/include/libbb.h
+@@ -2147,4 +2147,8 @@ void bbunit_settestfailed(void);
+ 
+ POP_SAVED_FUNCTION_VISIBILITY
+ 
++#ifdef IOS
++void setplatform(const struct Platform *newval);
++#endif
++
+ #endif
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..8e9e63f 100644
+index c987d41..9045b60 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -109,7 +109,7 @@
@@ -121,12 +134,28 @@ index c987d41..8e9e63f 100644
  /* stdcall makes callee to pop arguments from stack, not caller */
  # define FAST_FUNC __attribute__((regparm(3),stdcall))
  /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,10 @@ typedef unsigned smalluint;
+@@ -501,6 +501,26 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
 +#if defined(IOS)
++# undef ALIGNED
++# define ALIGNED(m)	
 +# undef HAVE_MEMPCPY
++#include <dirent.h>
++#include <sys/stat.h>
++struct Platform {
++	DIR *(*opendir)(const char *);
++	int (*lstat)(const char *, struct stat *);
++	int (*stat)(const char *, struct stat *);
++};
++extern struct Platform platform;
++# undef opendir
++# define opendir(p)	(platform.opendir((p)))
++# undef lstat
++# define lstat(p, b)	(platform.lstat((p), (b)))
++# undef stat
++# define stat(p, b)	(platform.stat((p), (b)))
 +#endif
 +
  /*
@@ -180,6 +209,23 @@ index 52a90e9..5ff8395 100644
  lib-y += xfuncs.o
  lib-y += xfuncs_printf.o
  lib-y += xfunc_die.o
+diff --git a/libbb/platform.c b/libbb/platform.c
+index 03bbb79..b8a35cb 100644
+--- a/libbb/platform.c
++++ b/libbb/platform.c
+@@ -213,3 +213,12 @@ int ttyname_r(int fd, char *buf, size_t buflen)
+ 	return 0;
+ }
+ #endif
++
++#ifdef IOS
++struct Platform platform;
++
++void setplatform(const struct Platform *newval)
++{
++	memcpy(&platform, newval, sizeof platform);
++}
++#endif
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
 index 5eac45f..b479173 100644
 --- a/scripts/Makefile.build

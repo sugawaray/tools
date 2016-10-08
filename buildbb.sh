@@ -27,7 +27,7 @@ for a in ${ARCHS}; do
 	x86_64*) archmacro="__x86_64__";;
 	esac
 
-	export CFLAGS="${cflags} -arch ${arch} -D${archmacro}"
+	export CFLAGS="${cflags} -arch ${arch} -D${archmacro} -fno-common"
 	export LDFLAGS="-arch ${arch}"
 	export objdest="${OBJECT_FILE_DIR}/${arch}"
 

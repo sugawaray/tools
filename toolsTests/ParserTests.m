@@ -29,7 +29,7 @@
 }
 
 - (void)test {
-    putsonin("ls .\n");
+    putsonin("seq 1 10\n");
     procin();
 }
 

@@ -13,6 +13,9 @@ class Sh {
         if cmdinit() != 0 {
             print("cmdinit failed");
         }
+        if initbusybox() != 0 {
+            print("initbb failed");
+        }
         if initsh() != 0 {
             print("initsh failed");
         }

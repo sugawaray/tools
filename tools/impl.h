@@ -9,6 +9,7 @@
 #ifndef impl_h
 #define impl_h
 
+#include <path.h>
 #include <CoreFoundation/CoreFoundation.h>
 
 CFURLRef getdocdir();
