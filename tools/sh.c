@@ -219,3 +219,12 @@ findcmd(const char *name)
         ++p;
     return p;
 }
+
+void
+dbgput(const char *fmt, va_list ap)
+{
+    if (!origfout)
+        return;
+    vfprintf(origfout, fmt, ap);
+    fflush(origfout);
+}

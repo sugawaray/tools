@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Darwin;
 
 class ViewController: UIViewController, UITextViewDelegate {
    
@@ -28,7 +29,19 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     func prout() {
         var b: Array<CChar> = Array<CChar>(repeating: 0, count: 512);
+#if true
+        var ts0 = timespec()
+        var ts1 = timespec()
+        clock_gettime(_CLOCK_REALTIME, &ts0)
+#endif
+        
         while getsfromout(&b, 512) == 0 {
+#if true
+            clock_gettime(_CLOCK_REALTIME, &ts1)
+            let etime = difftimesec(&ts1, &ts0)
+            Dbgout1("DBG:elapsed time:getsfromout: %.7lf\n", [etime])
+            ts0 = ts1;
+#endif
             var s = String(cString: b);
             s = s.trimmingCharacters(
                 in: CharacterSet.newlines);
@@ -64,12 +77,15 @@ class ViewController: UIViewController, UITextViewDelegate {
             getInst().ctl.procc(cmd)
             
             DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+                Dbgout1("DBG:proc pre\n", [])
                 getInst().ctl.proc()
+                Dbgout1("DBG:proc post\n", [])
                 DispatchQueue.main.async {
                     let s = getInst().ctl.status()
                     if (s.0 == 0) {
-                        //print("command done")
+                        Dbgout1("DBG:prout pre\n", [])
                         self.prout()
+                        Dbgout1("DBG:prout post\n", [])
                     } else {
                         //print("command failed")
                     }

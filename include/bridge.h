@@ -11,5 +11,6 @@
 
 #include <cmd.h>
 #include <sh.h>
+#include <time1.h>
 
 #endif /* bridge_h */

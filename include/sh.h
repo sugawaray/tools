@@ -9,6 +9,8 @@
 #ifndef sh_h
 #define sh_h
 
+#include <stdarg.h>
+
 struct Wl;
 struct Wl {
     char *p;
@@ -34,5 +36,6 @@ struct Shcmd {
 extern struct Shcmd shcmdtab[];
 const struct Shcmd *findcmd(const char *name);
 int genargv(struct Wl *first, struct Wl *end, char ***vp, int *cp);
+void dbgput(const char *fmt, va_list);
 
 #endif /* sh_h */
