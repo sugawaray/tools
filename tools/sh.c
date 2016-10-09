@@ -30,6 +30,7 @@ struct Shcmd shcmdtab[] = {
 
 struct Iofile {
     int origfd;
+    FILE *fporig;
     int fdalt;
     FILE *fpalt;
     FILE **fp;
@@ -40,8 +41,15 @@ struct Iofile {
 
 static FILE *origfin;
 static FILE *finout;
-static FILE *origfout;
-static FILE *foutin;
+static struct Iofile iofout = {
+    .origfd = -1,
+    .fdalt  = -1,
+    .fpalt  = 0,
+    .fp = 0,
+    .name   = "/fout",
+    .fd = STDOUT_FILENO,
+    .flg    = "wb"
+};
 static struct Iofile ioferr = {
     .origfd = -1,
     .fdalt  = -1,
@@ -58,8 +66,6 @@ cleanio(struct Iofile *o)
 {
     if (o->fpalt) {
         fclose(o->fpalt);
-        o->fpalt = 0;
-        o->fdalt = -1;
     }
     if (o->origfd != -1) {
         if (*o->fp)
@@ -67,13 +73,16 @@ cleanio(struct Iofile *o)
         *o->fp = 0;
         if (dup2(o->origfd, o->fd) != -1)
             *o->fp = fdopen(o->fd, o->flg);
-        close(o->origfd);
-        o->origfd = -1;
+        if (o->fporig)
+            fclose(o->fporig);
+        else
+            close(o->origfd);
     }
     o->fpalt = 0;
     o->fdalt = -1;
     o->fp = 0;
     o->origfd = -1;
+    o->fporig = 0;
 }
 
 static int
@@ -83,20 +92,27 @@ initio(struct Iofile *o, FILE **fp)
     if (genpath(buf, sizeof buf, o->name) != 0)
         return -1;
     o->fp = fp;
-    o->origfd = dup(STDERR_FILENO);
+    o->origfd = dup(o->fd);
     if (o->origfd == -1)
         return -1;
+    o->fporig = fdopen(o->origfd, o->flg);
+    if (!o->fporig) {
+        cleanio(o);
+        return -1;
+    }
     fclose(*fp);
     oflags = O_WRONLY | O_CREAT | O_TRUNC | O_NONBLOCK;
     if (openat(o->fd, buf, oflags, S_IRWXU) == -1) {
         cleanio(o);
         return -1;
     }
-    *o->fp = fdopen(STDERR_FILENO, "wb");
+    ftruncate(o->fd, 0);
+    *o->fp = fdopen(o->fd, "wb");
     if (!(*fp)) {
         cleanio(o);
         return -1;
     }
+    fseek(*o->fp, 0, SEEK_END);
     o->fdalt = open(buf, O_RDONLY | O_NONBLOCK);
     if (o->fdalt == -1) {
         cleanio(o);
@@ -137,23 +153,7 @@ initsh()
         finout = tf;
         e = 0;
     }
-    if (e)
-        return -1;
-    e = 1;
-    if (genpath(buf, sizeof buf, "/fout") != 0)
-        ;
-    else if ((tf = fopen(buf, "w+b")) == NULL)
-        perror("initsh:output file(out)");
-    else if ((uf = fopen(buf, "r+b")) == NULL) {
-        perror("initsh:output file(in)");
-        fclose(tf);
-    } else {
-        origfout = stdout;
-        stdout = tf;
-        foutin = uf;
-        e = 0;
-    }
-    if (e) {
+    if (initio(&iofout, &stdout) == -1) {
         cleanupsh();
         return -1;
     }
@@ -176,15 +176,7 @@ cleanupsh()
             fclose(stdin);
         stdin = origfin;
     }
-    if (foutin) {
-        fclose(foutin);
-        foutin = 0;
-    }
-    if (origfout) {
-        if (stdout)
-            fclose(stdout);
-        stdout = origfout;
-    }
+    cleanio(&iofout);
     cleanio(&ioferr);
 }
 
@@ -220,8 +212,8 @@ putsonout(const char *s)
 int
 getsfromout(char *b, int bsz)
 {
-    clearerr(foutin);
-    if (fgets(b, bsz, foutin))
+    clearerr(iofout.fpalt);
+    if (fgets(b, bsz, iofout.fpalt))
         return 0;
     else
         return -1;
@@ -341,9 +333,9 @@ findcmd(const char *name)
 void
 dbgput(const char *fmt, va_list ap)
 {
-    if (origfout) {
-        vfprintf(origfout, fmt, ap);
-        fflush(origfout);
+    if (iofout.fporig) {
+        vfprintf(iofout.fporig, fmt, ap);
+        fflush(iofout.fporig);
     } else {
         vfprintf(stdout, fmt, ap);
         fflush(stdout);
