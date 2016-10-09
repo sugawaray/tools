@@ -6,6 +6,7 @@
 //  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
+#include <ibbox.h>
 #include "sh.h"
 #include "decl.h"
 #import <XCTest/XCTest.h>
@@ -19,6 +20,7 @@
 
 - (void)setUp {
     [super setUp];
+    initbusybox();
     initsh();
 }
 
@@ -33,5 +35,9 @@
     procin();
 }
 
+- (void)testCalleeChangesArgv {
+    putsonin("ls\n");
+    procin();
+}
 
 @end

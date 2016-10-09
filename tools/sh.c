@@ -166,9 +166,10 @@ void
 procin()
 {
     int argc;
-    char **argv;
+    char **argv, **bkargv;
     const struct Shcmd *cmd;
     int i, r;
+    size_t asz;
     
     clearerr(stdin);
     yyparse();
@@ -176,7 +177,12 @@ procin()
     if (!shwltail)
         return;
     r = genargv(shwltail->next, shwltail->next, &argv, &argc);
+    bkargv = 0;
     if (r == 0 && argc > 0) {
+        asz = sizeof(char*) * argc;
+        bkargv = malloc(asz);
+        if (bkargv)
+            memcpy(bkargv, argv, asz);
         cmd = findcmd(argv[0]);
         if (cmd) {
             clearerr(stdout);
@@ -185,9 +191,11 @@ procin()
         }
     }
     if (r == 0 && argv) {
-        for (i = 0; i < argc; ++i)
-            free(argv[i]);
+        if (bkargv)
+            for (i = 0; i < argc; ++i)
+                free(bkargv[i]);
         free(argv);
+        free(bkargv);
     }
     freeshwl();
 }
