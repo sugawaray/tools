@@ -35,7 +35,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         clock_gettime(_CLOCK_REALTIME, &ts0)
 #endif
         
-        while getsfromout(&b, 512) == 0 {
+        while ((getsfromout(&b, 512) == 0) || (getsfromerr(&b, 512) == 0)) {
 #if true
             clock_gettime(_CLOCK_REALTIME, &ts1)
             let etime = difftimesec(&ts1, &ts0)

@@ -26,6 +26,8 @@ int putsonin(const char *s);
 int getsfromin(char *b, int bsz);
 int putsonout(const char *s);
 int getsfromout(char *b, int bsz);
+int putsonerr(const char *s);
+int getsfromerr(char *b, int bsz);
 void procin();
 int yyparse();
 

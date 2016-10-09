@@ -32,6 +32,9 @@ static FILE *origfin;
 static FILE *finout;
 static FILE *origfout;
 static FILE *foutin;
+static int origfderr = -1;
+static int fderrin = -1;
+static FILE *ferrin;
 static char buf[512];
 
 int
@@ -79,8 +82,20 @@ initsh()
     if (e) {
         cleanupsh();
         return -1;
-    } else
-        return 0;
+    }
+    if ((origfderr = dup(STDERR_FILENO)) != -1) {
+        fclose(stderr);
+        if (genpath(buf, sizeof buf, "/ferr") == 0) {
+            if (openat(STDERR_FILENO, buf, O_WRONLY | O_CREAT | O_TRUNC | O_NONBLOCK, S_IRWXU) != -1) {
+                stderr = fdopen(STDERR_FILENO, "wb");
+                fderrin = open(buf, O_RDONLY | O_NONBLOCK);
+                ferrin = fdopen(fderrin, "rb");
+                return 0;
+            }
+        }
+    }
+    cleanupsh();
+    return -1;
 }
 
 void
@@ -103,6 +118,18 @@ cleanupsh()
         if (stdout)
             fclose(stdout);
         stdout = origfout;
+    }
+    if (ferrin) {
+        fclose(ferrin);
+        fderrin = -1;
+        ferrin = 0;
+    }
+    if (origfderr != -1) {
+        if (stderr)
+            fclose(stderr);
+        if (dup2(origfderr, STDERR_FILENO) != -1)
+            stderr = fdopen(STDERR_FILENO, "wb");
+        origfderr = -1;
     }
 }
 
@@ -140,6 +167,26 @@ getsfromout(char *b, int bsz)
 {
     clearerr(foutin);
     if (fgets(b, bsz, foutin))
+        return 0;
+    else
+        return -1;
+}
+
+int
+putsonerr(const char *s)
+{
+    if (fputs(s, stderr)) {
+        fflush(stderr);
+        return 0;
+    } else
+        return -1;
+}
+
+int
+getsfromerr(char *b, int bsz)
+{
+    clearerr(ferrin);
+    if (fgets(b, bsz, ferrin))
         return 0;
     else
         return -1;
@@ -187,9 +234,11 @@ procin()
         cmd = findcmd(argv[0]);
         if (cmd) {
             clearerr(stdout);
+            clearerr(stderr);
             applet_name = argv[0];
             cmd->f(argc, argv);
             fflush(stdout);
+            fflush(stderr);
         }
     }
     if (r == 0 && argv) {
