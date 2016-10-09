@@ -8,7 +8,6 @@ LIT [\n]
 
 %%
 {WORD}  {
-            printf("[%s]\n", yytext);
             strcpy(yylval.s, yytext);
             return WORD;
         }
