@@ -16,6 +16,12 @@
 
 %%
 
+blank   : ' '
+        | '\t'
+        | ' ' blank
+        | '\t' blank
+        ;
+
 word : WORD {
                 if (shwltail == 0) {
                     shwltail = malloc(sizeof *shwltail);
@@ -33,37 +39,13 @@ word : WORD {
         ;
 
 simple  : '\n'
+        | blank simple
         | word simple
         ;
 
 list    : simple {
-                int i;
-                struct Wl *p, *q;
-
                 if (!shwltail)
                     return 0;
-                /*
-                i = 0;
-                p = shwltail->next;
-                do {
-                    printf("[%d: %s]\n", i, p->p);
-                    ++i;
-                    p = p->next;
-                } while (p != shwltail->next);
-                */
-                /*
-                p = shwltail->next;
-                shwltail->next = 0;
-                while (p) {
-                    q = p;
-                    p = p->next;
-                    if (q) {
-                        free(q->p);
-                        free(q);
-                    }
-                }
-                shwltail = 0;
-                */
                 return 0;
             }
         | list simple
