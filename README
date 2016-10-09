@@ -31,3 +31,15 @@ On the host shell
 
 Then on the xcode
 	build
+
+IMPLEMENTED COMMANDS
+====================
+
+Currently following commands are implemented.
+(are imported from the busybox implementation.)
+
+* seq n1 n2
+* ls path
+* mkdir path
+
+Only the most basic calls are tested.
