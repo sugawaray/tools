@@ -39,8 +39,15 @@ struct Iofile {
     const char *flg;
 };
 
-static FILE *origfin;
-static FILE *finout;
+static struct Iofile iofin = {
+    .origfd = -1,
+    .fdalt  = -1,
+    .fpalt  = 0,
+    .fp = 0,
+    .name   = "/fin",
+    .fd = STDIN_FILENO,
+    .flg    = "rb"
+};
 static struct Iofile iofout = {
     .origfd = -1,
     .fdalt  = -1,
@@ -89,6 +96,8 @@ static int
 initio(struct Iofile *o, FILE **fp)
 {
     int oflags;
+    int tmpfd;
+    
     if (genpath(buf, sizeof buf, o->name) != 0)
         return -1;
     o->fp = fp;
@@ -101,24 +110,37 @@ initio(struct Iofile *o, FILE **fp)
         return -1;
     }
     fclose(*fp);
-    oflags = O_WRONLY | O_CREAT | O_TRUNC | O_NONBLOCK;
-    if (openat(o->fd, buf, oflags, S_IRWXU) == -1) {
+    if (o->flg[0] == 'w')
+        oflags = O_WRONLY;
+    else
+        oflags = O_RDONLY;
+    oflags |= O_CREAT | O_TRUNC | O_NONBLOCK;
+    if ((tmpfd = open(buf, oflags, S_IRWXU)) == -1) {
         cleanio(o);
         return -1;
     }
-    ftruncate(o->fd, 0);
-    *o->fp = fdopen(o->fd, "wb");
-    if (!(*fp)) {
+    if (dup2(tmpfd, o->fd) == -1) {
+        close(tmpfd);
+        cleanio(o);
+        return -1;
+    }
+    *o->fp = fdopen(o->fd, o->flg);
+    if (!(*o->fp)) {
         cleanio(o);
         return -1;
     }
     fseek(*o->fp, 0, SEEK_END);
-    o->fdalt = open(buf, O_RDONLY | O_NONBLOCK);
+    if (o->flg[0] == 'w')
+        oflags = O_RDONLY;
+    else
+        oflags = O_WRONLY;
+    oflags |= O_NONBLOCK;
+    o->fdalt = open(buf, oflags);
     if (o->fdalt == -1) {
         cleanio(o);
         return -1;
     }
-    o->fpalt = fdopen(o->fdalt, "rb");
+    o->fpalt = fdopen(o->fdalt, o->flg[0] == 'w' ? "rb" : "wb");
     if (!o->fpalt) {
         cleanio(o);
         return -1;
@@ -130,28 +152,14 @@ initio(struct Iofile *o, FILE **fp)
 int
 initsh()
 {
-    int e;
-    FILE *tf, *uf;
-
     if (prepsupdir() != 0) {
         fputs("failed to prepare the Application Support Directory.\n",
               stderr);
         return -1;
     }
-    e = 1;
-    errno = 0;
-    if (genpath(buf, sizeof buf, "/fin") != 0)
-        ;
-    else if ((tf = fopen(buf, "w+b")) == NULL)
-        perror("initsh:input file(out)");
-    else if ((uf = fopen(buf, "r+b")) == NULL) {
-        perror("initsh:input file(in)");
-        fclose(tf);
-    } else {
-        origfin = stdin;
-        stdin = uf;
-        finout = tf;
-        e = 0;
+    if (initio(&iofin, &stdin) == -1) {
+        cleanupsh();
+        return -1;
     }
     if (initio(&iofout, &stdout) == -1) {
         cleanupsh();
@@ -160,22 +168,14 @@ initsh()
     if (initio(&ioferr, &stderr) == -1) {
         cleanupsh();
         return -1;
-    } else
-        return 0;
+    }
+    return 0;
 }
 
 void
 cleanupsh()
 {
-    if (finout) {
-        fclose(finout);
-        finout = 0;
-    }
-    if (origfin) {
-        if (stdin)
-            fclose(stdin);
-        stdin = origfin;
-    }
+    cleanio(&iofin);
     cleanio(&iofout);
     cleanio(&ioferr);
 }
@@ -183,8 +183,8 @@ cleanupsh()
 int
 putsonin(const char *s)
 {
-    if (fputs(s, finout)) {
-        fflush(finout);
+    if (fputs(s, iofin.fpalt)) {
+        fflush(iofin.fpalt);
         return 0;
     } else
         return -1;
