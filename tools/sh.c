@@ -28,14 +28,88 @@ struct Shcmd shcmdtab[] = {
     { 0, 0 }
 };
 
+struct Iofile {
+    int origfd;
+    int fdalt;
+    FILE *fpalt;
+    FILE **fp;
+    const char *name;
+    int fd;
+    const char *flg;
+};
+
 static FILE *origfin;
 static FILE *finout;
 static FILE *origfout;
 static FILE *foutin;
-static int origfderr = -1;
-static int fderrin = -1;
-static FILE *ferrin;
+static struct Iofile ioferr = {
+    .origfd = -1,
+    .fdalt  = -1,
+    .fpalt  = 0,
+    .fp = 0,
+    .name   = "/ferr",
+    .fd = STDERR_FILENO,
+    .flg    = "wb"
+};
 static char buf[512];
+
+static void
+cleanio(struct Iofile *o)
+{
+    if (o->fpalt) {
+        fclose(o->fpalt);
+        o->fpalt = 0;
+        o->fdalt = -1;
+    }
+    if (o->origfd != -1) {
+        if (*o->fp)
+            fclose(*o->fp);
+        *o->fp = 0;
+        if (dup2(o->origfd, o->fd) != -1)
+            *o->fp = fdopen(o->fd, o->flg);
+        close(o->origfd);
+        o->origfd = -1;
+    }
+    o->fpalt = 0;
+    o->fdalt = -1;
+    o->fp = 0;
+    o->origfd = -1;
+}
+
+static int
+initio(struct Iofile *o, FILE **fp)
+{
+    int oflags;
+    if (genpath(buf, sizeof buf, o->name) != 0)
+        return -1;
+    o->fp = fp;
+    o->origfd = dup(STDERR_FILENO);
+    if (o->origfd == -1)
+        return -1;
+    fclose(*fp);
+    oflags = O_WRONLY | O_CREAT | O_TRUNC | O_NONBLOCK;
+    if (openat(o->fd, buf, oflags, S_IRWXU) == -1) {
+        cleanio(o);
+        return -1;
+    }
+    *o->fp = fdopen(STDERR_FILENO, "wb");
+    if (!(*fp)) {
+        cleanio(o);
+        return -1;
+    }
+    o->fdalt = open(buf, O_RDONLY | O_NONBLOCK);
+    if (o->fdalt == -1) {
+        cleanio(o);
+        return -1;
+    }
+    o->fpalt = fdopen(o->fdalt, "rb");
+    if (!o->fpalt) {
+        cleanio(o);
+        return -1;
+    }
+    fseek(o->fpalt, 0, SEEK_END);
+    return 0;
+}
 
 int
 initsh()
@@ -83,19 +157,11 @@ initsh()
         cleanupsh();
         return -1;
     }
-    if ((origfderr = dup(STDERR_FILENO)) != -1) {
-        fclose(stderr);
-        if (genpath(buf, sizeof buf, "/ferr") == 0) {
-            if (openat(STDERR_FILENO, buf, O_WRONLY | O_CREAT | O_TRUNC | O_NONBLOCK, S_IRWXU) != -1) {
-                stderr = fdopen(STDERR_FILENO, "wb");
-                fderrin = open(buf, O_RDONLY | O_NONBLOCK);
-                ferrin = fdopen(fderrin, "rb");
-                return 0;
-            }
-        }
-    }
-    cleanupsh();
-    return -1;
+    if (initio(&ioferr, &stderr) == -1) {
+        cleanupsh();
+        return -1;
+    } else
+        return 0;
 }
 
 void
@@ -119,18 +185,7 @@ cleanupsh()
             fclose(stdout);
         stdout = origfout;
     }
-    if (ferrin) {
-        fclose(ferrin);
-        fderrin = -1;
-        ferrin = 0;
-    }
-    if (origfderr != -1) {
-        if (stderr)
-            fclose(stderr);
-        if (dup2(origfderr, STDERR_FILENO) != -1)
-            stderr = fdopen(STDERR_FILENO, "wb");
-        origfderr = -1;
-    }
+    cleanio(&ioferr);
 }
 
 int
@@ -185,8 +240,8 @@ putsonerr(const char *s)
 int
 getsfromerr(char *b, int bsz)
 {
-    clearerr(ferrin);
-    if (fgets(b, bsz, ferrin))
+    clearerr(ioferr.fpalt);
+    if (fgets(b, bsz, ioferr.fpalt))
         return 0;
     else
         return -1;
