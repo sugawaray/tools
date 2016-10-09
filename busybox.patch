@@ -122,7 +122,7 @@ index 3752df9..90c6399 100644
 +
  #endif
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..9045b60 100644
+index c987d41..87e8831 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -109,7 +109,7 @@
@@ -134,13 +134,11 @@ index c987d41..9045b60 100644
  /* stdcall makes callee to pop arguments from stack, not caller */
  # define FAST_FUNC __attribute__((regparm(3),stdcall))
  /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,26 @@ typedef unsigned smalluint;
+@@ -501,6 +501,24 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
 +#if defined(IOS)
-+# undef ALIGNED
-+# define ALIGNED(m)	
 +# undef HAVE_MEMPCPY
 +#include <dirent.h>
 +#include <sys/stat.h>
