@@ -170,6 +170,7 @@ procin()
     const struct Shcmd *cmd;
     int i, r;
     size_t asz;
+    extern const char *applet_name;
     
     clearerr(stdin);
     yyparse();
@@ -186,6 +187,7 @@ procin()
         cmd = findcmd(argv[0]);
         if (cmd) {
             clearerr(stdout);
+            applet_name = argv[0];
             cmd->f(argc, argv);
             fflush(stdout);
         }
