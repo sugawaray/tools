@@ -15,6 +15,7 @@
 #include <string.h>
 
 extern int ls_main(int, char**);
+extern int mkdir_main(int, char**);
 extern int true_main(int, char**);
 extern int seq_main(int, char **);
 
@@ -23,6 +24,7 @@ struct Shcmd shcmdtab[] = {
     { "true", true_main },
     { "seq", seq_main },
     { "ls", ls_main },
+    { "mkdir", mkdir_main },
     { 0, 0 }
 };
 

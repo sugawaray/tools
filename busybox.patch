@@ -122,7 +122,7 @@ index 3752df9..90c6399 100644
 +
  #endif
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..87e8831 100644
+index c987d41..a2d07ed 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -109,7 +109,7 @@
@@ -134,7 +134,7 @@ index c987d41..87e8831 100644
  /* stdcall makes callee to pop arguments from stack, not caller */
  # define FAST_FUNC __attribute__((regparm(3),stdcall))
  /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,24 @@ typedef unsigned smalluint;
+@@ -501,6 +501,30 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
@@ -146,6 +146,8 @@ index c987d41..87e8831 100644
 +	DIR *(*opendir)(const char *);
 +	int (*lstat)(const char *, struct stat *);
 +	int (*stat)(const char *, struct stat *);
++	int (*chmod)(const char *, mode_t);
++	int (*mkdir)(const char *, mode_t);
 +};
 +extern struct Platform platform;
 +# undef opendir
@@ -154,6 +156,10 @@ index c987d41..87e8831 100644
 +# define lstat(p, b)	(platform.lstat((p), (b)))
 +# undef stat
 +# define stat(p, b)	(platform.stat((p), (b)))
++# undef chmod
++# define chmod(p, m)	(platform.chmod((p), (m)))
++# undef mkdir
++# define mkdir(p, m)	(platform.mkdir((p), (m)))
 +#endif
 +
  /*
