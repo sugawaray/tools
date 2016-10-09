@@ -31,41 +31,25 @@ ios_opendir(const char *path)
         return 0;
 }
 
-int
-ios_lstat(const char *path, struct stat *b)
-{
-    if (convpath(path, pathbuf, sizeof pathbuf) == 0)
-        return lstat(pathbuf, b);
-    else
-        return -1;
-}
+#undef CATS
+#define CATS(s1, s2) s1##s2
 
-int
-ios_stat(const char *path, struct stat *b)
-{
-    if (convpath(path, pathbuf, sizeof pathbuf) == 0)
-        return stat(pathbuf, b);
-    else
-        return -1;
-}
+#undef DEFA2
+#define DEFA2(name, rtype, a2type, errval)   \
+rtype \
+CATS(ios_, name)(const char *path, a2type a2) \
+{ \
+    if (convpath(path, pathbuf, sizeof pathbuf) == 0) \
+        return name(pathbuf, a2); \
+    else \
+        return errval; \
+} \
+/**/
 
-int
-ios_chmod(const char *path, mode_t m)
-{
-    if (convpath(path, pathbuf, sizeof pathbuf) == 0)
-        return chmod(pathbuf, m);
-    else
-        return -1;
-}
-
-int
-ios_mkdir(const char *path, mode_t m)
-{
-    if (convpath(path, pathbuf, sizeof pathbuf) == 0)
-        return mkdir(pathbuf, m);
-    else
-        return -1;
-}
+DEFA2(lstat, int, struct stat *, -1)
+DEFA2(stat, int, struct stat *, -1)
+DEFA2(chmod, int, mode_t, -1)
+DEFA2(mkdir, int, mode_t, -1)
 
 int
 initbusybox()
