@@ -6,8 +6,8 @@
 //  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 //
 
-#include "sh.h"
 #include "impl.h"
+#include <sh.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -69,7 +69,6 @@ static struct Iofile ioferr = {
     .flg    = "wb"
 };
 static char buf[512];
-static char rootpath[512];
 
 static void
 cleanio(struct Iofile *o)
@@ -152,27 +151,6 @@ initio(struct Iofile *o, FILE **fp)
     return 0;
 }
 
-static int
-init1()
-{
-    size_t l;
-    if (convpath("/", buf, sizeof buf) != 0)
-        return -1;
-    l = strlen(buf);
-    if (buf[l - 1] == '/')
-        buf[l - 1] = '\0';
-    if (chdir(buf) != 0)
-        return -1;
-    if (getcwd(rootpath, sizeof rootpath - 1) == 0)
-        return -1;
-    l = strlen(rootpath);
-    if (rootpath[l - 1] != '/') {
-        rootpath[l] = '/';
-        rootpath[l + 1] = '\0';
-    }
-    return 0;
-}
-
 int
 initsh()
 {
@@ -201,7 +179,7 @@ initsh()
         cleanupsh();
         return -1;
     }
-    if (init1() != 0) {
+    if (initfs() != 0) {
         cleanupsh();
         return -1;
     }
@@ -318,7 +296,7 @@ procin()
         if (bkargv)
             memcpy(bkargv, argv, asz);
         cmd = findcmd(argv[0]);
-        if (cmd) {
+        if (cmd && cmd->name) {
             clearerr(stdout);
             clearerr(stderr);
             applet_name = argv[0];
@@ -390,17 +368,3 @@ dbgput2(const char *fmt, ...)
     va_end(ap);
 }
 
-char *
-ios_getcwd(char *b, size_t bsz)
-{
-    size_t l, l1;
-    if (getcwd(b, bsz) == 0)
-        return 0;
-    l1 = strlen(b);
-    b[l1] = '/';
-    ++l1;
-    l = strlen(rootpath);
-    memmove(b, b + l - 1, l1 - l + 1);
-    b[l1 - l + 1] = '\0';
-    return b;
-}

@@ -18,4 +18,6 @@ CFURLRef getlibdir();
 int prepsupdir();
 int genpath(char *buf, int bsz, const char *suffix);
 
+int initfs();
+
 #endif /* impl_h */

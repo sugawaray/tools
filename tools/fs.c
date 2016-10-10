@@ -14,6 +14,7 @@
 #include <errno.h>
 
 static char buf[512];
+static char rootpath[512];
 
 int
 genpath(char *buf, int bsz, const char *suffix)
@@ -136,4 +137,40 @@ convpath(const char *path, char *buf, size_t bsz)
     strcat(buf, path);
     cleanup(buf + l - 1);
     return 0;
+}
+
+int
+initfs()
+{
+    size_t l;
+    if (convpath("/", buf, sizeof buf) != 0)
+        return -1;
+    l = strlen(buf);
+    if (buf[l - 1] == '/')
+        buf[l - 1] = '\0';
+    if (chdir(buf) != 0)
+        return -1;
+    if (getcwd(rootpath, sizeof rootpath - 1) == 0)
+        return -1;
+    l = strlen(rootpath);
+    if (rootpath[l - 1] != '/') {
+        rootpath[l] = '/';
+        rootpath[l + 1] = '\0';
+    }
+    return 0;
+}
+
+char *
+ios_getcwd(char *b, size_t bsz)
+{
+    size_t l, l1;
+    if (getcwd(b, bsz) == 0)
+        return 0;
+    l1 = strlen(b);
+    b[l1] = '/';
+    ++l1;
+    l = strlen(rootpath);
+    memmove(b, b + l - 1, l1 - l + 1);
+    b[l1 - l + 1] = '\0';
+    return b;
 }
