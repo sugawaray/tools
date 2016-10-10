@@ -10,9 +10,6 @@ import Foundation
 
 class Sh {
     init() {
-        if cmdinit() != 0 {
-            print("cmdinit failed");
-        }
         if initbusybox() != 0 {
             print("initbb failed");
         }
