@@ -41,6 +41,7 @@
 		76DA16881DA8EFA500DFA0FB /* ibbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16871DA8EFA500DFA0FB /* ibbox.c */; };
 		76DA16891DA8EFA500DFA0FB /* ibbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16871DA8EFA500DFA0FB /* ibbox.c */; };
 		76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168A1DA8F21700DFA0FB /* PathconvTests.m */; };
+		76DA168E1DAB156B00DFA0FB /* ShWdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168D1DAB156B00DFA0FB /* ShWdTests.m */; };
 		76EE479B1D85119100180540 /* ShioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479A1D85119100180540 /* ShioTests.m */; };
 		76EE479E1D85403F00180540 /* DeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479D1D85403F00180540 /* DeviceTests.m */; };
 /* End PBXBuildFile section */
@@ -132,6 +133,7 @@
 		76DA16871DA8EFA500DFA0FB /* ibbox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ibbox.c; sourceTree = "<group>"; };
 		76DA168A1DA8F21700DFA0FB /* PathconvTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathconvTests.m; sourceTree = "<group>"; };
 		76DA168C1DA8F44900DFA0FB /* path.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = path.h; path = include/path.h; sourceTree = "<group>"; };
+		76DA168D1DAB156B00DFA0FB /* ShWdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShWdTests.m; sourceTree = "<group>"; };
 		76EE479A1D85119100180540 /* ShioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShioTests.m; sourceTree = "<group>"; };
 		76EE479C1D85135600180540 /* sh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sh.h; path = include/sh.h; sourceTree = "<group>"; };
 		76EE479D1D85403F00180540 /* DeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTests.m; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				7602D8AC1DA0CE7E00193754 /* ShGenargvTests.m */,
 				7602D8AE1DA0F25900193754 /* ShFindcmdTests.m */,
 				76DA168A1DA8F21700DFA0FB /* PathconvTests.m */,
+				76DA168D1DAB156B00DFA0FB /* ShWdTests.m */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76EE479E1D85403F00180540 /* DeviceTests.m in Sources */,
+				76DA168E1DAB156B00DFA0FB /* ShWdTests.m in Sources */,
 				7602D8AF1DA0F25900193754 /* ShFindcmdTests.m in Sources */,
 				763CB7EC1D84261500F5444B /* shla.l in Sources */,
 				76DA16891DA8EFA500DFA0FB /* ibbox.c in Sources */,

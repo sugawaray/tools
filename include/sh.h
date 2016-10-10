@@ -10,6 +10,7 @@
 #define sh_h
 
 #include <stdarg.h>
+#include <stdint.h>
 
 struct Wl;
 struct Wl {
@@ -40,5 +41,7 @@ const struct Shcmd *findcmd(const char *name);
 int genargv(struct Wl *first, struct Wl *end, char ***vp, int *cp);
 void dbgput(const char *fmt, va_list);
 void dbgput2(const char *fmt, ...);
+
+char *ios_getcwd(char *b, size_t bsz);
 
 #endif /* sh_h */
