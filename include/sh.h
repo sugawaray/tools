@@ -9,6 +9,7 @@
 #ifndef sh_h
 #define sh_h
 
+#include <sys/stat.h>
 #include <stdarg.h>
 #include <stdint.h>
 
@@ -43,5 +44,7 @@ void dbgput(const char *fmt, va_list);
 void dbgput2(const char *fmt, ...);
 
 char *ios_getcwd(char *b, size_t bsz);
+int ios_mkdir(const char *path, mode_t mode);
+int cd_main(int, char**);
 
 #endif /* sh_h */

@@ -27,6 +27,7 @@ struct Shcmd shcmdtab[] = {
     { "ls", ls_main },
     { "mkdir", mkdir_main },
     { "pwd", pwd_main },
+    { "cd", cd_main },
     { 0, 0 }
 };
 
@@ -192,6 +193,7 @@ cleanupsh()
     cleanio(&iofin);
     cleanio(&iofout);
     cleanio(&ioferr);
+    cleanupfs();
     if (fileno(stdin) != 0 || fileno(stdout) != 1 || fileno(stderr) != 2) {
         return;
     }

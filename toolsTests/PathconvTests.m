@@ -23,9 +23,11 @@ char b[512];
 
 - (void)setUp {
     [super setUp];
+    initsh();
 }
 
 - (void)tearDown {
+    cleanupsh();
     [super tearDown];
 }
 

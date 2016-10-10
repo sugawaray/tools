@@ -19,5 +19,7 @@ int prepsupdir();
 int genpath(char *buf, int bsz, const char *suffix);
 
 int initfs();
+void cleanupfs();
+char *ios_getcwd(char *, size_t);
 
 #endif /* impl_h */

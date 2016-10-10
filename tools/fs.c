@@ -112,29 +112,44 @@ int
 convpath(const char *path, char *buf, size_t bsz)
 {
     size_t l, l1;
-    CFURLRef u = getdocdir();
-    if (!CFURLGetFileSystemRepresentation(u, false,
-                                          (UInt8 *)buf,
-                                          bsz))
-        return -1;
-    l = strlen(buf);
-    if (l == 0)
-        return -2;
-    if (buf[l - 1] != '/') {
-        buf[l] = '/';
-        buf[l + 1] = '\0';
-        ++l;
-    }
-    if (strcmp(path, "") == 0 || isdots(path)) {
-        if (l + 1 >= bsz)
+    if (rootpath[0] == '\0') {
+        CFURLRef u = getdocdir();
+        if (!CFURLGetFileSystemRepresentation(u, false,
+                                              (UInt8 *)buf,
+                                              bsz))
             return -1;
-        else
-            return 0;
+        l = strlen(buf);
+        if (l == 0)
+            return -2;
+        if (buf[l - 1] != '/') {
+            buf[l] = '/';
+            buf[l + 1] = '\0';
+            ++l;
+        }
+        if (strcmp(path, "") == 0 || isdots(path)) {
+            if (l + 1 >= bsz)
+                return -1;
+            else
+                return 0;
+        }
+    } else {
+        if (getcwd(buf, bsz - 1) == 0)
+            return -1;
+        l = strlen(buf);
+        if (buf[l - 1] != '/') {
+            buf[l] = '/';
+            buf[l + 1] = '\0';
+            ++l;
+        }
+        if (l >= bsz)
+            return -1;
     }
     l1 = strlen(path);
     if (l + l1 >= bsz)
         return -1;
     strcat(buf, path);
+    if (rootpath[0] != '\0')
+        l = strlen(rootpath);
     cleanup(buf + l - 1);
     return 0;
 }
@@ -160,17 +175,45 @@ initfs()
     return 0;
 }
 
+void
+cleanupfs()
+{
+    memset(rootpath, 0, sizeof rootpath);
+}
+
 char *
 ios_getcwd(char *b, size_t bsz)
 {
     size_t l, l1;
     if (getcwd(b, bsz) == 0)
         return 0;
-    l1 = strlen(b);
-    b[l1] = '/';
-    ++l1;
     l = strlen(rootpath);
+    l1 = strlen(b);
+    if (l1 < l - 1)
+        return 0;
+    if (l1 == l - 1) {
+        b[l1] = '/';
+        ++l1;
+    }
     memmove(b, b + l - 1, l1 - l + 1);
     b[l1 - l + 1] = '\0';
     return b;
 }
+
+int
+cd_main(int argc, char **argv)
+{
+    const char *p;
+    if (argc > 1) {
+        if (convpath(argv[1], buf, sizeof buf) != 0)
+            return 1;
+        else
+            p = buf;
+    } else
+        p = rootpath;
+    if (chdir(p) != 0)
+        return -1;
+    else
+        return 0;
+}
+
