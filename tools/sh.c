@@ -16,6 +16,7 @@
 
 extern int ls_main(int, char**);
 extern int mkdir_main(int, char**);
+extern int pwd_main(int, char**);
 extern int true_main(int, char**);
 extern int seq_main(int, char **);
 
@@ -25,6 +26,7 @@ struct Shcmd shcmdtab[] = {
     { "seq", seq_main },
     { "ls", ls_main },
     { "mkdir", mkdir_main },
+    { "pwd", pwd_main },
     { 0, 0 }
 };
 

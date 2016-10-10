@@ -7,8 +7,10 @@
 //
 
 #include <path.h>
+#include <sh.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stdint.h>
 #include <stdio.h>
 
 struct Platform {
@@ -17,6 +19,7 @@ struct Platform {
     int (*stat)(const char *, struct stat *);
     int (*chmod)(const char *, mode_t);
     int (*mkdir)(const char *, mode_t);
+    char *(*getcwd)(char*, size_t bsz);
 };
 extern void setplatform(const struct Platform *newval);
 
@@ -61,6 +64,7 @@ initbusybox()
     pf.stat = ios_stat;
     pf.chmod = ios_chmod;
     pf.mkdir = ios_mkdir;
+    pf.getcwd = ios_getcwd;
     setplatform(&pf);
     return 0;
 }

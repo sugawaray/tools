@@ -122,7 +122,7 @@ index 3752df9..90c6399 100644
 +
  #endif
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..a2d07ed 100644
+index c987d41..c25646f 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -109,7 +109,7 @@
@@ -134,7 +134,7 @@ index c987d41..a2d07ed 100644
  /* stdcall makes callee to pop arguments from stack, not caller */
  # define FAST_FUNC __attribute__((regparm(3),stdcall))
  /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,30 @@ typedef unsigned smalluint;
+@@ -501,6 +501,34 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
@@ -142,12 +142,14 @@ index c987d41..a2d07ed 100644
 +# undef HAVE_MEMPCPY
 +#include <dirent.h>
 +#include <sys/stat.h>
++#include <stdint.h>
 +struct Platform {
 +	DIR *(*opendir)(const char *);
 +	int (*lstat)(const char *, struct stat *);
 +	int (*stat)(const char *, struct stat *);
 +	int (*chmod)(const char *, mode_t);
 +	int (*mkdir)(const char *, mode_t);
++	char *(*getcwd)(char *, size_t);
 +};
 +extern struct Platform platform;
 +# undef opendir
@@ -160,6 +162,8 @@ index c987d41..a2d07ed 100644
 +# define chmod(p, m)	(platform.chmod((p), (m)))
 +# undef mkdir
 +# define mkdir(p, m)	(platform.mkdir((p), (m)))
++# undef getcwd
++# define getcwd(b, s)	(platform.getcwd((b), (s)))
 +#endif
 +
  /*
