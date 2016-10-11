@@ -109,10 +109,10 @@ isdots(const char *p)
 }
 
 int
-convpath(const char *path, char *buf, size_t bsz)
+convpath1(int abs, const char *path, char *buf, size_t bsz)
 {
     size_t l, l1;
-    if (rootpath[0] == '\0') {
+    if (abs) {
         CFURLRef u = getdocdir();
         if (!CFURLGetFileSystemRepresentation(u, false,
                                               (UInt8 *)buf,
@@ -148,10 +148,16 @@ convpath(const char *path, char *buf, size_t bsz)
     if (l + l1 >= bsz)
         return -1;
     strcat(buf, path);
-    if (rootpath[0] != '\0')
+    if (abs)
         l = strlen(rootpath);
     cleanup(buf + l - 1);
     return 0;
+}
+
+int
+convpath(const char *path, char *buf, size_t bsz)
+{
+    return convpath1(rootpath[0] == '\0', path, buf, bsz);
 }
 
 int
@@ -203,9 +209,13 @@ ios_getcwd(char *b, size_t bsz)
 int
 cd_main(int argc, char **argv)
 {
+    size_t l;
     const char *p;
     if (argc > 1) {
-        if (convpath(argv[1], buf, sizeof buf) != 0)
+        l = strlen(argv[1]);
+        if (l < 1)
+            return -1;
+        if (convpath1(argv[1][0] == '/', argv[1], buf, sizeof buf) != 0)
             return 1;
         else
             p = buf;
