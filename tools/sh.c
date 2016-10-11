@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 
+extern int cat_main(int, char**);
 extern int ls_main(int, char**);
 extern int mkdir_main(int, char**);
 extern int pwd_main(int, char**);
@@ -28,6 +29,7 @@ struct Shcmd shcmdtab[] = {
     { "mkdir", mkdir_main },
     { "pwd", pwd_main },
     { "cd", cd_main },
+    { "cat", cat_main },
     { 0, 0 }
 };
 
