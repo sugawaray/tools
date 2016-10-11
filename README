@@ -43,5 +43,6 @@ Currently following commands are implemented.
 * mkdir path
 * pwd
 * cd path
+* cat path
 
 Only the most basic calls are tested.
