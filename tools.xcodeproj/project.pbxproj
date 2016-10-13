@@ -41,6 +41,7 @@
 		76DA16891DA8EFA500DFA0FB /* ibbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 76DA16871DA8EFA500DFA0FB /* ibbox.c */; };
 		76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168A1DA8F21700DFA0FB /* PathconvTests.m */; };
 		76DA168E1DAB156B00DFA0FB /* ShWdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168D1DAB156B00DFA0FB /* ShWdTests.m */; };
+		76DEB4681DAD9B320057144A /* TermtxtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DEB4671DAD9B320057144A /* TermtxtTests.swift */; };
 		76EE479B1D85119100180540 /* ShioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479A1D85119100180540 /* ShioTests.m */; };
 		76EE479E1D85403F00180540 /* DeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479D1D85403F00180540 /* DeviceTests.m */; };
 /* End PBXBuildFile section */
@@ -132,6 +133,7 @@
 		76DA168A1DA8F21700DFA0FB /* PathconvTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathconvTests.m; sourceTree = "<group>"; };
 		76DA168C1DA8F44900DFA0FB /* path.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = path.h; path = include/path.h; sourceTree = "<group>"; };
 		76DA168D1DAB156B00DFA0FB /* ShWdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShWdTests.m; sourceTree = "<group>"; };
+		76DEB4671DAD9B320057144A /* TermtxtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermtxtTests.swift; sourceTree = "<group>"; };
 		76EE479A1D85119100180540 /* ShioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShioTests.m; sourceTree = "<group>"; };
 		76EE479C1D85135600180540 /* sh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sh.h; path = include/sh.h; sourceTree = "<group>"; };
 		76EE479D1D85403F00180540 /* DeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTests.m; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				7602D8AE1DA0F25900193754 /* ShFindcmdTests.m */,
 				76DA168A1DA8F21700DFA0FB /* PathconvTests.m */,
 				76DA168D1DAB156B00DFA0FB /* ShWdTests.m */,
+				76DEB4671DAD9B320057144A /* TermtxtTests.swift */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */,
 				76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */,
 				7602D8AD1DA0CE7E00193754 /* ShGenargvTests.m in Sources */,
+				76DEB4681DAD9B320057144A /* TermtxtTests.swift in Sources */,
 				76520B381D8564350099FFE4 /* TermLastLineTests.swift in Sources */,
 				763CB7E41D81A82400F5444B /* Sh.swift in Sources */,
 				763CB7E31D81A5A200F5444B /* FileioTests.m in Sources */,

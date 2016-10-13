@@ -13,13 +13,18 @@ class ViewController: UIViewController, UITextViewDelegate {
    
     // MARK: properties
     @IBOutlet weak var txtv: UITextView!
+    
+    func apptxt(_ v:String) -> Void {
+        termtxt.append(v);
+        txtv.text = termtxt.get()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         regnoti()
         txtv.delegate = self
-        txtv.text.append("$ ")
+        apptxt("$ ")
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,9 +51,9 @@ class ViewController: UIViewController, UITextViewDelegate {
             s = s.trimmingCharacters(
                 in: CharacterSet.newlines);
             s = String(format: "%@\n", s)
-            txtv.text.append(s)
+            apptxt(s)
         }
-        txtv.text.append("$ ")
+        apptxt("$ ")
     }
     
     func onKbShow(_ a:NSNotification) {
@@ -68,30 +73,46 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
 
     // MARK: UITextViewDelegate
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return termtxt.replace(range, text)
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
+#if true
+        var r = termtxt.getinput()
+#else
         let r = getlastline(txtv.text)
-        if (r != nil) {
-            var cmd = Cmd()
-            cmd.id = Cmdid.shcmd.rawValue
-            cmd.astr = r
-            getInst().ctl.procc(cmd)
-            
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
-                Dbgout1("DBG:proc pre\n", [])
-                getInst().ctl.proc()
-                Dbgout1("DBG:proc post\n", [])
-                DispatchQueue.main.async {
-                    let s = getInst().ctl.status()
-                    if (s.0 == 0) {
-                        Dbgout1("DBG:prout pre\n", [])
-                        self.prout()
-                        Dbgout1("DBG:prout post\n", [])
-                    } else {
-                        //print("command failed")
-                    }
+#endif
+        if (r == "") {
+            return;
+        }
+        if (r.characters.last! != "\n") {
+            return;
+        }
+        r = r.substring(to: r.index(before: r.endIndex))
+        termtxt.fix()
+        var cmd = Cmd()
+        cmd.id = Cmdid.shcmd.rawValue
+        cmd.astr = r
+        getInst().ctl.procc(cmd)
+        
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            Dbgout1("DBG:proc pre\n", [])
+            getInst().ctl.proc()
+            Dbgout1("DBG:proc post\n", [])
+            DispatchQueue.main.async {
+                let s = getInst().ctl.status()
+                if (s.0 == 0) {
+                    Dbgout1("DBG:prout pre\n", [])
+                    self.prout()
+                    Dbgout1("DBG:prout post\n", [])
+                } else {
+                    //print("command failed")
                 }
             }
         }
     }
+    
+    var termtxt = Termtxt()
 }
 

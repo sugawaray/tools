@@ -41,3 +41,49 @@ func getlastline(_ txt:String) -> String? {
     }
 }
 
+class Termtxt {
+
+    func append(_ v:String) -> Void {
+        s += v
+    }
+
+    func get() -> String {
+        return s + input
+    }
+    
+    func getinput() -> String {
+        return input
+    }
+    
+    func replace(_ rng:NSRange, _ v:String) -> Bool {
+        let l = s.characters.count
+        let atend = rng.location >= l
+        if (atend) {
+            let be = rng.location - l
+            var en = be + rng.length
+            if (en > input.characters.count) {
+                en = input.characters.count
+            }
+            let beit = input.index(input.startIndex, offsetBy: be)
+            let enit = input.index(input.startIndex, offsetBy: en)
+            let r: Range<String.Index> = Range<String.Index>(uncheckedBounds: (lower: beit, upper: enit))
+            input.replaceSubrange(r, with: v)
+        } else {
+            let be = s.index(s.startIndex, offsetBy: rng.location)
+            let en = s.index(s.startIndex, offsetBy: rng.location + rng.length)
+            let r: Range<String.Index> = Range<String.Index>(uncheckedBounds: (lower: be, upper: en))
+            s.replaceSubrange(r, with: v)
+        }
+        return true
+    }
+    
+    func fix() {
+        s += input
+        input = ""
+    }
+    
+    var s = ""
+    var input = ""
+}
+
+

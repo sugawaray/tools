@@ -148,8 +148,7 @@ convpath1(int abs, const char *path, char *buf, size_t bsz)
     if (l + l1 >= bsz)
         return -1;
     strcat(buf, path);
-    if (abs)
-        l = strlen(rootpath);
+    l = strlen(rootpath);
     cleanup(buf + l - 1);
     return 0;
 }
