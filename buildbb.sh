@@ -7,7 +7,7 @@
 #  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 
 cplibs() {
-    for d in coreutils libbb; do
+    for d in coreutils libbb editors; do
 	cp "${objdest}/${d}/lib.a" "${SRCROOT}/libbusybox_${d}_${arch}.a"
     done
 }

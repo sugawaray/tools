@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 5cfc763..8532c49 100644
+index 5cfc763..c04e51a 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -354,7 +354,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn --exc
@@ -20,7 +20,7 @@ index 5cfc763..8532c49 100644
  
  applets/%: applets_dir ;
  
-@@ -464,33 +464,8 @@ core-y		:= \
+@@ -464,33 +464,9 @@ core-y		:= \
  		applets/ \
  
  libs-y		:= \
@@ -31,7 +31,7 @@ index 5cfc763..8532c49 100644
 -		coreutils/libcoreutils/ \
 -		debianutils/ \
 -		e2fsprogs/ \
--		editors/ \
+ 		editors/ \
 -		findutils/ \
 -		init/ \
  		libbb/ \
@@ -54,7 +54,7 @@ index 5cfc763..8532c49 100644
  
  endif # KBUILD_EXTMOD
  
-@@ -713,10 +688,20 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
+@@ -713,10 +689,20 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
  endif # ifdef CONFIG_KALLSYMS
  
  # busybox image - including updated kernel symbols
@@ -75,7 +75,7 @@ index 5cfc763..8532c49 100644
  busybox: busybox_unstripped
  ifeq ($(SKIP_STRIP),y)
  	$(Q)cp $< $@
-@@ -727,6 +712,8 @@ else
+@@ -727,6 +713,8 @@ else
  	$(Q)chmod a+x $@
  endif
  
@@ -84,7 +84,7 @@ index 5cfc763..8532c49 100644
  # The actual objects are generated when descending,
  # make sure no implicit rule kicks in
  $(sort $(busybox-all)): $(busybox-dirs) ;
-@@ -820,7 +807,7 @@ ifneq ($(KBUILD_MODULES),)
+@@ -820,7 +808,7 @@ ifneq ($(KBUILD_MODULES),)
  	$(Q)rm -f $(MODVERDIR)/*
  endif
  
@@ -170,7 +170,7 @@ index c987d41..c25646f 100644
   * Now, define prototypes for all the functions defined in platform.c
   * These must come after all the HAVE_* macros are defined (or not)
 diff --git a/libbb/Kbuild.src b/libbb/Kbuild.src
-index 52a90e9..5ff8395 100644
+index 52a90e9..87e4696 100644
 --- a/libbb/Kbuild.src
 +++ b/libbb/Kbuild.src
 @@ -45,17 +45,20 @@ lib-y += getpty.o
@@ -184,9 +184,8 @@ index 52a90e9..5ff8395 100644
  lib-y += isdirectory.o
  lib-y += kernel_version.o
  lib-y += last_char_is.o
--lib-y += lineedit.o lineedit_ptr_hack.o
 +# YBUILD
-+#lib-y += lineedit.o lineedit_ptr_hack.o
+ lib-y += lineedit.o lineedit_ptr_hack.o
  lib-y += llist.o
  lib-y += login.o
  lib-y += make_directory.o

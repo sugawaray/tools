@@ -624,6 +624,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
@@ -657,6 +658,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
@@ -680,6 +682,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.toolsTests;
@@ -703,6 +706,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.toolsTests;
