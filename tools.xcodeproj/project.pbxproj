@@ -31,6 +31,7 @@
 		7654317F1D2A8A840029856C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7654317D1D2A8A840029856C /* LaunchScreen.storyboard */; };
 		765431951D2A8A850029856C /* toolsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765431941D2A8A850029856C /* toolsUITests.swift */; };
 		7687ECDD1D7AF7310077EEC2 /* Sh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7687ECDC1D7AF7310077EEC2 /* Sh.swift */; };
+		76A4AF2D1DB1D2B50063CEC6 /* ShTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A4AF2C1DB1D2B50063CEC6 /* ShTests.swift */; };
 		76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B51D7647FC00D945E4 /* CtlTest.swift */; };
 		76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
 		76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
@@ -123,6 +124,7 @@
 		765431961D2A8A850029856C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		767FA65C1D96AEB30081DD64 /* busybox */ = {isa = PBXFileReference; lastKnownFileType = folder; path = busybox; sourceTree = "<group>"; };
 		7687ECDC1D7AF7310077EEC2 /* Sh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sh.swift; sourceTree = "<group>"; };
+		76A4AF2C1DB1D2B50063CEC6 /* ShTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShTests.swift; sourceTree = "<group>"; };
 		76CE69B51D7647FC00D945E4 /* CtlTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CtlTest.swift; sourceTree = "<group>"; };
 		76CE69B91D76496300D945E4 /* Ctl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Ctl.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		76DA167E1DA8BE2400DFA0FB /* Io.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Io.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				76DA168A1DA8F21700DFA0FB /* PathconvTests.m */,
 				76DA168D1DAB156B00DFA0FB /* ShWdTests.m */,
 				76DEB4671DAD9B320057144A /* TermtxtTests.swift */,
+				76A4AF2C1DB1D2B50063CEC6 /* ShTests.swift */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				76EE479B1D85119100180540 /* ShioTests.m in Sources */,
 				763CB7EF1D84317500F5444B /* shya.y in Sources */,
 				76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */,
+				76A4AF2D1DB1D2B50063CEC6 /* ShTests.swift in Sources */,
 				76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */,
 				7602D8AD1DA0CE7E00193754 /* ShGenargvTests.m in Sources */,
 				76DEB4681DAD9B320057144A /* TermtxtTests.swift in Sources */,

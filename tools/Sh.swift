@@ -19,6 +19,15 @@ class Sh {
         putsonout("$ ")
     }
     func proc(_ s: String) -> Int {
+        if (fproc) {
+            return -1
+        }
+        if (s.compare("ShDummyCommand") == ComparisonResult.orderedSame) {
+            fproc = true
+            cmdname = "ShDummyCommand"
+            return 0
+        }
+        fproc = true
         let s2 = s + "\n";
         let r = putsonin(s2);
         if r != 0 {
@@ -26,10 +35,17 @@ class Sh {
         }
         procin();
         putsonout("$ ")
-        /*
-        let argv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>> = nil
-        ls_main(0, argv)
-        */
+        fproc = false
         return 0
     }
+    func cmd() -> String? {
+        return cmdname
+    }
+    func kill() {
+        fproc = false
+        cmdname = nil
+    }
+    
+    var fproc = false
+    var cmdname: String?
 }
