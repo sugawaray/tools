@@ -15,14 +15,20 @@ class ShDummyCmdTests: XCTestCase {
     }
     
     override func tearDown() {
+        o.cleanup()
         super.tearDown()
     }
     
     func testReadStdin() {
+        XCTAssertFalse(o.fail)
         o.proc(Sh.dummycmd)
         putsonin("input")
         var s: String? = nil
+        var ts = timespec()
+        ts.tv_sec = 0
+        ts.tv_nsec = 10000000
         while (true) {
+            nanosleep(&ts, nil)
             s = o.getdummycmdinput()
             if (s != nil && s!.characters.count > 0) {
                 break

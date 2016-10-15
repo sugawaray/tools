@@ -12,11 +12,16 @@ class Sh {
     init() {
         if initbusybox() != 0 {
             print("initbb failed");
+            fail = true
         }
         if initsh() != 0 {
             print("initsh failed");
+            fail = true
         }
         putsonout("$ ")
+    }
+    func cleanup() {
+        cleanupsh()
     }
     func proc(_ s: String) -> Int {
         if (fproc) {
@@ -56,6 +61,9 @@ class Sh {
     func getdummycmdinput() -> String {
         return dmstr
     }
+    func running() -> Bool {
+        return fproc
+    }
     
     func dummycmdfn() {
         var li: String? = nil
@@ -80,4 +88,6 @@ class Sh {
     
     var dmstr = ""
     var dmfin = false
+    
+    var fail = false
 }

@@ -12,17 +12,21 @@ class ShTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        o = Sh()
     }
     
     override func tearDown() {
+        o.cleanup()
         super.tearDown()
     }
 
     func testProcDummyCmd() {
         let r = o.proc(Sh.dummycmd)
+        let f = o.running()
         let s = o.cmd()
         XCTAssertEqual(0, r)
         XCTAssertEqual(Sh.dummycmd, s)
+        XCTAssertEqual(true, f)
     }
     
     func testDoNotProcDummyCmdSimultaneously() {

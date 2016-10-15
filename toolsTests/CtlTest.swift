@@ -19,6 +19,9 @@ class CtlTest: XCTestCase {
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        if (inst != nil) {
+            inst!.cleanup()
+        }
         super.tearDown()
     }
     
@@ -84,13 +87,6 @@ class CtlTest: XCTestCase {
             XCTAssertEqual(-1, s.1)
         }
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+        
     var inst: Ctl? = nil
 }

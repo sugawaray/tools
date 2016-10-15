@@ -31,9 +31,19 @@ class Ctl {
         cmd = nil
         cst = Ctlv.stInvalid.rawValue
     }
+    
+    func cleanup() {
+        if (sh.running()) {
+            sh.kill()
+        }
+        sh.cleanup()
+    }
 
     func procc(_ carg: Cmd) -> Int {
-        if cmd != nil {
+        if (cmd != nil && cmd!.id == Cmdid.shcmd.rawValue && carg.id == Cmdid.shcmd.rawValue) {
+            putsonin(carg.astr)
+            return 0
+        } else if (cmd != nil) {
             return -1
         } else {
             cmd = carg
@@ -62,7 +72,13 @@ class Ctl {
             default:
                 cst = Ctlv.stInvalid.rawValue
             }
-            cmd = nil
+            if (cmd!.id != Cmdid.shcmd.rawValue) {
+                cmd = nil
+            } else {
+                if (!sh.running()) {
+                    cmd = nil
+                }
+            }
         }
     }
     
@@ -94,5 +110,5 @@ class Ctl {
     
     var cmd: Cmd?
     var cst: Int
-    var sh: Sh = Sh()
+    var sh = Sh()
 }
