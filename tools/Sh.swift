@@ -22,9 +22,12 @@ class Sh {
         if (fproc) {
             return -1
         }
-        if (s.compare("ShDummyCommand") == ComparisonResult.orderedSame) {
+        if (s.compare(Sh.dummycmd) == ComparisonResult.orderedSame) {
             fproc = true
-            cmdname = "ShDummyCommand"
+            cmdname = Sh.dummycmd
+            dmfin = false
+            dmstr = ""
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async(execute: dummycmdfn)
             return 0
         }
         fproc = true
@@ -42,10 +45,39 @@ class Sh {
         return cmdname
     }
     func kill() {
+        if (cmdname?.compare(Sh.dummycmd) == ComparisonResult.orderedSame) {
+            dmfin = true
+            while (dmfin) {
+            }
+        }
         fproc = false
         cmdname = nil
     }
+    func getdummycmdinput() -> String {
+        return dmstr
+    }
     
+    func dummycmdfn() {
+        var li: String? = nil
+        var ts = timespec()
+        ts.tv_sec = 0
+        ts.tv_nsec = 10000000
+        Dbgout1("dummycmdfn 1", [])
+        while (!dmfin) {
+            nanosleep(&ts, nil)
+            li = readLine()
+            if (li != nil) {
+                dmstr += li!
+            }
+            Dbgout1("dummycmdfn 2", [])
+        }
+        dmfin = false
+    }
+    
+    static let dummycmd = "ShDummyCommand"
     var fproc = false
     var cmdname: String?
+    
+    var dmstr = ""
+    var dmfin = false
 }

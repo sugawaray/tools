@@ -19,23 +19,23 @@ class ShTests: XCTestCase {
     }
 
     func testProcDummyCmd() {
-        let r = o.proc("ShDummyCommand")
+        let r = o.proc(Sh.dummycmd)
         let s = o.cmd()
         XCTAssertEqual(0, r)
-        XCTAssertEqual("ShDummyCommand", s)
+        XCTAssertEqual(Sh.dummycmd, s)
     }
     
     func testDoNotProcDummyCmdSimultaneously() {
-        o.proc("ShDummyCommand")
-        let r = o.proc("ShDummyCommand")
+        o.proc(Sh.dummycmd)
+        let r = o.proc(Sh.dummycmd)
         XCTAssertEqual(-1, r)
     }
     
     func testKillProc() {
-        o.proc("ShDummyCommand")
+        o.proc(Sh.dummycmd)
         o.kill()
         let s = o.cmd()
-        let r = o.proc("ShDummyCommand")
+        let r = o.proc(Sh.dummycmd)
         XCTAssertEqual(0, r)
         XCTAssertNil(s)
     }
