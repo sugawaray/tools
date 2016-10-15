@@ -24,7 +24,9 @@ class ViewController: UIViewController, UITextViewDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         regnoti()
         txtv.delegate = self
-        apptxt("$ ")
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            self.waitoutput()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,30 +34,23 @@ class ViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func prout() {
+    func waitoutput() {
         var b: Array<CChar> = Array<CChar>(repeating: 0, count: 512);
-#if true
-        var ts0 = timespec()
-        var ts1 = timespec()
-        clock_gettime(_CLOCK_REALTIME, &ts0)
-#endif
-        
-        while ((getsfromout(&b, 512) == 0) || (getsfromerr(&b, 512) == 0)) {
-#if true
-            clock_gettime(_CLOCK_REALTIME, &ts1)
-            let etime = difftimesec(&ts1, &ts0)
-            Dbgout1("DBG:elapsed time:getsfromout: %.7lf\n", [etime])
-            ts0 = ts1;
-#endif
-            var s = String(cString: b);
-            s = s.trimmingCharacters(
-                in: CharacterSet.newlines);
-            s = String(format: "%@\n", s)
-            apptxt(s)
+        var ts = timespec()
+        ts.tv_sec = 0
+        ts.tv_nsec = 50000000
+        while (true) {
+            nanosleep(&ts, nil)
+            if ((getsfromout(&b, 512) != 0) && (getsfromerr(&b, 512) != 0)) {
+                continue
+            }
+            let s = String(cString: b);
+            DispatchQueue.main.async {
+                self.apptxt(s)
+            }
         }
-        apptxt("$ ")
     }
-    
+
     func onKbShow(_ a:NSNotification) {
         let f = ((a as NSNotification).userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         if f != nil {
@@ -100,16 +95,6 @@ class ViewController: UIViewController, UITextViewDelegate {
             Dbgout1("DBG:proc pre\n", [])
             getInst().ctl.proc()
             Dbgout1("DBG:proc post\n", [])
-            DispatchQueue.main.async {
-                let s = getInst().ctl.status()
-                if (s.0 == 0) {
-                    Dbgout1("DBG:prout pre\n", [])
-                    self.prout()
-                    Dbgout1("DBG:prout post\n", [])
-                } else {
-                    //print("command failed")
-                }
-            }
         }
     }
     

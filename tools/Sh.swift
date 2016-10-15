@@ -16,6 +16,7 @@ class Sh {
         if initsh() != 0 {
             print("initsh failed");
         }
+        putsonout("$ ")
     }
     func proc(_ s: String) -> Int {
         let s2 = s + "\n";
@@ -24,6 +25,7 @@ class Sh {
             print("putsonin failed");
         }
         procin();
+        putsonout("$ ")
         /*
         let argv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>> = nil
         ls_main(0, argv)
