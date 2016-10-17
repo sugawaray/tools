@@ -44,5 +44,6 @@ Currently following commands are implemented.
 * pwd
 * cd path
 * cat path
+* ed
 
 Only the most basic calls are tested.
