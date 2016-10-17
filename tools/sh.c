@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 extern int cat_main(int, char**);
 extern int ed_main(int, char**);
@@ -102,6 +103,63 @@ cleanio(struct Iofile *o)
 static int
 initio(struct Iofile *o, FILE **fp)
 {
+#if 1
+    int oflags;
+    int rfd, wfd;
+    
+    rfd = wfd = -1;
+    if (genpath(buf, sizeof buf, o->name) != 0)
+        return -1;
+    o->fp = fp;
+    o->origfd = dup(o->fd);
+    if (o->origfd == -1)
+        return -1;
+    o->fporig = fdopen(o->origfd, o->flg);
+    if (!o->fporig) {
+        cleanio(o);
+        return -1;
+    }
+    remove(buf);
+    if (mkfifo(buf, S_IRWXU) != 0) {
+        cleanio(o);
+        return -1;
+    }
+    oflags = O_RDONLY | O_NONBLOCK;
+    if ((rfd = open(buf, oflags)) == -1) {
+        cleanio(o);
+        return -1;
+    }
+    oflags = O_WRONLY | O_NONBLOCK;
+    if ((wfd = open(buf, oflags)) == -1) {
+        close(rfd);
+        cleanio(o);
+        return -1;
+    }
+    if (dup2(o->flg[0] == 'w' ? wfd : rfd, o->fd) == -1) {
+        close(rfd);
+        close(wfd);
+        cleanio(o);
+        return -1;
+    }
+    if (o->flg[0] == 'w') {
+        close(wfd);
+        o->fdalt = rfd;
+    } else {
+        close(rfd);
+        o->fdalt = wfd;
+    }
+    *o->fp = fdopen(o->fd, o->flg);
+    if (!(*o->fp)) {
+        cleanio(o);
+        return -1;
+    }
+    o->fpalt = fdopen(o->fdalt, o->flg[0] == 'w' ? "rb" : "wb");
+    if (!o->fpalt) {
+        cleanio(o);
+        return -1;
+    }
+    return 0;
+#else
     int oflags;
     int tmpfd;
     
@@ -154,6 +212,7 @@ initio(struct Iofile *o, FILE **fp)
     }
     fseek(o->fpalt, 0, SEEK_END);
     return 0;
+#endif
 }
 
 int
@@ -206,6 +265,7 @@ cleanupsh()
 int
 putsonin(const char *s)
 {
+    clearerr(iofin.fpalt);
     if (fputs(s, iofin.fpalt)) {
         fflush(iofin.fpalt);
         return 0;
@@ -303,10 +363,13 @@ procin()
             memcpy(bkargv, argv, asz);
         cmd = findcmd(argv[0]);
         if (cmd && cmd->name) {
+            clearerr(stdin);
             clearerr(stdout);
             clearerr(stderr);
+            fcntl(iofin.fd, F_SETFL, fcntl(iofin.fd, F_GETFL) & ~O_NONBLOCK);
             applet_name = argv[0];
             cmd->f(argc, argv);
+            fcntl(iofin.fd, F_SETFL, fcntl(iofin.fd, F_GETFL) | O_NONBLOCK);
             fflush(stdout);
             fflush(stderr);
         }

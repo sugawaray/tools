@@ -41,7 +41,8 @@ class Ctl {
 
     func procc(_ carg: Cmd) -> Int {
         if (cmd != nil && cmd!.id == Cmdid.shcmd.rawValue && carg.id == Cmdid.shcmd.rawValue) {
-            putsonin(carg.astr)
+            let s = carg.astr! + "\n"
+            putsonin(s)
             return 0
         } else if (cmd != nil) {
             return -1
@@ -54,6 +55,8 @@ class Ctl {
     
     func proc() {
         if cmd == nil {
+            return;
+        } else if (cmd!.id == Cmdid.shcmd.rawValue && sh.running()) {
             return;
         } else if cmd!.id != Cmdid.invalid.rawValue {
             switch cmd!.id {
