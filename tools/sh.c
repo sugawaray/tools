@@ -103,7 +103,6 @@ cleanio(struct Iofile *o)
 static int
 initio(struct Iofile *o, FILE **fp)
 {
-#if 1
     int oflags;
     int rfd, wfd;
     
@@ -159,60 +158,6 @@ initio(struct Iofile *o, FILE **fp)
         return -1;
     }
     return 0;
-#else
-    int oflags;
-    int tmpfd;
-    
-    if (genpath(buf, sizeof buf, o->name) != 0)
-        return -1;
-    o->fp = fp;
-    o->origfd = dup(o->fd);
-    if (o->origfd == -1)
-        return -1;
-    o->fporig = fdopen(o->origfd, o->flg);
-    if (!o->fporig) {
-        cleanio(o);
-        return -1;
-    }
-    fclose(*fp);
-    if (o->flg[0] == 'w')
-        oflags = O_WRONLY;
-    else
-        oflags = O_RDONLY;
-    oflags |= O_CREAT | O_TRUNC | O_NONBLOCK;
-    if ((tmpfd = open(buf, oflags, S_IRWXU)) == -1) {
-        cleanio(o);
-        return -1;
-    }
-    if (dup2(tmpfd, o->fd) == -1) {
-        close(tmpfd);
-        cleanio(o);
-        return -1;
-    }
-    *o->fp = fdopen(o->fd, o->flg);
-    if (!(*o->fp)) {
-        cleanio(o);
-        return -1;
-    }
-    fseek(*o->fp, 0, SEEK_END);
-    if (o->flg[0] == 'w')
-        oflags = O_RDONLY;
-    else
-        oflags = O_WRONLY;
-    oflags |= O_NONBLOCK;
-    o->fdalt = open(buf, oflags);
-    if (o->fdalt == -1) {
-        cleanio(o);
-        return -1;
-    }
-    o->fpalt = fdopen(o->fdalt, o->flg[0] == 'w' ? "rb" : "wb");
-    if (!o->fpalt) {
-        cleanio(o);
-        return -1;
-    }
-    fseek(o->fpalt, 0, SEEK_END);
-    return 0;
-#endif
 }
 
 int

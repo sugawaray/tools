@@ -22,7 +22,7 @@ class ShDummyCmdTests: XCTestCase {
     func testReadStdin() {
         XCTAssertFalse(o.fail)
         o.proc(Sh.dummycmd)
-        putsonin("input")
+        putsonin("input\n")
         var s: String? = nil
         var ts = timespec()
         ts.tv_sec = 0
