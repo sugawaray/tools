@@ -24,6 +24,7 @@ extern int true_main(int, char**);
 extern int seq_main(int, char **);
 
 struct Wl *shwltail;
+char *redirp;
 struct Shcmd shcmdtab[] = {
     { "true", true_main },
     { "seq", seq_main },
@@ -267,7 +268,7 @@ getsfromerr(char *b, int bsz)
         return -1;
 }
 
-static void
+void
 freeshwl()
 {
     struct Wl *p, *q;
@@ -327,6 +328,10 @@ procin()
         free(bkargv);
     }
     freeshwl();
+    if (redirp) {
+        free(redirp);
+        redirp = 0;
+    }
 }
 
 int

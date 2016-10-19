@@ -21,6 +21,8 @@ struct Wl {
 };
 
 extern struct Wl *shwltail;
+extern char *redirp;
+void freeshwl();
 
 int initsh();
 void cleanupsh();

@@ -4,7 +4,7 @@
 %}
 
 WORD    [^|&;<>() \t\n]+
-LIT [ \t\n]
+LIT [> \t\n]
 
 %%
 {WORD}  {
