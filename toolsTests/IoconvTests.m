@@ -65,6 +65,11 @@ char b[256];
     XCTAssertEqual(fps[2][1], rfp);
 }
 
+- (void)testNullTarget {
+    rfp = convfp(fps, 0);
+    XCTAssertEqual((FILE*)0, rfp);
+}
+
 - (void)testDoesntContainTargetFd {
     rfd = convfd(fps, fileno(fps[3][0]));
     XCTAssertEqual(fileno(fps[3][0]), rfd);

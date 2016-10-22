@@ -76,6 +76,7 @@ static struct Iofile ioferr = {
     .flg    = "wb"
 };
 static char buf[512];
+struct Procio procio;
 
 static void
 cleanio(struct Iofile *o)
@@ -193,6 +194,7 @@ initsh()
         cleanupsh();
         return -1;
     }
+    procioinit(&procio, *iofin.fp, *iofout.fp, *ioferr.fp);
     return 0;
 }
 
@@ -285,6 +287,33 @@ freeshwl()
     shwltail = 0;
 }
 
+static void
+callcmd(const struct Shcmd *cmd, int argc, char **argv)
+{
+    extern const char *applet_name;
+    if (redirp) {
+        if (convpath(redirp, buf, sizeof buf) != 0)
+            return;
+        procioinit(&procio, stdin, stdout, stderr);
+        procio.redir[0] = fopen(buf, "w+b");
+        if (procio.redir[0] == 0)
+            return;
+        procio.fp[1][1] = procio.redir[0];
+    }
+    clearerr(procio.fp[0][1]);
+    clearerr(procio.fp[1][1]);
+    clearerr(procio.fp[2][1]);
+    fcntl(iofin.fd, F_SETFL, fcntl(iofin.fd, F_GETFL) & ~O_NONBLOCK);
+    applet_name = argv[0];
+    cmd->f(argc, argv);
+    fcntl(iofin.fd, F_SETFL, fcntl(iofin.fd, F_GETFL) | O_NONBLOCK);
+    fflush(procio.fp[1][1]);
+    fflush(procio.fp[2][1]);
+    if (procio.redir[0])
+        fclose(procio.redir[0]);
+    procioinit(&procio, stdin, stdout, stderr);
+}
+
 void
 procin()
 {
@@ -309,15 +338,7 @@ procin()
             memcpy(bkargv, argv, asz);
         cmd = findcmd(argv[0]);
         if (cmd && cmd->name) {
-            clearerr(stdin);
-            clearerr(stdout);
-            clearerr(stderr);
-            fcntl(iofin.fd, F_SETFL, fcntl(iofin.fd, F_GETFL) & ~O_NONBLOCK);
-            applet_name = argv[0];
-            cmd->f(argc, argv);
-            fcntl(iofin.fd, F_SETFL, fcntl(iofin.fd, F_GETFL) | O_NONBLOCK);
-            fflush(stdout);
-            fflush(stderr);
+            callcmd(cmd, argc, argv);
         }
     }
     if (r == 0 && argv) {

@@ -9,7 +9,10 @@
 #include <path.h>
 #include <sh.h>
 #include <dirent.h>
+#include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/uio.h>
+#include <unistd.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -20,6 +23,20 @@ struct Platform {
     int (*chmod)(const char *, mode_t);
     int (*mkdir)(const char *, mode_t);
     char *(*getcwd)(char*, size_t bsz);
+    int (*creat)(const char *, mode_t);
+    FILE *(*fopen)(const char *, const char *);
+    int (*open)(const char *, int oflags, ...);
+    int (*fflush)(FILE *);
+    ssize_t (*writev)(int, const struct iovec *, int);
+    int (*printf)(const char *, ...);
+    int (*puts)(const char *);
+    int (*close)(int);
+    ssize_t (*read)(int, void *, size_t);
+    ssize_t (*write)(int, const void *, size_t);
+    int (*fputs)(const char *, FILE *);
+    int (*fputc)(int, FILE *);
+    char *(*fgets)(char *, int, FILE *);
+    int (*putchar)(int);
 };
 extern void setplatform(const struct Platform *newval);
 
@@ -53,6 +70,103 @@ DEFA2(lstat, int, struct stat *, -1)
 DEFA2(stat, int, struct stat *, -1)
 DEFA2(chmod, int, mode_t, -1)
 DEFA2(mkdir, int, mode_t, -1)
+DEFA2(creat, int, mode_t, -1)
+DEFA2(fopen, FILE *, const char *, 0)
+
+int
+ios_open(const char *path, int oflags, ...)
+{
+    int has3rd;
+    int r;
+    va_list ap;
+    
+    has3rd = oflags & O_CREAT;
+    if (convpath(path, pathbuf, sizeof pathbuf) == 0) {
+        if (has3rd) {
+            va_start(ap, oflags);
+            r = open(pathbuf, oflags, va_arg(ap, int));
+            va_end(ap);
+            return r;
+        } else
+            return open(pathbuf, oflags);
+    } else
+        return -1;
+}
+
+int
+ios_fflush(FILE *fp)
+{
+    return fflush(convfp(procio.fp, fp));
+}
+
+ssize_t
+ios_writev(int fd, const struct iovec *iov, int iovcnt)
+{
+    return writev(convfd(procio.fp, fd), iov, iovcnt);
+}
+
+int
+ios_printf(const char *fmt, ...)
+{
+    int r;
+    va_list ap;
+    va_start(ap, fmt);
+    r = vfprintf(convfp(procio.fp, stdout), fmt, ap);
+    va_end(ap);
+    return r;
+}
+
+int
+ios_puts(const char *s)
+{
+    FILE *f = convfp(procio.fp, stdout);
+    if (fputs(s, f) != EOF)
+        return fputc('\n', f);
+    else
+        return EOF;
+}
+
+int
+ios_close(int fd)
+{
+    return close(convfd(procio.fp, fd));
+}
+
+ssize_t
+ios_read(int fd, void *b, size_t nb)
+{
+    return read(convfd(procio.fp, fd), b, nb);
+}
+
+ssize_t
+ios_write(int fd, const void *b, size_t nb)
+{
+    return write(convfd(procio.fp, fd), b, nb);
+}
+
+int
+ios_fputs(const char *s, FILE *fp)
+{
+    return fputs(s, convfp(procio.fp, fp));
+}
+
+int
+ios_fputc(int c, FILE *fp)
+{
+    return fputc(c, convfp(procio.fp, fp));
+}
+
+char *
+ios_fgets(char *s, int n, FILE *fp)
+{
+    return fgets(s, n, convfp(procio.fp, fp));
+}
+
+int
+ios_putchar(int c)
+{
+    return fputc(c, convfp(procio.fp, stdout));
+}
 
 int
 initbusybox()
@@ -65,6 +179,20 @@ initbusybox()
     pf.chmod = ios_chmod;
     pf.mkdir = ios_mkdir;
     pf.getcwd = ios_getcwd;
+	pf.creat = ios_creat;
+	pf.fopen = ios_fopen;
+	pf.open = ios_open;
+	pf.fflush = ios_fflush;
+	pf.writev = ios_writev;
+	pf.printf = ios_printf;
+	pf.puts = ios_puts;
+	pf.close = ios_close;
+	pf.read = ios_read;
+	pf.write = ios_write;
+	pf.fputs = ios_fputs;
+	pf.fputc = ios_fputc;
+	pf.fgets = ios_fgets;
+	pf.putchar = ios_putchar;
     setplatform(&pf);
     return 0;
 }

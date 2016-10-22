@@ -53,4 +53,11 @@ int cd_main(int, char**);
 FILE *convfp(FILE *(*fps)[2], FILE *fp);
 int convfd(FILE *(*fps)[2], int fd);
 
+struct Procio {
+    FILE *fp[3][2];
+    FILE *redir[1];
+};
+extern struct Procio procio;
+void procioinit(struct Procio *o, FILE *pin, FILE *pout, FILE *perr);
+
 #endif /* sh_h */

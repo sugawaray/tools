@@ -109,49 +109,15 @@ index 3aedbbf..8e4f47b 100644
  always:= $(hostprogs-y)
  
 diff --git a/include/libbb.h b/include/libbb.h
-index 3752df9..90c6399 100644
+index 3752df9..0eb0a45 100644
 --- a/include/libbb.h
 +++ b/include/libbb.h
-@@ -2147,4 +2147,8 @@ void bbunit_settestfailed(void);
+@@ -2147,4 +2147,48 @@ void bbunit_settestfailed(void);
  
  POP_SAVED_FUNCTION_VISIBILITY
  
 +#ifdef IOS
 +void setplatform(const struct Platform *newval);
-+#endif
-+
- #endif
-diff --git a/include/platform.h b/include/platform.h
-index c987d41..c25646f 100644
---- a/include/platform.h
-+++ b/include/platform.h
-@@ -109,7 +109,7 @@
-  * on non-static, busybox internal functions. Recent versions of gcc
-  * optimize statics automatically. FAST_FUNC on static is required
-  * only if you need to match a function pointer's type */
--#if __GNUC_PREREQ(3,0) && defined(i386) /* || defined(__x86_64__)? */
-+#if __GNUC_PREREQ(3,0) && defined(i386) /* || defined(__x86_64__)? */ && !defined(IOS)
- /* stdcall makes callee to pop arguments from stack, not caller */
- # define FAST_FUNC __attribute__((regparm(3),stdcall))
- /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,34 @@ typedef unsigned smalluint;
- # undef HAVE_NET_ETHERNET_H
- #endif
- 
-+#if defined(IOS)
-+# undef HAVE_MEMPCPY
-+#include <dirent.h>
-+#include <sys/stat.h>
-+#include <stdint.h>
-+struct Platform {
-+	DIR *(*opendir)(const char *);
-+	int (*lstat)(const char *, struct stat *);
-+	int (*stat)(const char *, struct stat *);
-+	int (*chmod)(const char *, mode_t);
-+	int (*mkdir)(const char *, mode_t);
-+	char *(*getcwd)(char *, size_t);
-+};
-+extern struct Platform platform;
 +# undef opendir
 +# define opendir(p)	(platform.opendir((p)))
 +# undef lstat
@@ -164,6 +130,84 @@ index c987d41..c25646f 100644
 +# define mkdir(p, m)	(platform.mkdir((p), (m)))
 +# undef getcwd
 +# define getcwd(b, s)	(platform.getcwd((b), (s)))
++# undef creat
++# define creat(p, m)	(platform.creat((p), (m)))
++# undef fopen
++# define fopen(p, q)	(platform.fopen((p), (q)))
++# undef open
++# define open(...)	(platform.open(__VA_ARGS__))
++# undef fflush
++# define fflush(p)	(platform.fflush((p)))
++# undef writev
++# define writev(a0, a1, a2)	(platform.writev((a0), (a1), (a2)))
++# undef printf
++# define printf(...)	(platform.printf(__VA_ARGS__))
++# undef puts
++# define puts(p)	(platform.puts((p)))
++# undef close
++# define close(p)	(platform.close((p)))
++# undef read
++# define read(f, b, nb)	(platform.read((f), (b), (nb)))
++# undef write
++# define write(f, b, nb)	(platform.write((f), (b), (nb)))
++# undef fputs
++# define fputs(s, f)	(platform.fputs((s), (f)))
++# undef fputc
++# define fputc(c, f)	(platform.fputc((c), (f)))
++# undef fgets
++# define fgets(s, n, f)	(platform.fgets((s), (n), (f)))
++# undef putchar
++# define putchar(c)	(platform.putchar((c)))
++#endif
++
+ #endif
+diff --git a/include/platform.h b/include/platform.h
+index c987d41..e666ec0 100644
+--- a/include/platform.h
++++ b/include/platform.h
+@@ -109,7 +109,7 @@
+  * on non-static, busybox internal functions. Recent versions of gcc
+  * optimize statics automatically. FAST_FUNC on static is required
+  * only if you need to match a function pointer's type */
+-#if __GNUC_PREREQ(3,0) && defined(i386) /* || defined(__x86_64__)? */
++#if __GNUC_PREREQ(3,0) && defined(i386) /* || defined(__x86_64__)? */ && !defined(IOS)
+ /* stdcall makes callee to pop arguments from stack, not caller */
+ # define FAST_FUNC __attribute__((regparm(3),stdcall))
+ /* #elif ... - add your favorite arch today! */
+@@ -501,6 +501,38 @@ typedef unsigned smalluint;
+ # undef HAVE_NET_ETHERNET_H
+ #endif
+ 
++#if defined(IOS)
++# undef HAVE_MEMPCPY
++#include <dirent.h>
++#include <sys/stat.h>
++#include <sys/uio.h>
++#include <stdint.h>
++#include <stdio.h>
++struct Platform {
++	DIR *(*opendir)(const char *);
++	int (*lstat)(const char *, struct stat *);
++	int (*stat)(const char *, struct stat *);
++	int (*chmod)(const char *, mode_t);
++	int (*mkdir)(const char *, mode_t);
++	char *(*getcwd)(char *, size_t);
++	int (*creat)(const char *, mode_t);
++	FILE *(*fopen)(const char *, const char *);
++	int (*open)(const char *, int oflags, ...);
++	int (*fflush)(FILE *);
++	ssize_t (*writev)(int, const struct iovec *, int);
++	int (*printf)(const char *, ...);
++	int (*puts)(const char *);
++	int (*close)(int);
++	ssize_t (*read)(int, void *, size_t);
++	ssize_t (*write)(int, const void *, size_t);
++	int (*fputs)(const char *, FILE *);
++	int (*fputc)(int, FILE *);
++	char *(*fgets)(char *, int, FILE *);
++	int (*putchar)(int);
++};
++extern struct Platform platform;
 +#endif
 +
  /*
