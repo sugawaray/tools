@@ -10,6 +10,7 @@
 #define sh_h
 
 #include <sys/stat.h>
+#include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
 
@@ -48,5 +49,8 @@ void dbgput2(const char *fmt, ...);
 char *ios_getcwd(char *b, size_t bsz);
 int ios_mkdir(const char *path, mode_t mode);
 int cd_main(int, char**);
+
+FILE *convfp(FILE *(*fps)[2], FILE *fp);
+int convfd(FILE *(*fps)[2], int fd);
 
 #endif /* sh_h */

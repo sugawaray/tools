@@ -36,6 +36,9 @@
 		76A4AF301DB1E7AC0063CEC6 /* Io.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DA167E1DA8BE2400DFA0FB /* Io.swift */; };
 		76A4AF321DB1E9990063CEC6 /* CtlDuringCmdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A4AF311DB1E9990063CEC6 /* CtlDuringCmdTests.swift */; };
 		76A4AF341DB666500063CEC6 /* ParserGrammerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A4AF331DB666500063CEC6 /* ParserGrammerTests.m */; };
+		76A4AF361DBAEDAB0063CEC6 /* IoconvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A4AF351DBAEDAB0063CEC6 /* IoconvTests.m */; };
+		76A4AF381DBAF0220063CEC6 /* io_c.c in Sources */ = {isa = PBXBuildFile; fileRef = 76A4AF371DBAF0220063CEC6 /* io_c.c */; };
+		76A4AF391DBAF0220063CEC6 /* io_c.c in Sources */ = {isa = PBXBuildFile; fileRef = 76A4AF371DBAF0220063CEC6 /* io_c.c */; };
 		76CE69B61D7647FC00D945E4 /* CtlTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B51D7647FC00D945E4 /* CtlTest.swift */; };
 		76CE69BA1D76496300D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
 		76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CE69B91D76496300D945E4 /* Ctl.swift */; };
@@ -132,6 +135,8 @@
 		76A4AF2E1DB1DAF30063CEC6 /* ShDummyCmdTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShDummyCmdTests.swift; sourceTree = "<group>"; };
 		76A4AF311DB1E9990063CEC6 /* CtlDuringCmdTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CtlDuringCmdTests.swift; sourceTree = "<group>"; };
 		76A4AF331DB666500063CEC6 /* ParserGrammerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserGrammerTests.m; sourceTree = "<group>"; };
+		76A4AF351DBAEDAB0063CEC6 /* IoconvTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoconvTests.m; sourceTree = "<group>"; };
+		76A4AF371DBAF0220063CEC6 /* io_c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = io_c.c; sourceTree = "<group>"; };
 		76CE69B51D7647FC00D945E4 /* CtlTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CtlTest.swift; sourceTree = "<group>"; };
 		76CE69B91D76496300D945E4 /* Ctl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Ctl.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		76DA167E1DA8BE2400DFA0FB /* Io.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Io.swift; sourceTree = "<group>"; };
@@ -233,6 +238,7 @@
 				76DA167E1DA8BE2400DFA0FB /* Io.swift */,
 				76DA16831DA8D2FC00DFA0FB /* time1.c */,
 				76DA16871DA8EFA500DFA0FB /* ibbox.c */,
+				76A4AF371DBAF0220063CEC6 /* io_c.c */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -258,6 +264,7 @@
 				76A4AF2E1DB1DAF30063CEC6 /* ShDummyCmdTests.swift */,
 				76A4AF311DB1E9990063CEC6 /* CtlDuringCmdTests.swift */,
 				76A4AF331DB666500063CEC6 /* ParserGrammerTests.m */,
+				76A4AF351DBAEDAB0063CEC6 /* IoconvTests.m */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -434,6 +441,7 @@
 				76DA16841DA8D2FC00DFA0FB /* time1.c in Sources */,
 				763CB7F21D84420800F5444B /* sh.c in Sources */,
 				76520B341D855ABC0099FFE4 /* fs.c in Sources */,
+				76A4AF381DBAF0220063CEC6 /* io_c.c in Sources */,
 				76520B3A1D8564DA0099FFE4 /* Term.swift in Sources */,
 				765431771D2A8A840029856C /* ViewController.swift in Sources */,
 				76DA16881DA8EFA500DFA0FB /* ibbox.c in Sources */,
@@ -460,6 +468,8 @@
 				763CB7F31D84420800F5444B /* sh.c in Sources */,
 				76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */,
 				76DA16851DA8D2FC00DFA0FB /* time1.c in Sources */,
+				76A4AF361DBAEDAB0063CEC6 /* IoconvTests.m in Sources */,
+				76A4AF391DBAF0220063CEC6 /* io_c.c in Sources */,
 				76EE479B1D85119100180540 /* ShioTests.m in Sources */,
 				763CB7EF1D84317500F5444B /* shya.y in Sources */,
 				76A4AF341DB666500063CEC6 /* ParserGrammerTests.m in Sources */,
