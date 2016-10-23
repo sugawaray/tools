@@ -17,11 +17,14 @@
 
 extern int cat_main(int, char**);
 extern int ed_main(int, char**);
+extern int gzip_main(int, char **);
 extern int ls_main(int, char**);
 extern int mkdir_main(int, char**);
 extern int pwd_main(int, char**);
 extern int true_main(int, char**);
 extern int seq_main(int, char **);
+extern int cp_main(int, char **);
+extern int rm_main(int, char **);
 
 struct Wl *shwltail;
 char *redirp;
@@ -34,6 +37,9 @@ struct Shcmd shcmdtab[] = {
     { "cd", cd_main },
     { "cat", cat_main },
     { "ed", ed_main },
+    { "gzip", gzip_main },
+    { "cp", cp_main },
+    { "rm", rm_main },
     { 0, 0 }
 };
 

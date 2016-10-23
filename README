@@ -45,5 +45,7 @@ Currently following commands are implemented.
 * cd path
 * cat path
 * ed
+* rm path
+* cp path1 path2
 
 Only the most basic calls are tested.

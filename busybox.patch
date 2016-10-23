@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 5cfc763..c04e51a 100644
+index 5cfc763..b5da60c 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -354,7 +354,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn --exc
@@ -20,15 +20,13 @@ index 5cfc763..c04e51a 100644
  
  applets/%: applets_dir ;
  
-@@ -464,33 +464,9 @@ core-y		:= \
- 		applets/ \
- 
+@@ -466,31 +466,10 @@ core-y		:= \
  libs-y		:= \
--		archival/ \
--		archival/libarchive/ \
+ 		archival/ \
+ 		archival/libarchive/ \
 -		console-tools/ \
  		coreutils/ \
--		coreutils/libcoreutils/ \
+ 		coreutils/libcoreutils/ \
 -		debianutils/ \
 -		e2fsprogs/ \
  		editors/ \
@@ -54,7 +52,7 @@ index 5cfc763..c04e51a 100644
  
  endif # KBUILD_EXTMOD
  
-@@ -713,10 +689,20 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
+@@ -713,10 +692,20 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
  endif # ifdef CONFIG_KALLSYMS
  
  # busybox image - including updated kernel symbols
@@ -75,7 +73,7 @@ index 5cfc763..c04e51a 100644
  busybox: busybox_unstripped
  ifeq ($(SKIP_STRIP),y)
  	$(Q)cp $< $@
-@@ -727,6 +713,8 @@ else
+@@ -727,6 +716,8 @@ else
  	$(Q)chmod a+x $@
  endif
  
@@ -84,7 +82,7 @@ index 5cfc763..c04e51a 100644
  # The actual objects are generated when descending,
  # make sure no implicit rule kicks in
  $(sort $(busybox-all)): $(busybox-dirs) ;
-@@ -820,7 +808,7 @@ ifneq ($(KBUILD_MODULES),)
+@@ -820,7 +811,7 @@ ifneq ($(KBUILD_MODULES),)
  	$(Q)rm -f $(MODVERDIR)/*
  endif
  
@@ -109,10 +107,10 @@ index 3aedbbf..8e4f47b 100644
  always:= $(hostprogs-y)
  
 diff --git a/include/libbb.h b/include/libbb.h
-index 3752df9..0eb0a45 100644
+index 3752df9..16d1ef3 100644
 --- a/include/libbb.h
 +++ b/include/libbb.h
-@@ -2147,4 +2147,48 @@ void bbunit_settestfailed(void);
+@@ -2147,4 +2147,56 @@ void bbunit_settestfailed(void);
  
  POP_SAVED_FUNCTION_VISIBILITY
  
@@ -158,11 +156,19 @@ index 3752df9..0eb0a45 100644
 +# define fgets(s, n, f)	(platform.fgets((s), (n), (f)))
 +# undef putchar
 +# define putchar(c)	(platform.putchar((c)))
++# undef access
++# define access(p, q)	(platform.access((p), (q)))
++# undef fprintf
++# define fprintf(...)	(platform.fprintf(__VA_ARGS__))
++# undef rmdir
++# define rmdir(p)	(platform.rmdir((p)))
++# undef unlink
++# define unlink(p)	(platform.unlink((p)))
 +#endif
 +
  #endif
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..e666ec0 100644
+index c987d41..6915197 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -109,7 +109,7 @@
@@ -174,7 +180,7 @@ index c987d41..e666ec0 100644
  /* stdcall makes callee to pop arguments from stack, not caller */
  # define FAST_FUNC __attribute__((regparm(3),stdcall))
  /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,38 @@ typedef unsigned smalluint;
+@@ -501,6 +501,42 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
@@ -206,6 +212,10 @@ index c987d41..e666ec0 100644
 +	int (*fputc)(int, FILE *);
 +	char *(*fgets)(char *, int, FILE *);
 +	int (*putchar)(int);
++	int (*access)(const char *, int);
++	int (*fprintf)(FILE *, const char *, ...);
++	int (*rmdir)(const char *);
++	int (*unlink)(const char *);
 +};
 +extern struct Platform platform;
 +#endif

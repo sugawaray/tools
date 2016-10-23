@@ -641,7 +641,10 @@
 					"$(PROJECT_DIR)/busybox/libbb",
 				);
 				OTHER_LDFLAGS = (
+					"$(SRCROOT)/libbusybox_archival_$(arch).a",
+					"$(SRCROOT)/libbusybox_archival_libarchive_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
@@ -675,7 +678,10 @@
 					"$(PROJECT_DIR)/busybox/libbb",
 				);
 				OTHER_LDFLAGS = (
+					"$(SRCROOT)/libbusybox_archival_$(arch).a",
+					"$(SRCROOT)/libbusybox_archival_libarchive_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);

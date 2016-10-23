@@ -7,8 +7,9 @@
 #  Copyright © 2016 Yutaka Sugawara. All rights reserved.
 
 cplibs() {
-    for d in coreutils libbb editors; do
-	cp "${objdest}/${d}/lib.a" "${SRCROOT}/libbusybox_${d}_${arch}.a"
+    for d in coreutils libbb editors archival archival/libarchive coreutils/libcoreutils; do
+	d2=$(echo $d | sed -e 's#/#_#g')
+	cp "${objdest}/${d}/lib.a" "${SRCROOT}/libbusybox_${d2}_${arch}.a"
     done
 }
 

@@ -37,6 +37,10 @@ struct Platform {
     int (*fputc)(int, FILE *);
     char *(*fgets)(char *, int, FILE *);
     int (*putchar)(int);
+    int (*access)(const char *, int);
+    int (*fprintf)(FILE *, const char *, ...);
+    int (*rmdir)(const char *);
+    int (*unlink)(const char *);
 };
 extern void setplatform(const struct Platform *newval);
 
@@ -51,8 +55,30 @@ ios_opendir(const char *path)
         return 0;
 }
 
+int
+ios_rmdir(const char *path)
+{
+    if (convpath(path, pathbuf, sizeof pathbuf) == 0)
+        return rmdir(pathbuf);
+    else
+        return -1;
+}
+
 #undef CATS
 #define CATS(s1, s2) s1##s2
+
+#undef DEFA1
+#define DEFA1(name, rtype, errval)  \
+rtype \
+CATS(ios_, name)(const char *path) \
+{ \
+    if (convpath(path, pathbuf, sizeof pathbuf) == 0) \
+        return name(pathbuf); \
+    else \
+        return errval; \
+} \
+/**/
+DEFA1(unlink, int, -1)
 
 #undef DEFA2
 #define DEFA2(name, rtype, a2type, errval)   \
@@ -72,6 +98,7 @@ DEFA2(chmod, int, mode_t, -1)
 DEFA2(mkdir, int, mode_t, -1)
 DEFA2(creat, int, mode_t, -1)
 DEFA2(fopen, FILE *, const char *, 0)
+DEFA2(access, int, int, -1)
 
 int
 ios_open(const char *path, int oflags, ...)
@@ -112,6 +139,17 @@ ios_printf(const char *fmt, ...)
     va_list ap;
     va_start(ap, fmt);
     r = vfprintf(convfp(procio.fp, stdout), fmt, ap);
+    va_end(ap);
+    return r;
+}
+
+int
+ios_fprintf(FILE *f, const char *fmt, ...)
+{
+    int r;
+    va_list ap;
+    va_start(ap, fmt);
+    r = vfprintf(convfp(procio.fp, f), fmt, ap);
     va_end(ap);
     return r;
 }
@@ -193,6 +231,10 @@ initbusybox()
 	pf.fputc = ios_fputc;
 	pf.fgets = ios_fgets;
 	pf.putchar = ios_putchar;
+    pf.access = ios_access;
+    pf.fprintf = ios_fprintf;
+    pf.rmdir = ios_rmdir;
+    pf.unlink = ios_unlink;
     setplatform(&pf);
     return 0;
 }
