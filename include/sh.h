@@ -60,4 +60,20 @@ struct Procio {
 extern struct Procio procio;
 void procioinit(struct Procio *o, FILE *pin, FILE *pout, FILE *perr);
 
+struct Iofile {
+    int origfd;
+    FILE *fporig;
+    int fdalt;
+    FILE *fpalt;
+    FILE **fp;
+    const char *name;
+    int fd;
+    const char *flg;
+};
+
+extern int openwfifo(const char *name);
+extern struct Iofile iofin;
+extern struct Iofile iofout;
+extern struct Iofile ioferr;
+
 #endif /* sh_h */

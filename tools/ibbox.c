@@ -41,6 +41,8 @@ struct Platform {
     int (*fprintf)(FILE *, const char *, ...);
     int (*rmdir)(const char *);
     int (*unlink)(const char *);
+    int (*dup2)(int, int);
+    int (*fclose)(FILE *);
 };
 extern void setplatform(const struct Platform *newval);
 
@@ -167,7 +169,69 @@ ios_puts(const char *s)
 int
 ios_close(int fd)
 {
-    return close(convfd(procio.fp, fd));
+    int i, r;
+    int cfd, credir;
+    cfd = convfd(procio.fp, fd);
+    for (i = 0; i < 3; ++i)
+        if (procio.fp[i][1] && fileno(procio.fp[i][1]) == cfd)
+            break;
+    credir = -1;
+    if (i < 3) {
+        if (procio.redir[0])
+            credir = fileno(procio.redir[0]);
+        r = close(cfd);
+        if (r == 0) {
+            fclose(procio.fp[i][0]);
+            fclose(procio.fp[i][1]);
+            if (cfd == credir) {
+                fclose(procio.redir[0]);
+                procio.redir[0] = 0;
+            }
+            procio.fp[i][0] = procio.fp[i][1] = 0;
+            if (i == 0)
+                stdin = 0;
+            else if (i == 1)
+                stdout = 0;
+            else if (i == 2)
+                stderr = 0;
+        }
+        return r;
+    } else
+        return close(cfd);
+}
+
+int
+ios_fclose(FILE *fp)
+{
+    int i;
+    int r;
+    int credir;
+    for (i = 0; i < 3; ++i)
+        if (procio.fp[i][0] == fp)
+            break;
+    if (i < 3) {
+        if (procio.redir[0])
+            credir = fileno(procio.redir[0]);
+        else
+            credir = -1;
+        r = fclose(fp);
+        if (r == 0) {
+            fclose(procio.fp[i][1]);
+            if (credir >= 0) {
+                fclose(procio.redir[0]);
+                procio.redir[0] = 0;
+            }
+            procio.fp[i][0] = procio.fp[i][1] = 0;
+            if (i == 0)
+                stdin = 0;
+            else if (i == 1)
+                stdout = 0;
+            else if (i == 2)
+                stderr = 0;
+        }
+        return r;
+    } else
+        return fclose(fp);
 }
 
 ssize_t
@@ -207,6 +271,53 @@ ios_putchar(int c)
 }
 
 int
+ios_dup2(int f1, int f2)
+{
+    int i, j;
+    int r;
+    int cf1, cf2, credir;
+    FILE *fp;
+    cf1 = f1;
+    cf2 = f2;
+    for (i = 0; i < 3; ++i)
+        if (procio.fp[i][0] && fileno(procio.fp[i][0]) == f1) {
+            cf1 = f1;
+            break;
+        }
+    for (j = 0; j < 3; ++j)
+        if (procio.fp[j][0] && fileno(procio.fp[j][0]) == f2) {
+            cf2 = f2;
+            break;
+        }
+    if (i < 3 && j < 3 && i == j)
+        return f2;
+    credir = -1;
+    if (procio.redir[0])
+        credir = fileno(procio.redir[0]);
+    if (j == 0) {
+        fclose(iofin.fpalt);
+        iofin.fdalt = -1;
+        iofin.fpalt = 0;
+    }
+    r = dup2(cf1, cf2);
+    if (r == -1)
+        return -1;
+    if (j < 3) {
+        fp = fdopen(cf2, j == 0 ? "rb" : "wb");
+        procio.fp[j][0] = procio.fp[j][1] = fp;
+        if (credir >= 0 && credir == cf2)
+            procio.redir[0] = fp;
+        if (j == 0) {
+            stdin = fp;
+        } else if (j == 1)
+            stdout = fp;
+        else if (j == 2)
+            stderr = fp;
+    }
+    return r;
+}
+
+int
 initbusybox()
 {
     struct Platform pf;
@@ -235,6 +346,8 @@ initbusybox()
     pf.fprintf = ios_fprintf;
     pf.rmdir = ios_rmdir;
     pf.unlink = ios_unlink;
+    pf.dup2 = ios_dup2;
+    pf.fclose = ios_fclose;
     setplatform(&pf);
     return 0;
 }

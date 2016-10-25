@@ -107,10 +107,10 @@ index 3aedbbf..8e4f47b 100644
  always:= $(hostprogs-y)
  
 diff --git a/include/libbb.h b/include/libbb.h
-index 3752df9..16d1ef3 100644
+index 3752df9..99413fc 100644
 --- a/include/libbb.h
 +++ b/include/libbb.h
-@@ -2147,4 +2147,56 @@ void bbunit_settestfailed(void);
+@@ -2147,4 +2147,60 @@ void bbunit_settestfailed(void);
  
  POP_SAVED_FUNCTION_VISIBILITY
  
@@ -164,11 +164,15 @@ index 3752df9..16d1ef3 100644
 +# define rmdir(p)	(platform.rmdir((p)))
 +# undef unlink
 +# define unlink(p)	(platform.unlink((p)))
++# undef dup2
++# define dup2(p, q)	(platform.dup2((p), (q)))
++# undef fclose
++# define fclose(p)	(platform.fclose((p)))
 +#endif
 +
  #endif
 diff --git a/include/platform.h b/include/platform.h
-index c987d41..6915197 100644
+index c987d41..cc50f4e 100644
 --- a/include/platform.h
 +++ b/include/platform.h
 @@ -109,7 +109,7 @@
@@ -180,7 +184,7 @@ index c987d41..6915197 100644
  /* stdcall makes callee to pop arguments from stack, not caller */
  # define FAST_FUNC __attribute__((regparm(3),stdcall))
  /* #elif ... - add your favorite arch today! */
-@@ -501,6 +501,42 @@ typedef unsigned smalluint;
+@@ -501,6 +501,44 @@ typedef unsigned smalluint;
  # undef HAVE_NET_ETHERNET_H
  #endif
  
@@ -216,6 +220,8 @@ index c987d41..6915197 100644
 +	int (*fprintf)(FILE *, const char *, ...);
 +	int (*rmdir)(const char *);
 +	int (*unlink)(const char *);
++	int (*dup2)(int, int);
++	int (*fclose)(FILE *);
 +};
 +extern struct Platform platform;
 +#endif
