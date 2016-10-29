@@ -61,15 +61,33 @@ extern struct Procio procio;
 void procioinit(struct Procio *o, FILE *pin, FILE *pout, FILE *perr);
 
 struct Iofile {
-    int origfd;
-    FILE *fporig;
     int fdalt;
     FILE *fpalt;
-    FILE **fp;
+    FILE *fp;
     const char *name;
     int fd;
     const char *flg;
 };
+
+#if 0
+struct Pipe {
+    int fd[2];
+    FILE *fp[2];
+    const char *name;
+    int dir;
+};
+
+struct Procio {
+    FILE *fp[3];
+    struct Pipe *pipe[3];
+};
+
+extern struct Pipe stdiop[3];
+/*
+stdin, stdout, stderr ... dummy. don't use it.
+0, 1, 2 ... dummy. don't use it.
+*/
+#endif
 
 extern int openwfifo(const char *name);
 extern struct Iofile iofin;

@@ -9,6 +9,8 @@
 #include <sh.h>
 #import <XCTest/XCTest.h>
 
+extern FILE *yyin;
+
 @interface ParserGrammerTests : XCTestCase
 {
 struct Wl *wl;
@@ -21,6 +23,7 @@ struct Wl *wl;
 - (void)setUp {
     [super setUp];
     initsh();
+    yyin = iofin.fp;
 }
 
 - (void)tearDown {
@@ -50,7 +53,7 @@ struct Wl *wl;
 
 - (void)procInput:(const char *)v {
     putsonin(v);
-    clearerr(stdin);
+    clearerr(yyin);
     yyparse();
 }
 

@@ -181,19 +181,12 @@ ios_close(int fd)
             credir = fileno(procio.redir[0]);
         r = close(cfd);
         if (r == 0) {
-            fclose(procio.fp[i][0]);
             fclose(procio.fp[i][1]);
             if (cfd == credir) {
                 fclose(procio.redir[0]);
                 procio.redir[0] = 0;
             }
-            procio.fp[i][0] = procio.fp[i][1] = 0;
-            if (i == 0)
-                stdin = 0;
-            else if (i == 1)
-                stdout = 0;
-            else if (i == 2)
-                stderr = 0;
+            procio.fp[i][1] = 0;
         }
         return r;
     } else
@@ -221,13 +214,7 @@ ios_fclose(FILE *fp)
                 fclose(procio.redir[0]);
                 procio.redir[0] = 0;
             }
-            procio.fp[i][0] = procio.fp[i][1] = 0;
-            if (i == 0)
-                stdin = 0;
-            else if (i == 1)
-                stdout = 0;
-            else if (i == 2)
-                stderr = 0;
+            procio.fp[i][1] = 0;
         }
         return r;
     } else
@@ -281,12 +268,12 @@ ios_dup2(int f1, int f2)
     cf2 = f2;
     for (i = 0; i < 3; ++i)
         if (procio.fp[i][0] && fileno(procio.fp[i][0]) == f1) {
-            cf1 = f1;
+            cf1 = fileno(procio.fp[i][1]);
             break;
         }
     for (j = 0; j < 3; ++j)
         if (procio.fp[j][0] && fileno(procio.fp[j][0]) == f2) {
-            cf2 = f2;
+            cf2 = fileno(procio.fp[j][1]);
             break;
         }
     if (i < 3 && j < 3 && i == j)
@@ -304,17 +291,11 @@ ios_dup2(int f1, int f2)
         return -1;
     if (j < 3) {
         fp = fdopen(cf2, j == 0 ? "rb" : "wb");
-        procio.fp[j][0] = procio.fp[j][1] = fp;
+        procio.fp[j][1] = fp;
         if (credir >= 0 && credir == cf2)
             procio.redir[0] = fp;
-        if (j == 0) {
-            stdin = fp;
-        } else if (j == 1)
-            stdout = fp;
-        else if (j == 2)
-            stderr = fp;
     }
-    return r;
+    return f2;
 }
 
 int

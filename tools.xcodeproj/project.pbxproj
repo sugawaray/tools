@@ -705,7 +705,10 @@
 				INFOPLIST_FILE = toolsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
+					"$(SRCROOT)/libbusybox_archival_$(arch).a",
+					"$(SRCROOT)/libbusybox_archival_libarchive_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
@@ -729,7 +732,10 @@
 				INFOPLIST_FILE = toolsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
+					"$(SRCROOT)/libbusybox_archival_$(arch).a",
+					"$(SRCROOT)/libbusybox_archival_libarchive_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
+					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
