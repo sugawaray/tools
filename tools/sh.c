@@ -46,7 +46,6 @@ struct Shcmd shcmdtab[] = {
     { 0, 0 }
 };
 
-#if 1
 struct Pipe iofin = {
     .fd = { -1, -1 },
     .fp = { 0, 0 },
@@ -67,37 +66,11 @@ struct Pipe ioferr = {
     .name = "/ferr",
     .dir = PipeDirTx
 };
-#else
-struct Iofile iofin = {
-    .fdalt  = -1,
-    .fpalt  = 0,
-    .fp = 0,
-    .name   = "/fin",
-    .fd = -1,
-    .flg    = "rb"
-};
-struct Iofile iofout = {
-    .fdalt  = -1,
-    .fpalt  = 0,
-    .fp = 0,
-    .name   = "/fout",
-    .fd = -1,
-    .flg    = "wb"
-};
-struct Iofile ioferr = {
-    .fdalt  = -1,
-    .fpalt  = 0,
-    .fp = 0,
-    .name   = "/ferr",
-    .fd = -1,
-    .flg    = "wb"
-};
-#endif
+
 static char buf[512];
 struct Procio procio;
 static pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
 
-#if 1
 static void
 closeio(struct Pipe *o)
 {
@@ -112,21 +85,6 @@ closeio(struct Pipe *o)
     }
     pthread_mutex_unlock(&mut);
 }
-#else
-static void
-closeio(struct Iofile *o)
-{
-    pthread_mutex_lock(&mut);
-    if (o->fpalt)
-        fclose(o->fpalt);
-    if (o->fp)
-        fclose(o->fp);
-    o->fpalt = 0;
-    o->fdalt = -1;
-    o->fp = 0;
-    pthread_mutex_unlock(&mut);
-}
-#endif
 
 int
 pipeclose(struct Pipe *o)
@@ -135,27 +93,11 @@ pipeclose(struct Pipe *o)
     return 0;
 }
 
-#if 1
 static void
 cleanio(struct Pipe *o)
 {
     closeio(o);
 }
-#else
-static void
-cleanio(struct Iofile *o)
-{
-    pthread_mutex_lock(&mut);
-    if (o->fpalt)
-        fclose(o->fpalt);
-    if (o->fp)
-        fclose(o->fp);
-    o->fpalt = 0;
-    o->fdalt = -1;
-    o->fp = 0;
-    pthread_mutex_unlock(&mut);
-}
-#endif
 
 int
 openwfifo(const char *name)
@@ -166,7 +108,6 @@ openwfifo(const char *name)
     return open(buf, O_WRONLY | O_NONBLOCK);
 }
 
-#if 1
 static int
 openio(struct Pipe *o)
 {
@@ -219,62 +160,7 @@ openio(struct Pipe *o)
     pthread_mutex_unlock(&mut);
     return 0;
 }
-#else
-static int
-openio(struct Iofile *o)
-{
-    int oflags;
-    int rfd, wfd;
 
-    pthread_mutex_lock(&mut);
-    if (genpath(buf, sizeof buf, o->name) != 0) {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-    remove(buf);
-    if (mkfifo(buf, S_IRWXU) != 0) {
-        pthread_mutex_unlock(&mut);
-        closeio(o);
-        return -1;
-    }
-    oflags = O_RDONLY | O_NONBLOCK;
-    if ((rfd = open(buf, oflags)) == -1) {
-        pthread_mutex_unlock(&mut);
-        closeio(o);
-        return -1;
-    }
-    oflags = O_WRONLY | O_NONBLOCK;
-    if ((wfd = open(buf, oflags)) == -1) {
-        close(rfd);
-        pthread_mutex_unlock(&mut);
-        closeio(o);
-        return -1;
-    }
-    if (o->flg[0] == 'w') {
-        o->fd = wfd;
-        o->fdalt = rfd;
-    } else {
-        o->fd = rfd;
-        o->fdalt = wfd;
-    }
-    o->fp = fdopen(o->fd, o->flg);
-    if (!o->fp) {
-        pthread_mutex_unlock(&mut);
-        closeio(o);
-        return -1;
-    }
-    o->fpalt = fdopen(o->fdalt, o->flg[0] == 'w' ? "rb" : "wb");
-    if (!o->fpalt) {
-        pthread_mutex_unlock(&mut);
-        closeio(o);
-        return -1;
-    }
-    pthread_mutex_unlock(&mut);
-    return 0;
-}
-#endif
-
-#if 1
 static int
 initio(struct Pipe *o)
 {
@@ -319,54 +205,7 @@ initio(struct Pipe *o)
     }
     return 0;
 }
-#else
-static int
-initio(struct Iofile *o)
-{
-    int oflags;
-    int rfd, wfd;
-    
-    rfd = wfd = -1;
-    if (genpath(buf, sizeof buf, o->name) != 0)
-        return -1;
-    remove(buf);
-    if (mkfifo(buf, S_IRWXU) != 0) {
-        cleanio(o);
-        return -1;
-    }
-    oflags = O_RDONLY | O_NONBLOCK;
-    if ((rfd = open(buf, oflags)) == -1) {
-        cleanio(o);
-        return -1;
-    }
-    oflags = O_WRONLY | O_NONBLOCK;
-    if ((wfd = open(buf, oflags)) == -1) {
-        close(rfd);
-        cleanio(o);
-        return -1;
-    }
-    if (o->flg[0] == 'w') {
-        o->fd = wfd;
-        o->fdalt = rfd;
-    } else {
-        o->fd = rfd;
-        o->fdalt = wfd;
-    }
-    o->fp = fdopen(o->fd, o->flg);
-    if (!o->fp) {
-        cleanio(o);
-        return -1;
-    }
-    o->fpalt = fdopen(o->fdalt, o->flg[0] == 'w' ? "rb" : "wb");
-    if (!o->fpalt) {
-        cleanio(o);
-        return -1;
-    }
-    return 0;
-}
-#endif
 
-#if 1
 int
 initsh()
 {
@@ -397,38 +236,6 @@ initsh()
     procio.pipe[2] = &ioferr;
     return 0;
 }
-#else
-int
-initsh()
-{
-    if (prepsupdir() != 0) {
-        fputs("failed to prepare the Application Support Directory.\n",
-              stderr);
-        return -1;
-    }
-    if (initio(&iofin) == -1) {
-        cleanupsh();
-        return -1;
-    }
-    if (initio(&iofout) == -1) {
-        cleanupsh();
-        return -1;
-    }
-    if (initio(&ioferr) == -1) {
-        cleanupsh();
-        return -1;
-    }
-    if (initfs() != 0) {
-        cleanupsh();
-        return -1;
-    }
-    procioinit(&procio, stdin, stdout, stderr);
-    procio.fp[0][1] = iofin.fp;
-    procio.fp[1][1] = iofout.fp;
-    procio.fp[2][1] = ioferr.fp;
-    return 0;
-}
-#endif
 
 void
 cleanupsh()
@@ -439,7 +246,6 @@ cleanupsh()
     cleanupfs();
 }
 
-#if 1
 int
 putsonin(const char *s)
 {
@@ -454,24 +260,7 @@ putsonin(const char *s)
         return -1;
     }
 }
-#else
-int
-putsonin(const char *s)
-{
-    pthread_mutex_lock(&mut);
-    clearerr(iofin.fpalt);
-    if (fputs(s, iofin.fpalt)) {
-        fflush(iofin.fpalt);
-        pthread_mutex_unlock(&mut);
-        return 0;
-    } else {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-}
-#endif
 
-#if 1
 int
 getsfromin(char *b, int bsz)
 {
@@ -484,22 +273,7 @@ getsfromin(char *b, int bsz)
         return -1;
     }
 }
-#else
-int
-getsfromin(char *b, int bsz)
-{
-    pthread_mutex_lock(&mut);
-    if (fgets(b, bsz, iofin.fp)) {
-        pthread_mutex_unlock(&mut);
-        return 0;
-    } else {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-}
-#endif
 
-#if 1
 int
 putsonout(const char *s)
 {
@@ -513,23 +287,7 @@ putsonout(const char *s)
         return -1;
     }
 }
-#else
-int
-putsonout(const char *s)
-{
-    pthread_mutex_lock(&mut);
-    if (fputs(s, iofout.fp)) {
-        fflush(iofout.fp);
-        pthread_mutex_unlock(&mut);
-        return 0;
-    } else {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-}
-#endif
 
-#if 1
 int
 getsfromout(char *b, int bsz)
 {
@@ -547,23 +305,7 @@ getsfromout(char *b, int bsz)
         return -1;
     }
 }
-#else
-int
-getsfromout(char *b, int bsz)
-{
-    pthread_mutex_lock(&mut);
-    clearerr(iofout.fpalt);
-    if (fgets(b, bsz, iofout.fpalt)) {
-        pthread_mutex_unlock(&mut);
-        return 0;
-    } else {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-}
-#endif
 
-#if 1
 int
 putsonerr(const char *s)
 {
@@ -577,23 +319,7 @@ putsonerr(const char *s)
         return -1;
     }
 }
-#else
-int
-putsonerr(const char *s)
-{
-    pthread_mutex_lock(&mut);
-    if (fputs(s, ioferr.fp)) {
-        fflush(ioferr.fp);
-        pthread_mutex_unlock(&mut);
-        return 0;
-    } else {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-}
-#endif
 
-#if 1
 int
 getsfromerr(char *b, int bsz)
 {
@@ -607,21 +333,6 @@ getsfromerr(char *b, int bsz)
         return -1;
     }
 }
-#else
-int
-getsfromerr(char *b, int bsz)
-{
-    pthread_mutex_lock(&mut);
-    clearerr(ioferr.fpalt);
-    if (fgets(b, bsz, ioferr.fpalt)) {
-        pthread_mutex_unlock(&mut);
-        return 0;
-    } else {
-        pthread_mutex_unlock(&mut);
-        return -1;
-    }
-}
-#endif
 
 void
 freeshwl()
@@ -714,11 +425,7 @@ procin()
     extern const char *applet_name;
     extern FILE *yyin;
 
-#if 1
     yyin = iofin.fp[0];
-#else
-    yyin = iofin.fp;
-#endif
     clearerr(yyin);
     yyparse();
     yyin = 0;
