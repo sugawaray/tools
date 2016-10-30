@@ -50,5 +50,6 @@ Currently following commands are implemented.
 * gzip -d path
 * tar xvf path
 * grep simple_string path
+* find .
 
 Only the most basic calls are tested.

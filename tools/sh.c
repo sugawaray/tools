@@ -28,6 +28,7 @@ extern int cp_main(int, char **);
 extern int rm_main(int, char **);
 extern int tar_main(int, char **);
 extern int grep_main(int, char **);
+extern int find_main(int, char **);
 
 struct Wl *shwltail;
 char *redirp;
@@ -45,6 +46,7 @@ struct Shcmd shcmdtab[] = {
     { "rm", rm_main },
     { "tar", tar_main },
     { "grep", grep_main },
+    { "find", find_main },
     { 0, 0 }
 };
 
