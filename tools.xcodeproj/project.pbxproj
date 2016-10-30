@@ -642,6 +642,7 @@
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
+					"$(SRCROOT)/libbusybox_findutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;
@@ -679,6 +680,7 @@
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
+					"$(SRCROOT)/libbusybox_findutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.tools;

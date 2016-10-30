@@ -47,5 +47,8 @@ Currently following commands are implemented.
 * ed
 * rm path
 * cp path1 path2
+* gzip -d path
+* tar xvf path
+* grep simple_string path
 
 Only the most basic calls are tested.

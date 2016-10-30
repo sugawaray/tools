@@ -43,6 +43,10 @@ struct Platform {
     int (*unlink)(const char *);
     int (*dup2)(int, int);
     int (*fclose)(FILE *);
+	int (*getc)(FILE *);
+	int (*ferror)(FILE *);
+#if 0
+#endif
 };
 extern void setplatform(const struct Platform *newval);
 
@@ -101,6 +105,17 @@ DEFA2(mkdir, int, mode_t, -1)
 DEFA2(creat, int, mode_t, -1)
 DEFA2(fopen, FILE *, const char *, 0)
 DEFA2(access, int, int, -1)
+
+#define DEFFPA0(name, rtype) \
+rtype \
+CATS(ios_, name)(FILE *fp) \
+{ \
+	return name(procioconvfp(&procio, fp)); \
+} \
+/**/
+
+DEFFPA0(getc, int)
+DEFFPA0(ferror, int)
 
 int
 ios_open(const char *path, int oflags, ...)
@@ -268,26 +283,28 @@ initbusybox()
     pf.chmod = ios_chmod;
     pf.mkdir = ios_mkdir;
     pf.getcwd = ios_getcwd;
-	pf.creat = ios_creat;
-	pf.fopen = ios_fopen;
-	pf.open = ios_open;
-	pf.fflush = ios_fflush;
-	pf.writev = ios_writev;
-	pf.printf = ios_printf;
-	pf.puts = ios_puts;
-	pf.close = ios_close;
-	pf.read = ios_read;
-	pf.write = ios_write;
-	pf.fputs = ios_fputs;
-	pf.fputc = ios_fputc;
-	pf.fgets = ios_fgets;
-	pf.putchar = ios_putchar;
+    pf.creat = ios_creat;
+    pf.fopen = ios_fopen;
+    pf.open = ios_open;
+    pf.fflush = ios_fflush;
+    pf.writev = ios_writev;
+    pf.printf = ios_printf;
+    pf.puts = ios_puts;
+    pf.close = ios_close;
+    pf.read = ios_read;
+    pf.write = ios_write;
+    pf.fputs = ios_fputs;
+    pf.fputc = ios_fputc;
+    pf.fgets = ios_fgets;
+    pf.putchar = ios_putchar;
     pf.access = ios_access;
     pf.fprintf = ios_fprintf;
     pf.rmdir = ios_rmdir;
     pf.unlink = ios_unlink;
     pf.dup2 = ios_dup2;
     pf.fclose = ios_fclose;
+    pf.getc = ios_getc;
+    pf.ferror = ios_ferror;
     setplatform(&pf);
     return 0;
 }
