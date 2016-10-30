@@ -26,6 +26,7 @@ struct Procio o;
     [super tearDown];
 }
 
+#if 0
 - (void)testInit {
     procioinit(&o, (FILE*)1000, (FILE*)1001, (FILE*)1002);
     XCTAssertEqual((FILE*)1000, o.fp[0][0]);
@@ -36,5 +37,6 @@ struct Procio o;
     XCTAssertEqual((FILE*)1002, o.fp[2][1]);
     XCTAssertEqual((FILE*)0, o.redir[0]);
 }
+#endif
 
 @end

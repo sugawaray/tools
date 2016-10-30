@@ -125,13 +125,21 @@ ios_open(const char *path, int oflags, ...)
 int
 ios_fflush(FILE *fp)
 {
+#if 1
+    return fflush(procioconvfp(&procio, fp));
+#else
     return fflush(convfp(procio.fp, fp));
+#endif
 }
 
 ssize_t
 ios_writev(int fd, const struct iovec *iov, int iovcnt)
 {
+#if 1
+    return writev(procioconvfd(&procio, fd), iov, iovcnt);
+#else
     return writev(convfd(procio.fp, fd), iov, iovcnt);
+#endif
 }
 
 int
@@ -140,7 +148,11 @@ ios_printf(const char *fmt, ...)
     int r;
     va_list ap;
     va_start(ap, fmt);
+#if 1
+    r = vfprintf(procioconvfp(&procio, stdout), fmt, ap);
+#else
     r = vfprintf(convfp(procio.fp, stdout), fmt, ap);
+#endif
     va_end(ap);
     return r;
 }
@@ -151,7 +163,11 @@ ios_fprintf(FILE *f, const char *fmt, ...)
     int r;
     va_list ap;
     va_start(ap, fmt);
+#if 1
+    r = vfprintf(procioconvfp(&procio, f), fmt, ap);
+#else
     r = vfprintf(convfp(procio.fp, f), fmt, ap);
+#endif
     va_end(ap);
     return r;
 }
@@ -159,7 +175,11 @@ ios_fprintf(FILE *f, const char *fmt, ...)
 int
 ios_puts(const char *s)
 {
+#if 1
+    FILE *f = procioconvfp(&procio, stdout);
+#else
     FILE *f = convfp(procio.fp, stdout);
+#endif
     if (fputs(s, f) != EOF)
         return fputc('\n', f);
     else
@@ -169,6 +189,14 @@ ios_puts(const char *s)
 int
 ios_close(int fd)
 {
+#if 1
+    int i;
+    i = prociofdidx(&procio, fd);
+    if (i >= 0 && i < 3) {
+        return pipeclose(procio.pipe[i]);
+    } else
+        return close(fd);
+#else
     int i, r;
     int cfd, credir;
     cfd = convfd(procio.fp, fd);
@@ -191,11 +219,20 @@ ios_close(int fd)
         return r;
     } else
         return close(cfd);
+#endif
 }
 
 int
 ios_fclose(FILE *fp)
 {
+#if 1
+    int i;
+    i = prociofpidx(&procio, fp);
+    if (i >= 0 && i < 3) {
+        return pipeclose(procio.pipe[i]);
+    } else
+        return fclose(fp);
+#else
     int i;
     int r;
     int credir;
@@ -219,47 +256,102 @@ ios_fclose(FILE *fp)
         return r;
     } else
         return fclose(fp);
+#endif
 }
 
 ssize_t
 ios_read(int fd, void *b, size_t nb)
 {
+#if 1
+    return read(procioconvfd(&procio, fd), b, nb);
+#else
     return read(convfd(procio.fp, fd), b, nb);
+#endif
 }
 
 ssize_t
 ios_write(int fd, const void *b, size_t nb)
 {
+#if 1
+    return write(procioconvfd(&procio, fd), b, nb);
+#else
     return write(convfd(procio.fp, fd), b, nb);
+#endif
 }
 
 int
 ios_fputs(const char *s, FILE *fp)
 {
+#if 1
+    return fputs(s, procioconvfp(&procio, fp));
+#else
     return fputs(s, convfp(procio.fp, fp));
+#endif
 }
 
 int
 ios_fputc(int c, FILE *fp)
 {
+#if 1
+    return fputc(c, procioconvfp(&procio, fp));
+#else
     return fputc(c, convfp(procio.fp, fp));
+#endif
 }
 
 char *
 ios_fgets(char *s, int n, FILE *fp)
 {
+#if 1
+    return fgets(s, n, procioconvfp(&procio, fp));
+#else
     return fgets(s, n, convfp(procio.fp, fp));
+#endif
 }
 
 int
 ios_putchar(int c)
 {
+#if 1
+    return fputc(c, procioconvfp(&procio, stdout));
+#else
     return fputc(c, convfp(procio.fp, stdout));
+#endif
 }
 
 int
 ios_dup2(int f1, int f2)
 {
+#if 1
+    int i, j;
+    int r;
+    int cf1, cf2;
+    FILE *fp;
+    cf1 = f1;
+    cf2 = f2;
+    i = prociofdidx(&procio, f1);
+    if (i >= 0 && i < 3)
+        cf1 = procio.pipe[i]->fd[0];
+    j = prociofdidx(&procio, f2);
+    if (j >= 0 && j < 3)
+        cf2 = procio.pipe[j]->fd[0];
+    if (i >= 0 && i < 3 && j >= 0 && j < 3 && i == j)
+        return f2;
+    if (j >= 0 && j < 3) {
+        pipeclose(procio.pipe[j]);
+    }
+    r = dup2(cf1, cf2);
+    if (r == -1)
+        return -1;
+    if (j >= 0 && j < 3) {
+        fp = fdopen(cf2, j == 0 ? "rb" : "wb");
+        procio.pipe[j] = procioallocio(&procio);
+        procio.pipe[j]->dir = (j == 0) ? PipeDirRx : PipeDirTx;
+        procio.pipe[j]->fd[0] = cf2;
+        procio.pipe[j]->fp[0] = fp;
+    }
+    return f2;
+#else
     int i, j;
     int r;
     int cf1, cf2, credir;
@@ -296,6 +388,7 @@ ios_dup2(int f1, int f2)
             procio.redir[0] = fp;
     }
     return f2;
+#endif
 }
 
 int

@@ -23,7 +23,7 @@ struct Wl *wl;
 - (void)setUp {
     [super setUp];
     initsh();
-    yyin = iofin.fp;
+    yyin = iofin.fp[0];
 }
 
 - (void)tearDown {

@@ -53,10 +53,48 @@ int cd_main(int, char**);
 FILE *convfp(FILE *(*fps)[2], FILE *fp);
 int convfd(FILE *(*fps)[2], int fd);
 
+enum {
+    PipeDirRx,
+    PipeDirTx
+};
+
+struct Pipe {
+    int fd[2];
+    FILE *fp[2];
+    const char *name;
+    int dir;
+};
+
+struct Pipeelem;
+
+struct Pipeelem {
+    struct Pipe o;
+    struct Pipeelem *next;
+};
+
+#if 1
+struct Procio {
+    FILE *fp[3];
+    struct Pipe *pipe[3];
+    struct Pipe *bk;
+    struct Pipeelem *iotail;
+};
+#else
 struct Procio {
     FILE *fp[3][2];
     FILE *redir[1];
 };
+#endif
+
+#if 1
+FILE *procioconvfp(struct Procio *o, FILE *fp);
+int procioconvfd(struct Procio *o, int fd);
+int prociofpidx(struct Procio *o, FILE *fp);
+int prociofdidx(struct Procio *o, int fd);
+struct Pipe *procioallocio(struct Procio *o);
+void prociofreeio(struct Procio *o);
+#endif
+
 extern struct Procio procio;
 void procioinit(struct Procio *o, FILE *pin, FILE *pout, FILE *perr);
 
@@ -70,13 +108,6 @@ struct Iofile {
 };
 
 #if 0
-struct Pipe {
-    int fd[2];
-    FILE *fp[2];
-    const char *name;
-    int dir;
-};
-
 struct Procio {
     FILE *fp[3];
     struct Pipe *pipe[3];
@@ -89,9 +120,17 @@ stdin, stdout, stderr ... dummy. don't use it.
 */
 #endif
 
+extern int pipeclose(struct Pipe *o);
+
 extern int openwfifo(const char *name);
+#if 1
+extern struct Pipe iofin;
+extern struct Pipe iofout;
+extern struct Pipe ioferr;
+#else
 extern struct Iofile iofin;
 extern struct Iofile iofout;
 extern struct Iofile ioferr;
+#endif
 
 #endif /* sh_h */
