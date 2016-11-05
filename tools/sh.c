@@ -244,6 +244,10 @@ initsh()
 void
 cleanupsh()
 {
+    if (redirp) {
+        free(redirp);
+        redirp = 0;
+    }
     cleanio(&iofin);
     cleanio(&iofout);
     cleanio(&ioferr);

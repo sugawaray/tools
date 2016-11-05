@@ -50,6 +50,7 @@
 		76DA168B1DA8F21700DFA0FB /* PathconvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168A1DA8F21700DFA0FB /* PathconvTests.m */; };
 		76DA168E1DAB156B00DFA0FB /* ShWdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168D1DAB156B00DFA0FB /* ShWdTests.m */; };
 		76DEB4681DAD9B320057144A /* TermtxtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DEB4671DAD9B320057144A /* TermtxtTests.swift */; };
+		76E4A9FC1DCDD00900FB6730 /* CmdCallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E4A9FB1DCDD00900FB6730 /* CmdCallTests.swift */; };
 		76EE479B1D85119100180540 /* ShioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479A1D85119100180540 /* ShioTests.m */; };
 		76EE479E1D85403F00180540 /* DeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479D1D85403F00180540 /* DeviceTests.m */; };
 /* End PBXBuildFile section */
@@ -148,6 +149,7 @@
 		76DA168C1DA8F44900DFA0FB /* path.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = path.h; path = include/path.h; sourceTree = "<group>"; };
 		76DA168D1DAB156B00DFA0FB /* ShWdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShWdTests.m; sourceTree = "<group>"; };
 		76DEB4671DAD9B320057144A /* TermtxtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermtxtTests.swift; sourceTree = "<group>"; };
+		76E4A9FB1DCDD00900FB6730 /* CmdCallTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdCallTests.swift; sourceTree = "<group>"; };
 		76EE479A1D85119100180540 /* ShioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShioTests.m; sourceTree = "<group>"; };
 		76EE479C1D85135600180540 /* sh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sh.h; path = include/sh.h; sourceTree = "<group>"; };
 		76EE479D1D85403F00180540 /* DeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTests.m; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				76A4AF311DB1E9990063CEC6 /* CtlDuringCmdTests.swift */,
 				76A4AF331DB666500063CEC6 /* ParserGrammerTests.m */,
 				76A4AF3A1DBAFE2B0063CEC6 /* ProcioTests.m */,
+				76E4A9FB1DCDD00900FB6730 /* CmdCallTests.swift */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				763CB7E91D8226A500F5444B /* fixt.c in Sources */,
 				76520B3B1D8564DA0099FFE4 /* Term.swift in Sources */,
 				763CB7E61D82260800F5444B /* ParserTests.m in Sources */,
+				76E4A9FC1DCDD00900FB6730 /* CmdCallTests.swift in Sources */,
 				763CB7F31D84420800F5444B /* sh.c in Sources */,
 				76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */,
 				76DA16851DA8D2FC00DFA0FB /* time1.c in Sources */,
@@ -708,6 +712,7 @@
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
+					"$(SRCROOT)/libbusybox_findutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.toolsTests;
@@ -735,6 +740,7 @@
 					"$(SRCROOT)/libbusybox_coreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_coreutils_libcoreutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_editors_$(arch).a",
+					"$(SRCROOT)/libbusybox_findutils_$(arch).a",
 					"$(SRCROOT)/libbusybox_libbb_$(arch).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.ys.toolsTests;

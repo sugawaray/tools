@@ -21,6 +21,9 @@ class Sh {
         putsonout("$ ")
     }
     func cleanup() {
+        if (fproc) {
+            kill()
+        }
         cleanupsh()
     }
     func proc(_ s: String) -> Int {
@@ -71,9 +74,15 @@ class Sh {
         ts.tv_sec = 0
         ts.tv_nsec = 10000000
         Dbgout1("dummycmdfn 1", [])
+        var b: Array<CChar> = Array<CChar>(repeating: 0, count: 512);
         while (!dmfin) {
             nanosleep(&ts, nil)
-            li = readLine()
+            if (getsfromin(&b, 512) == 0) {
+                li = String(cString: b)
+                li = li!.trimmingCharacters(in: CharacterSet.newlines)
+            } else {
+                li = nil
+            }
             if (li != nil) {
                 dmstr += li!
             }
