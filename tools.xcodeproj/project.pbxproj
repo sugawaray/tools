@@ -51,6 +51,9 @@
 		76DA168E1DAB156B00DFA0FB /* ShWdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA168D1DAB156B00DFA0FB /* ShWdTests.m */; };
 		76DEB4681DAD9B320057144A /* TermtxtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DEB4671DAD9B320057144A /* TermtxtTests.swift */; };
 		76E4A9FC1DCDD00900FB6730 /* CmdCallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E4A9FB1DCDD00900FB6730 /* CmdCallTests.swift */; };
+		76E4A9FE1DCDE43B00FB6730 /* CmdCallTestsTestd in Resources */ = {isa = PBXBuildFile; fileRef = 76E4A9FD1DCDE43B00FB6730 /* CmdCallTestsTestd */; };
+		76E4AA021DCDEDB300FB6730 /* CopyTestDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E4AA011DCDEDB300FB6730 /* CopyTestDataTests.swift */; };
+		76E4AA041DCDEF6A00FB6730 /* Fixt1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E4AA031DCDEF6A00FB6730 /* Fixt1.swift */; };
 		76EE479B1D85119100180540 /* ShioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479A1D85119100180540 /* ShioTests.m */; };
 		76EE479E1D85403F00180540 /* DeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE479D1D85403F00180540 /* DeviceTests.m */; };
 /* End PBXBuildFile section */
@@ -150,6 +153,9 @@
 		76DA168D1DAB156B00DFA0FB /* ShWdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShWdTests.m; sourceTree = "<group>"; };
 		76DEB4671DAD9B320057144A /* TermtxtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermtxtTests.swift; sourceTree = "<group>"; };
 		76E4A9FB1DCDD00900FB6730 /* CmdCallTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdCallTests.swift; sourceTree = "<group>"; };
+		76E4A9FD1DCDE43B00FB6730 /* CmdCallTestsTestd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CmdCallTestsTestd; sourceTree = "<group>"; };
+		76E4AA011DCDEDB300FB6730 /* CopyTestDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyTestDataTests.swift; sourceTree = "<group>"; };
+		76E4AA031DCDEF6A00FB6730 /* Fixt1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fixt1.swift; sourceTree = "<group>"; };
 		76EE479A1D85119100180540 /* ShioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShioTests.m; sourceTree = "<group>"; };
 		76EE479C1D85135600180540 /* sh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sh.h; path = include/sh.h; sourceTree = "<group>"; };
 		76EE479D1D85403F00180540 /* DeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTests.m; sourceTree = "<group>"; };
@@ -248,6 +254,7 @@
 		765431881D2A8A840029856C /* toolsTests */ = {
 			isa = PBXGroup;
 			children = (
+				76E4A9FD1DCDE43B00FB6730 /* CmdCallTestsTestd */,
 				7654318B1D2A8A840029856C /* Info.plist */,
 				76CE69B51D7647FC00D945E4 /* CtlTest.swift */,
 				763CB7E21D81A5A200F5444B /* FileioTests.m */,
@@ -268,6 +275,8 @@
 				76A4AF331DB666500063CEC6 /* ParserGrammerTests.m */,
 				76A4AF3A1DBAFE2B0063CEC6 /* ProcioTests.m */,
 				76E4A9FB1DCDD00900FB6730 /* CmdCallTests.swift */,
+				76E4AA011DCDEDB300FB6730 /* CopyTestDataTests.swift */,
+				76E4AA031DCDEF6A00FB6730 /* Fixt1.swift */,
 			);
 			path = toolsTests;
 			sourceTree = "<group>";
@@ -422,6 +431,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76E4A9FE1DCDE43B00FB6730 /* CmdCallTestsTestd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,7 +478,9 @@
 				763CB7E91D8226A500F5444B /* fixt.c in Sources */,
 				76520B3B1D8564DA0099FFE4 /* Term.swift in Sources */,
 				763CB7E61D82260800F5444B /* ParserTests.m in Sources */,
+				76E4AA041DCDEF6A00FB6730 /* Fixt1.swift in Sources */,
 				76E4A9FC1DCDD00900FB6730 /* CmdCallTests.swift in Sources */,
+				76E4AA021DCDEDB300FB6730 /* CopyTestDataTests.swift in Sources */,
 				763CB7F31D84420800F5444B /* sh.c in Sources */,
 				76CE69BC1D764CB000D945E4 /* Ctl.swift in Sources */,
 				76DA16851DA8D2FC00DFA0FB /* time1.c in Sources */,

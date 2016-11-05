@@ -12,16 +12,17 @@ class ShDummyCmdTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        o = Sh()
     }
     
     override func tearDown() {
-        o.cleanup()
+        o!.cleanup()
         super.tearDown()
     }
     
     func testReadStdin() {
-        XCTAssertFalse(o.fail)
-        o.proc(Sh.dummycmd)
+        XCTAssertFalse(o!.fail)
+        o!.proc(Sh.dummycmd)
         putsonin("input\n")
         var s: String? = nil
         var ts = timespec()
@@ -29,7 +30,7 @@ class ShDummyCmdTests: XCTestCase {
         ts.tv_nsec = 10000000
         while (true) {
             nanosleep(&ts, nil)
-            s = o.getdummycmdinput()
+            s = o!.getdummycmdinput()
             if (s != nil && s!.characters.count > 0) {
                 break
             }
@@ -37,5 +38,5 @@ class ShDummyCmdTests: XCTestCase {
         XCTAssertEqual("input", s)
     }
     
-    var o = Sh()
+    var o: Sh?
 }

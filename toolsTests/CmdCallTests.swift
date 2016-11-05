@@ -21,23 +21,25 @@ class CmdCallTests: XCTestCase {
     }
     
     func testJustCall() {
-        o!.proc("ls .")
+        let copyres = copyToDocDir(name: "abc", ofType: "txt", inDirectory: "CmdCallTestsTestd")
+        XCTAssertTrue(copyres)
+        o!.proc("grep abc abc.txt")
         var b: Array<CChar> = Array<CChar>(repeating: 0, count: 512);
         var ts = timespec()
         ts.tv_sec = 0
         ts.tv_nsec = 50000000
         var i = 0
+        var s = ""
         while (i < 30) {
             nanosleep(&ts, nil)
             if ((getsfromout(&b, 512) != 0) && (getsfromerr(&b, 512) != 0)) {
                 i += 1
                 continue
             }
-            let s = String(cString: b);
-            Dbgout1(s, [])
+            s += String(cString: b);
             i += 1
         }
-
+        XCTAssertTrue(s.contains("abc"))
     }
 
     var o: Sh?
